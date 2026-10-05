@@ -738,3 +738,65 @@ h1 {
     border-color: #00ffcc;
     box-shadow: 0 0 15px rgba(0, 255, 204, 0.6); /* Brillo neón */
 }
+
+/* ===================================================
+   ADAPTACIÓN PARA MÓVILES (PANTALLAS PEQUEÑAS)
+   =================================================== */
+@media (max-width: 768px) {
+    
+    /* 1. Pasamos el contenedor de izquierda-derecha a arriba-abajo */
+    .main-container {
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px;
+    }
+
+    /* 2. La barra lateral de logos o filtros ahora se coloca arriba horizontalmente */
+    .sidebar, .barra-lateral, [class*="sidebar"] {
+        width: 100% !important;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px;
+        position: static !important; /* Evita que flote o tape contenido */
+    }
+
+    /* 3. Ajustamos los menús de filtros para que no se desborden */
+    .sub-filters, .filter-container {
+        display: flex;
+        overflow-x: auto; /* Si no caben los botones, permite arrastrar de lado con el dedo */
+        white-space: nowrap;
+        width: 100%;
+        padding-bottom: 5px;
+    }
+
+    .filter-btn {
+        padding: 6px 12px;
+        font-size: 14px; /* Botones un poco más compactos */
+    }
+
+    /* 4. Reducimos el tamaño de la cuadrícula de juegos para que entren 2 por fila */
+    #gamesGrid, .games-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+        gap: 12px !important;
+        width: 100%;
+    }
+
+    /* 5. Ajustamos las tarjetas para que no se deformen en pantallas táctiles */
+    .game-card {
+        aspect-ratio: 2 / 3;
+        border-radius: 8px;
+    }
+
+    /* 6. Hacemos el texto de la cara trasera un poco más pequeño para que quepa todo */
+    .card-title {
+        font-size: 14px !important;
+    }
+
+    .card-select {
+        font-size: 12px !important;
+        padding: 4px;
+    }
+}
+
