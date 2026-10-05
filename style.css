@@ -740,63 +740,99 @@ h1 {
 }
 
 /* ===================================================
-   ADAPTACIÓN PARA MÓVILES (PANTALLAS PEQUEÑAS)
+   ADAPTACIÓN MEJORADA Y ANTIBUGS PARA MÓVILES
    =================================================== */
 @media (max-width: 768px) {
     
-    /* 1. Pasamos el contenedor de izquierda-derecha a arriba-abajo */
+    /* 1. Forzar contenedor vertical limpio */
     .main-container {
-        flex-direction: column;
-        gap: 15px;
-        padding: 10px;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 15px !important;
+        padding: 10px !important;
+        height: auto !important;
     }
 
-    /* 2. La barra lateral de logos o filtros ahora se coloca arriba horizontalmente */
+    /* 2. Barra lateral horizontal arriba sin flotar */
     .sidebar, .barra-lateral, [class*="sidebar"] {
         width: 100% !important;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-        padding: 10px;
-        position: static !important; /* Evita que flote o tape contenido */
+        position: static !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        padding: 5px !important;
+        transform: none !important;
     }
 
-    /* 3. Ajustamos los menús de filtros para que no se desborden */
-    .sub-filters, .filter-container {
-        display: flex;
-        overflow-x: auto; /* Si no caben los botones, permite arrastrar de lado con el dedo */
-        white-space: nowrap;
-        width: 100%;
-        padding-bottom: 5px;
-    }
-
-    .filter-btn {
-        padding: 6px 12px;
-        font-size: 14px; /* Botones un poco más compactos */
-    }
-
-    /* 4. Reducimos el tamaño de la cuadrícula de juegos para que entren 2 por fila */
+    /* 3. EVITAR QUE LAS TARJETAS SE ENCIMEN (Bloque estricto) */
     #gamesGrid, .games-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* Estricto: 2 columnas perfectas */
         gap: 12px !important;
-        width: 100%;
+        width: 100% !important;
+        position: static !important;
+        height: auto !important; /* Evita que colapse el contenedor */
     }
 
-    /* 5. Ajustamos las tarjetas para que no se deformen en pantallas táctiles */
+    /* Resetear cualquier absolute o flotado raro de las tarjetas */
     .game-card {
-        aspect-ratio: 2 / 3;
-        border-radius: 8px;
+        position: relative !important; /* Cambia a relativo para que ocupen su propio espacio */
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 2 / 3 !important;
+        display: block !important;
+        float: none !important;
+        margin: 0 !important;
+        z-index: 1 !important;
     }
 
-    /* 6. Hacemos el texto de la cara trasera un poco más pequeño para que quepa todo */
+    /* Asegurar que las caras interna, frontal y trasera sigan a la tarjeta madre */
+    .card-inner, .card-front, .card-back {
+        width: 100% !important;
+        height: 100% !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+
+    .card-banner {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+
+    /* 4. ARREGLAR EL CALENDARIO PARA QUE NO SE ROMPA */
+    .calendar-container, #calendar, .calendario {
+        width: 100% !important;
+        overflow-x: auto !important; /* Si es muy ancho, permite deslizarlo de lado */
+        display: block !important;
+        padding: 5px !important;
+    }
+
+    /* Hacer que las celdas de los días se adapten al espacio del móvil */
+    .calendar-grid, .calendar-table, table {
+        width: 100% !important;
+        min-width: 300px !important; /* Evita que se encoja al punto de ser ilegible */
+        table-layout: fixed !important;
+    }
+
+    th, td, .calendar-day {
+        padding: 4px 2px !important;
+        font-size: 11px !important; /* Texto más pequeño para los números y días */
+        height: auto !important;
+    }
+
+    /* Achicar textos generales en el móvil */
     .card-title {
-        font-size: 14px !important;
+        font-size: 13px !important;
+        margin: 5px 0 !important;
     }
-
+    
     .card-select {
-        font-size: 12px !important;
-        padding: 4px;
+        font-size: 11px !important;
+        padding: 2px !important;
+        width: 90% !important;
     }
 }
 
