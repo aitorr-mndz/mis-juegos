@@ -740,103 +740,71 @@ h1 {
 }
 
 /* ===================================================
-   ADAPTACIÓN PROFESIONAL Y COMPLETA PARA MÓVILES
+   ADAPTACIÓN ANTI-ESTIRAMIENTO Y LIMPIEZA DE SECCIONES MÓVIL
    =================================================== */
 @media (max-width: 768px) {
     
-    /* 1. CORREGIR EL CONTENEDOR Y LA BARRA FLOTANTE DE LOGOS */
-    body, .main-container {
-        overflow-x: hidden !important; /* Evita que la pantalla baile hacia los lados */
-    }
-
-    /* Buscamos tu menú lateral de logos. Quitamos el fixed/absolute que tiene de fondo */
-    .sidebar, .barra-lateral, [class*="sidebar"], [class*="logos"] {
-        position: static !important;
-        width: 100% !important;
-        height: auto !important;
+    /* 1. SEPARAR LAS VISTAS (Ocultar lo que no toca ver) */
+    /* Si estás en la pestaña de Calendario, los juegos deben estar abajo y limpios, no metidos a la izquierda */
+    .main-container {
         display: flex !important;
-        flex-direction: row !important; /* Los logos se ponen en fila arriba */
-        flex-wrap: wrap !important;
-        justify-content: center !important;
-        gap: 10px !important;
-        padding: 10px !important;
-        background: transparent !important;
-        box-shadow: none !important;
-    }
-
-    /* 2. RECOLOCAR LOS FILTROS Y EL CONTENEDOR CENTRAL */
-    .content, .main-content, main {
+        flex-direction: column !important;
         width: 100% !important;
-        margin: 0 !important;
-        padding: 10px !important;
+        padding: 5px !important;
+        box-sizing: border-box !important;
     }
 
-    /* Centrar y espaciar los botones circulares (Todos, Por jugar...) */
-    .sub-filters, [class*="filters"] {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        justify-content: center !important;
-        gap: 8px !important;
-        width: 100% !important;
-    }
-
-    /* Asegurar que el buscador ocupe buen tamaño */
-    input[type="text"], .search-bar {
-        width: 90% !important;
-        max-width: 400px !important;
-        margin: 10px auto !important;
-        display: block !important;
-    }
-
-    /* 3. EVITAR QUE LAS TARJETAS SE TRIPLEN O SE SOLAPEN */
+    /* 2. REPARAR EL ESTIRAMIENTO DE LAS TARJETAS */
     #gamesGrid, .games-grid {
         display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important; /* Obliga a 2 columnas perfectas */
-        gap: 15px !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* Dos columnas */
+        gap: 12px !important;
         width: 100% !important;
-        padding: 0 10px !important;
+        height: auto !important; /* Evita que la cuadrícula tire de ellas hacia abajo */
+        padding: 10px !important;
         box-sizing: border-box !important;
     }
 
     .game-card {
-        width: 100% !important;
-        margin: 0 !important;
         position: relative !important;
+        width: 100% !important;
+        height: 230px !important; /* 🔑 FIJAMOS LA ALTURA EXACTA para que no se estiren */
+        margin: 0 !important;
+        overflow: hidden !important;
     }
 
-    /* Ajuste milimétrico de las imágenes de las portadas */
+    .card-inner, .card-front, .card-back {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
     .card-banner, .game-card img {
         width: 100% !important;
-        height: 220px !important; /* Altura fija para que todas las portadas midan igual en móvil */
-        object-fit: cover !important;
-        border-radius: 8px !important;
+        height: 100% !important;
+        object-fit: cover !important; /* Mantiene la proporción del póster sin deformar */
     }
 
-    /* 4. ARREGLAR DE FORMA RADICAL EL CALENDARIO */
-    /* Metemos el calendario en una caja con scroll lateral para que no rompa la web */
-    .calendar-container, #calendar, .calendar-grid, table {
+    /* 3. ARREGLAR LA SECCIÓN DEL CALENDARIO */
+    /* Aseguramos que el bloque del calendario ocupe todo el ancho arriba y no se mezcle */
+    .calendar-container, #calendar, .calendario {
         width: 100% !important;
         display: block !important;
-        overflow-x: auto !important; /* 🔑 ESTO PERMITE MOVER EL CALENDARIO DE LADO CON EL DEDO */
-        white-space: nowrap !important;
-        padding-bottom: 10px !important;
-    }
-
-    /* Ajustar las celdas de los días individuales */
-    .calendar-day, td, th {
-        min-width: 65px !important; /* Le damos un ancho mínimo a cada día para que no se aplaste el contenido */
+        clear: both !important;
+        overflow-x: auto !important; /* Permite deslizar los días horizontalmente */
+        padding: 5px !important;
         box-sizing: border-box !important;
-        display: inline-block !important; /* Permite el flujo horizontal suave */
-        vertical-align: top !important;
-        margin: 2px !important;
-        padding: 6px 4px !important;
-        font-size: 11px !important;
     }
 
-    /* Hacer más pequeños los elementos de dentro de cada día */
-    .calendar-day span, .calendar-day select, .calendar-day div {
-        font-size: 9px !important;
-        padding: 2px !important;
-        scale: 0.95;
+    /* Ajuste estricto para la tabla de días para que no empuje los juegos */
+    .calendar-grid, table {
+        width: 100% !important;
+        display: table !important; /* Si es una tabla, forzamos comportamiento de tabla */
+        min-width: 500px !important; /* Espacio para que quepan las celdas en el scroll */
+    }
+
+    .calendar-day, td {
+        height: auto !important;
+        padding: 4px !important;
     }
 }
+
