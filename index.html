@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Colección de Videojuegos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Contenedor global de la aplicación para separar los lados -->
+    <div class="app-layout">
+        
+        <!-- Barra Lateral Flotante de Consolas a la Izquierda -->
+                <!-- Barra Lateral Flotante de Consolas a la Izquierda (CON PS2 Y PS3) -->
+        <div class="sidebar-platforms">
+            <p class="sidebar-title"></p>
+            <button class="sidebar-plat-btn active" onclick="filterByPlatform('todas', this)" title="Todas las plataformas">
+                <span class="plat-all-icon">🌐</span>
+            </button>
+            <button class="sidebar-plat-btn" onclick="filterByPlatform('Steam', this)" title="Steam">
+                <img src="Logos/steam_logo.png" onerror="this.src='Logos/steam_logo.png'">
+            </button>
+            <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 5', this)" title="PlayStation 5">
+                <img src="Logos/ps5_logo.png" onerror="this.src='Logos/ps5_logo.png'">
+            </button>
+            <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 3', this)" title="PlayStation 3">
+                <img src="Logos/ps3_logo.png" onerror="this.src='Logos/ps3_logo.png'">
+            </button>
+            <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 2', this)" title="PlayStation 2">
+                <img src="Logos/ps2_logo.png" onerror="this.src='Logos/ps2_logo.png'">
+            </button>
+            <button class="sidebar-plat-btn" onclick="filterByPlatform('Nintendo Switch 2', this)" title="Nintendo Switch 2">
+                <img src="Logos/switch_logo.png" onerror="this.src='Logos/switch_logo.png'">
+            </button>
+            <button class="sidebar-plat-btn" onclick="filterByPlatform('Epic Games', this)" title="Epic Games">
+                <img src="Logos/epic_logo.png" onerror="this.src='Logos/epic_logo.png'">
+            </button>
+            <button class="sidebar-plat-btn" onclick="filterByPlatform('PC', this)" title="PC (Windows)">
+                <img src="Logos/pc_logo.png" onerror="this.src='Logos/pc_logo.png'">
+            </button>
+        </div>
+
+        <!-- Bloque central de tu colección (CON TODO RECOVERY) -->
+        <div class="web-container">
+            <h1>🎮 Mi Colección de Videojuegos</h1>
+            
+            <!-- Pestañas de Colección Superior -->
+            <div class="collection-tabs" style="display: flex; justify-content: center; gap: 15px; margin-bottom: 25px;">
+                <button class="collection-btn active" onclick="changeCollection('principal', this)">🎮 Mi Colección</button>
+                <button class="collection-btn" onclick="changeCollection('otros', this)">📁 Otros Juegos</button>
+                <button class="collection-btn" onclick="changeCollection('calendario', this)">📅 Mi Calendario</button>
+            </div>
+
+            <!-- Panel de Estadísticas Inteligente (RECUPERADO) -->
+            <div id="stats-panel" class="stats-container">
+                <div class="stat-box">
+                    <span class="stat-number" id="count-todos">0</span>
+                    <span class="stat-label">Total Juegos</span>
+                </div>
+                <div class="stat-box pendiente">
+                    <span class="stat-number" id="count-pendiente">0</span>
+                    <span class="stat-label">Por Jugar ⏳</span>
+                </div>
+                <div class="stat-box jugando">
+                    <span class="stat-number" id="count-jugando">0</span>
+                    <span class="stat-label">Jugando 🕹️</span>
+                </div>
+                <div class="stat-box completado">
+                    <span class="stat-number" id="count-completado">0</span>
+                    <span class="stat-label">Pasados 🏆</span>
+                </div>
+                <div class="stat-box progreso">
+                    <span class="stat-number" id="progress-percent">0%</span>
+                    <span class="stat-label">Progreso Total</span>
+                    <div class="progress-bar-bg">
+                        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros Secundarios (RECUPERADOS) -->
+            <div id="sub-filters" class="filters">
+                <button class="filter-btn active" onclick="filterGames('todos', this)">Todos</button>
+                <button class="filter-btn" onclick="filterGames('pendiente', this)">Por jugar ⏳</button>
+                <button class="filter-btn" onclick="filterGames('jugando', this)">Jugando 🕹️</button>
+                <button class="filter-btn" onclick="filterGames('completado', this)">Completados 🏆</button>
+                <button class="filter-btn" onclick="filterGames('favoritos', this)">Favoritos ❤️</button>
+                <button class="filter-btn" onclick="filterGames('noadquirido', this)">No Adquirido 🛑</button>
+            </div>
+
+            <!-- Buscador de Texto con Lupa -->
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="game-search" placeholder="Buscar juego por nombre..." oninput="searchGames()">
+            </div>
+
+            <!-- Contenedor del Calendario -->
+            <div id="calendar-container" style="display: none; background: #1e1e1e; border: 1px solid #2d2d2d; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); margin-top: 10px;">
+                <h2 id="calendar-month-title" style="color: #00ff99; text-align: center; margin-top: 0; margin-bottom: 20px;"></h2>
+    
+                <!-- 🔑 REVISA QUE ESTO NO FALTE: Fila fija con los nombres de los días -->
+                <div class="calendar-weekdays">
+                    <div>Lun</div>
+                    <div>Mar</div>
+                    <div>Mié</div>
+                    <div>Jue</div>
+                    <div>Vie</div>
+                    <div>Sáb</div>
+                    <div>Dom</div>
+                </div>
+
+            <!-- Aquí abajo se siguen pintando las celdas automáticas de JavaScript -->
+            <div class="calendar-days-grid" id="calendar-days-grid"></div>
+        </div>
+
+            <!-- Cuadrícula de Tarjetas de Juegos -->
+            <div id="games-grid" class="games-grid"></div>
+        </div>
+
+    </div> <!-- Cierre de app-layout -->
+
+    <script src="app.js"></script>
+</body>
+</html>
