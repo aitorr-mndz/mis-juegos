@@ -129,7 +129,7 @@ let favoritosPrincipal = JSON.parse(localStorage.getItem('mis_favoritos_principa
 
 
 // Cargamos listas desde memoria de forma independiente
-let juegosPrincipal = JSON.parse(localStorage.getItem('coleccion')) || catalogoInicial;
+let juegosPrincipal = JSON.parse(localStorage.getItem('mi_coleccion')) || catalogoInicial;
 let juegosOtros = JSON.parse(localStorage.getItem('mis_otros_juegos')) || catalogoOtros;
 
 if (!localStorage.getItem('mis_dias_libres_juegos')) {
