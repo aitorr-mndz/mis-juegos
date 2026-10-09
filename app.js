@@ -5,7 +5,7 @@ const catalogoInicial = [
     { id: 3, title: "Luto", image: "ImgGames/luto.jpg", status: "pendiente", plataforma: ["PC"] },
     { id: 4, title: "The Lego Ninjago Movie Video game", image: "ImgGames/the_lego_ninjago_movie_video_game.jpg", status: "completado", plataforma: ["Steam"] },
     { id: 5, title: "Spider-Man 2", image: "ImgGames/spider_man_2.jpg", status: "completado", plataforma: ["Steam"] },
-    { id: 6, title: "Detroit: Become Human", image: "ImgGames/detroit_become_human.jpg", status: "pendiente", plataforma: ["Steam"] },
+    { id: 6, title: "Detroit: Become Human", image: "ImgGames/detroit_become_human.jpg", status: "jugando", plataforma: ["Steam"] },
     { id: 7, title: "Grand Theft Auto IV", image: "ImgGames/grand_theft_auto_iv.jpg", status: "pendiente", plataforma: ["Steam"] },
     { id: 8, title: "Grand Theft Auto IV: The Ballad of Gay Tony", image: "ImgGames/grand_theft_auto_iv_the_ballad_of_gay_tony.jpg", status: "pendiente", plataforma: ["Steam"] },
     { id: 9, title: "Grand Theft Auto IV: The Lost and Damned", image: "ImgGames/grand_theft_auto_iv_the_lost_and_damned.jpg", status: "pendiente", plataforma: ["Steam"] },
