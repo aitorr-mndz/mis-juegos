@@ -56,7 +56,8 @@ const catalogoInicial = [
     { id: 54, title: "God of War", image: "ImgGames/god_of_war.jpg", status: "noadquirido", plataforma: ["PlayStation 5"] },
     { id: 55, title: "Mario + Rabbids kingdom Battle", image: "ImgGames/mario_rabbids_kingdom_battle.jpg", status: "pendiente", plataforma: ["Nintendo Switch 2"] },
     { id: 56, title: "Silent Hill 2", image: "ImgGames/silent_hill_2.jpg", status: "pendiente", plataforma: ["PC"] },
-    { id: 57, title: "Kirby y la tierra olvidada + El mundo astral", image: "ImgGames/kirby_y_la_tierra_olvidada.jpg", status: "pendiente", plataforma: ["Nintendo Switch 2"] }
+    { id: 57, title: "Kirby y la tierra olvidada + El mundo astral", image: "ImgGames/kirby_y_la_tierra_olvidada.jpg", status: "pendiente", plataforma: ["Nintendo Switch 2"] },
+    { id: 58, title: "Astro Bot", image: "ImgGames/astro_bot.jpg", status: "noadquirido", plataforma: ["PlayStation 5"] }
 ];
 
 const catalogoOtros = [
