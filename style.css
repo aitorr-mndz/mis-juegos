@@ -739,3 +739,7 @@ h1 {
     box-shadow: 0 0 15px rgba(0, 255, 204, 0.6); /* Brillo neón */
 }
 
+/* Centra los elementos internos de la cuadrícula del setup */
+#setup-grid {
+    justify-content: center;
+}

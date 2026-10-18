@@ -120,6 +120,67 @@ const catalogoOtros = [
     { id: 157, title: "DIABOTICAL", image: "ImgGameOther/diabotical.jpg", plataforma: ["Epic Games"] },
 ];
 
+// NUEVO ARRAY DE DISPOSITIVOS (Edita los títulos y detalles a tu gusto)
+const misDispositivos = [
+    {
+        id: 201,
+        title: "Mi PC Gamer",
+        categoria: "PC Master Race",
+        image: "ImgSetup/pc_gaming.jpg", // Tu imagen de la torre o setup de PC
+        componentes: [
+            "⚡ Gráfica: NVIDIA GeForce RTX 3060 12GB",
+            "⚙️ Procesador: AMD Ryzen 5 3600",
+            "⚙️ Placa Base: Gigabyte B550 AORUS ELITE V2",
+            "💾 RAM: Corsair DDR4 16GB 3200MHz",
+            "🚀 Almacenamiento: SSD NVMe 2TB",
+            "🖥️ Monitor: MSI G2722\" 144Hz",
+            "🖥️ Monitor 2: ACER VG270\" 60Hz"
+        ]
+    },
+    {
+        id: 202,
+        title: "PlayStation 5 Slim",
+        categoria: "Consola de Sobremesa",
+        image: "ImgSetup/ps5.jpg", // Tu imagen de la PS5
+        componentes: [
+            "💿 Unidad de disco Blu-ray",
+            "🚀 Almacenamiento: SSD NVMe 1TB Custom",
+            "🎮 Mando: DualSense Cosmic Red",
+        ]
+    },
+    {
+        id: 203,
+        title: "Nintendo Switch 2",
+        categoria: "Consola Portátil / Híbrida",
+        image: "ImgSetup/switch2.jpg", // Tu imagen de la Switch
+        componentes: [
+            "📺 Pantalla: OLED 8 Pulgadas",
+            "🎮 Mandos: Joy-Cons con sensor mejorado",
+            "💾 Almacenamiento: 256GB",
+            "🎒 Accesorio: Funda de viaje MarioKart World"
+        ]
+    },
+    {
+        id: 204,
+        title: "PlayStation 2 Slim",
+        categoria: "Consola de Sobremesa",
+        image: "ImgSetup/ps2.jpg", // Tu imagen de la Switch
+        componentes: [
+            "💾 Almacenamiento: MemoryCard 8MB",
+        ]
+    },
+    {
+        id: 205,
+        title: "PlayStation 3 Slim",
+        categoria: "Consola de Sobremesa",
+        image: "ImgSetup/ps3.jpg", // Tu imagen de la Switch
+        componentes: [
+            "💾 Almacenamiento: 500GB",
+        ]
+    }
+
+];
+
 // Variables globales de control
 let coleccionActiva = 'principal';
 let currentFilter = 'todos';
@@ -173,7 +234,6 @@ function renderCards() {
     return coincideFiltro && coincideBusqueda && coincidePlataforma;
 });
 
-    
     filteredGames.forEach(game => {
         const card = document.createElement('div');
         
@@ -267,33 +327,40 @@ window.changeCollection = function(tipo, elemento) {
     const gamesGridObj = document.getElementById('games-grid');
     const searchContainer = document.querySelector('.search-container');
     const sidebarPlat = document.querySelector('.sidebar-platforms');
+    const setupContainer = document.getElementById('setup-container');
     
-    // A) Reseteamos siempre el cuadro gris del buscador por texto
+    // Reseteos de buscador y filtros que ya tenías
     const searchInput = document.getElementById('game-search');
     if (searchInput) searchInput.value = '';
     searchText = '';
     
-    // B) Reseteamos siempre la barra lateral izquierda de consolas para que vuelva a "Todas"
     currentPlatform = 'todas';
     document.querySelectorAll('.sidebar-plat-btn').forEach(b => b.classList.remove('active'));
     const btnAllPlat = document.querySelector('.sidebar-plat-btn[onclick*="todas"]');
     if (btnAllPlat) btnAllPlat.classList.add('active');
 
-    // 🔑 C) ¡EL TRUCO: Reseteamos los botones circulares inferiores de estado para que vuelvan a "Todos"!
     currentFilter = 'todos';
     document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
     const btnAllFilter = document.querySelector('.filter-btn[onclick*="todos"]');
     if (btnAllFilter) btnAllFilter.classList.add('active');
 
-    // Ahora aplicamos los cambios de visibilidad según la pestaña pulsada
+    // CONTROL DE PESTAÑAS SEGURO (Oculta y muestra estrictamente cada bloque)
     if (tipo === 'principal') {
         games = juegosPrincipal;
         if (subFilters) subFilters.style.display = 'flex';
         if (statsPanel) statsPanel.style.display = 'flex';
         if (searchContainer) searchContainer.style.display = 'flex';
         if (gamesGridObj) gamesGridObj.style.display = 'grid';
+        
+        // Cerramos los contenedores de las otras pestañas 🛡️
         if (calendarContainer) calendarContainer.style.display = 'none';
-        if (sidebarPlat) sidebarPlat.style.display = 'flex';
+        if (setupContainer) setupContainer.style.display = 'none';
+        
+        // Mostramos la barra de consolas
+        if (sidebarPlat) {
+            sidebarPlat.style.display = 'flex';
+            sidebarPlat.style.visibility = 'visible';
+        }
         renderCards();
     } else if (tipo === 'otros') {
         games = juegosOtros;
@@ -301,17 +368,49 @@ window.changeCollection = function(tipo, elemento) {
         if (statsPanel) statsPanel.style.display = 'none';
         if (searchContainer) searchContainer.style.display = 'flex';
         if (gamesGridObj) gamesGridObj.style.display = 'grid';
+        
+        // Cerramos los contenedores de las otras pestañas 🛡️
         if (calendarContainer) calendarContainer.style.display = 'none';
-        if (sidebarPlat) sidebarPlat.style.display = 'flex';
+        if (setupContainer) setupContainer.style.display = 'none';
+        
+        // Mostramos la barra de consolas
+        if (sidebarPlat) {
+            sidebarPlat.style.display = 'flex';
+            sidebarPlat.style.visibility = 'visible';
+        }
         renderCards();
     } else if (tipo === 'calendario') {
         if (subFilters) subFilters.style.display = 'none';
         if (statsPanel) statsPanel.style.display = 'none';
         if (searchContainer) searchContainer.style.display = 'none';
         if (gamesGridObj) gamesGridObj.style.display = 'none';
+        
+        // Abrimos calendario y cerramos setup 🛡️
         if (calendarContainer) calendarContainer.style.display = 'block';
-        if (sidebarPlat) sidebarPlat.style.display = 'none';
+        if (setupContainer) setupContainer.style.display = 'none';
+        
+        // Mantenemos el espacio de la barra flotante ocultándola visualmente
+        if (sidebarPlat) {
+            sidebarPlat.style.display = 'flex';
+            sidebarPlat.style.visibility = 'hidden';
+        }
         renderCalendar();
+    } else if (tipo === 'setup') {
+        if (subFilters) subFilters.style.display = 'none';
+        if (statsPanel) statsPanel.style.display = 'none';
+        if (searchContainer) searchContainer.style.display = 'none';
+        if (gamesGridObj) gamesGridObj.style.display = 'none';
+        
+        // Abrimos setup y cerramos calendario 🛡️
+        if (calendarContainer) calendarContainer.style.display = 'none';
+        if (setupContainer) setupContainer.style.display = 'block';
+        
+        // Mantenemos el espacio de la barra flotante ocultándola visualmente
+        if (sidebarPlat) {
+            sidebarPlat.style.display = 'flex';
+            sidebarPlat.style.visibility = 'hidden';
+        }
+        renderSetup();
     }
 };
 
@@ -509,6 +608,43 @@ window.toggleFavorite = function(event, id) {
     renderCards();
 };
 
+// NUEVA FUNCIÓN PARA DISPOSITIVOS INTEGRADOS
+function renderSetup() {
+    const setupGrid = document.getElementById('setup-grid');
+    if (!setupGrid) return;
+    setupGrid.innerHTML = '';
+
+    misDispositivos.forEach(dispositivo => {
+        const card = document.createElement('div');
+        card.className = `game-card ${dispositivo.claseNeon}`;
+
+        let htmlComponentes = dispositivo.componentes.map(comp => 
+            `<li style="margin-bottom: 6px; text-align: left; font-size: 12px; color: #ccc;">${comp}</li>`
+        ).join('');
+
+        card.innerHTML = `
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="${dispositivo.image}" alt="${dispositivo.title}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'">
+                </div>
+                <div class="card-back" style="padding: 15px; justify-content: flex-start; overflow-y: auto;">
+                    <span style="font-size: 10px; text-transform: uppercase; color: #00ff99; letter-spacing: 1px; font-weight: bold; margin-bottom: 5px;">
+                        ${dispositivo.categoria}
+                    </span>
+                    <h3 class="card-title" style="margin: 0 0 15px 0; font-size: 16px; border-bottom: 1px solid #333; padding-bottom: 8px;">
+                        ${dispositivo.title}
+                    </h3>
+                    <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
+                        ${htmlComponentes}
+                    </ul>
+                </div>
+            </div>
+        `;
+        setupGrid.appendChild(card);
+    });
+    
+    // 🗑️ HEMOS ELIMINADO LAS LÍNEAS DE ACUMULACIÓN DE STORAGE-TEXT Y STORAGE-BAR QUE ESTABAN AQUÍ ABAJO
+}
 
 // Arrancar la web
 renderCards();

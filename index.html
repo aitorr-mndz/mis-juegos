@@ -49,6 +49,7 @@
                 <button class="collection-btn active" onclick="changeCollection('principal', this)">🎮 Mi Colección</button>
                 <button class="collection-btn" onclick="changeCollection('otros', this)">📁 Otros Juegos</button>
                 <button class="collection-btn" onclick="changeCollection('calendario', this)">📅 Mi Calendario</button>
+                <button class="collection-btn" onclick="changeCollection('setup', this)">🖥️ Mi Setup</button>
             </div>
 
             <!-- Panel de Estadísticas Inteligente (RECUPERADO) -->
@@ -113,10 +114,20 @@
             <div class="calendar-days-grid" id="calendar-days-grid"></div>
         </div>
 
+<!-- Modifica este bloque en tu HTML eliminando la barra de almacenamiento -->
+<div id="setup-container" style="display: none;">
+    
+    <!-- 🗑️ HEMOS BORRADO TODO EL COLOCO DE LAS ESTADÍSTICAS Y LA BARRA VERDE -->
+
+    <!-- Dejamos únicamente la cuadrícula para tus dispositivos ⏬ -->
+    <div class="games-grid" id="setup-grid"></div>
+</div>
+
+
             <!-- Cuadrícula de Tarjetas de Juegos -->
             <div id="games-grid" class="games-grid"></div>
         </div>
-
+    
     </div> <!-- Cierre de app-layout -->
 
     <script src="app.js"></script>
