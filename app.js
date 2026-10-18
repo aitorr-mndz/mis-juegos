@@ -327,28 +327,40 @@ window.filterByPlatform = function(plataforma, elemento) {
 
 // 4. FUNCIONES DE PERSISTENCIA Y CAMBIOS DE ESTADO
 window.changeStatus = function(id, newStatus) {
-    games = games.map(game => {
+    // Actualizamos la lista global actual (games) y la principal
+    juegosPrincipal = juegosPrincipal.map(game => {
         if (game.id === id) return { ...game, status: newStatus };
         return game;
     });
     
     if (coleccionActiva === 'principal') {
-        juegosPrincipal = games;
-        localStorage.setItem('mi_coleccion_final', JSON.stringify(juegosPrincipal));
+        games = juegosPrincipal;
+        localStorage.setItem('mi_coleccion', JSON.stringify(juegosPrincipal)); // 🔑 CLAVE: Clave corregida
     } else {
-        juegosOtros = games;
+        juegosOtros = juegosOtros.map(game => {
+            if (game.id === id) return { ...game, status: newStatus };
+            return game;
+        });
+        games = juegosOtros;
         localStorage.setItem('mis_otros_juegos', JSON.stringify(juegosOtros));
     }
     renderCards();
 };
 
 window.rateGame = function(id, numeroEstrellas) {
-    games = games.map(game => {
+    // Modificamos directamente la lista de la colección principal
+    juegosPrincipal = juegosPrincipal.map(game => {
         if (game.id === id) return { ...game, stars: Math.trunc(numeroEstrellas) };
         return game;
     });
-    juegosPrincipal = games;
-    localStorage.setItem('mi_coleccion_final', JSON.stringify(juegosPrincipal));
+    
+    // Si estamos viendo la colección principal, actualizamos la cuadrícula activa
+    if (coleccionActiva === 'principal') {
+        games = juegosPrincipal;
+    }
+    
+    // Guardamos en la misma clave que se lee al cargar la página
+    localStorage.setItem('mi_coleccion', JSON.stringify(juegosPrincipal)); // 🔑 CLAVE: Clave corregida
     renderCards();
 };
 
