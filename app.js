@@ -181,6 +181,18 @@ const misDispositivos = [
 
 ];
 
+// NUEVO ARRAY DE MAPAS
+const misMapas = [
+    { id: 301, title: "Los Santos - GTA V", image: "ImgMaps/gta5_map.jpg", juego: "Grand Theft Auto V", claseNeon: "has-jugando" },
+    { id: 302, title: "New Austin & West Elizabeth", image: "ImgMaps/rdr2_map.jpg", juego: "Red Dead Redemption 2", claseNeon: "has-pendiente" },
+    { id: 303, title: "Hogwarts y Alrededores", image: "ImgMaps/hogwarts_map.jpg", juego: "Hogwarts Legacy", claseNeon: "has-completado" },
+    { id: 304, title: "Liberty City- GTA4", image: "ImgMaps/gta4_map.jpg", juego: "Grand Theft Auto IV", claseNeon: "has-completado" },
+    { id: 305, title: "Estados Unidos y México", image: "ImgMaps/rdr_map.jpg", juego: "Red Dead Redemption", claseNeon: "has-completado" },
+    { id: 306, title: "Vice City- GTA Vice City", image: "ImgMaps/gtavc_map.jpg", juego: "Grand Theft Auto Vice City", claseNeon: "has-completado" },
+    { id: 307, title: "Los Santos, San Fierro & Las venturas - GTA San Andreas", image: "ImgMaps/gtaSa_map.jpg", juego: "Grand Theft San Andreas", claseNeon: "has-completado" },
+    { id: 308, title: "Liberty City- GTA3", image: "ImgMaps/gta3_map.jpg", juego: "Grand Theft Auto III", claseNeon: "has-completado" },
+];
+
 // Variables globales de control
 let coleccionActiva = 'principal';
 let currentFilter = 'todos';
@@ -202,6 +214,7 @@ let games = juegosPrincipal;
 
 const gamesGrid = document.getElementById('games-grid');
 const IMAGEN_POR_DEFECTO = "defecto.jpg";
+const mapasContainer = document.getElementById('mapas-container');
 
 // 2. FUNCIÓN PARA MOSTRAR LAS TARJETAS EN PANTALLA (CON FILTRO DE PLATAFORMA INTEGRADO)
 function renderCards() {
@@ -328,6 +341,8 @@ window.changeCollection = function(tipo, elemento) {
     const searchContainer = document.querySelector('.search-container');
     const sidebarPlat = document.querySelector('.sidebar-platforms');
     const setupContainer = document.getElementById('setup-container');
+    // Referencia al contenedor de mapas ⬇️
+    const mapasContainer = document.getElementById('mapas-container');
     
     // Reseteos de buscador y filtros que ya tenías
     const searchInput = document.getElementById('game-search');
@@ -344,7 +359,7 @@ window.changeCollection = function(tipo, elemento) {
     const btnAllFilter = document.querySelector('.filter-btn[onclick*="todos"]');
     if (btnAllFilter) btnAllFilter.classList.add('active');
 
-    // CONTROL DE PESTAÑAS SEGURO (Oculta y muestra estrictamente cada bloque)
+    // CONTROL DE PESTAÑAS (Oculta y muestra estrictamente cada bloque)
     if (tipo === 'principal') {
         games = juegosPrincipal;
         if (subFilters) subFilters.style.display = 'flex';
@@ -352,11 +367,11 @@ window.changeCollection = function(tipo, elemento) {
         if (searchContainer) searchContainer.style.display = 'flex';
         if (gamesGridObj) gamesGridObj.style.display = 'grid';
         
-        // Cerramos los contenedores de las otras pestañas 🛡️
+        // 🔒 OCULTAMOS TODOS LOS DEMÁS APARTADOS
         if (calendarContainer) calendarContainer.style.display = 'none';
         if (setupContainer) setupContainer.style.display = 'none';
+        if (mapasContainer) mapasContainer.style.display = 'none';
         
-        // Mostramos la barra de consolas
         if (sidebarPlat) {
             sidebarPlat.style.display = 'flex';
             sidebarPlat.style.visibility = 'visible';
@@ -369,11 +384,11 @@ window.changeCollection = function(tipo, elemento) {
         if (searchContainer) searchContainer.style.display = 'flex';
         if (gamesGridObj) gamesGridObj.style.display = 'grid';
         
-        // Cerramos los contenedores de las otras pestañas 🛡️
+        // 🔒 OCULTAMOS TODOS LOS DEMÁS APARTADOS
         if (calendarContainer) calendarContainer.style.display = 'none';
         if (setupContainer) setupContainer.style.display = 'none';
+        if (mapasContainer) mapasContainer.style.display = 'none';
         
-        // Mostramos la barra de consolas
         if (sidebarPlat) {
             sidebarPlat.style.display = 'flex';
             sidebarPlat.style.visibility = 'visible';
@@ -385,11 +400,11 @@ window.changeCollection = function(tipo, elemento) {
         if (searchContainer) searchContainer.style.display = 'none';
         if (gamesGridObj) gamesGridObj.style.display = 'none';
         
-        // Abrimos calendario y cerramos setup 🛡️
+        // 🔒 ACTIVAMOS CALENDARIO Y CERRAMOS EL RESTO
         if (calendarContainer) calendarContainer.style.display = 'block';
         if (setupContainer) setupContainer.style.display = 'none';
+        if (mapasContainer) mapasContainer.style.display = 'none';
         
-        // Mantenemos el espacio de la barra flotante ocultándola visualmente
         if (sidebarPlat) {
             sidebarPlat.style.display = 'flex';
             sidebarPlat.style.visibility = 'hidden';
@@ -401,16 +416,32 @@ window.changeCollection = function(tipo, elemento) {
         if (searchContainer) searchContainer.style.display = 'none';
         if (gamesGridObj) gamesGridObj.style.display = 'none';
         
-        // Abrimos setup y cerramos calendario 🛡️
+        // 🔒 ACTIVAMOS SETUP Y CERRAMOS EL RESTO
         if (calendarContainer) calendarContainer.style.display = 'none';
         if (setupContainer) setupContainer.style.display = 'block';
+        if (mapasContainer) mapasContainer.style.display = 'none';
         
-        // Mantenemos el espacio de la barra flotante ocultándola visualmente
         if (sidebarPlat) {
             sidebarPlat.style.display = 'flex';
             sidebarPlat.style.visibility = 'hidden';
         }
         renderSetup();
+    } else if (tipo === 'mapas') {
+        if (subFilters) subFilters.style.display = 'none';
+        if (statsPanel) statsPanel.style.display = 'none';
+        if (searchContainer) searchContainer.style.display = 'none';
+        if (gamesGridObj) gamesGridObj.style.display = 'none';
+        
+        // 🔒 ACTIVAMOS MAPAS Y CERRAMOS EL RESTO
+        if (calendarContainer) calendarContainer.style.display = 'none';
+        if (setupContainer) setupContainer.style.display = 'none';
+        if (mapasContainer) mapasContainer.style.display = 'block';
+        
+        if (sidebarPlat) {
+            sidebarPlat.style.display = 'flex';
+            sidebarPlat.style.visibility = 'hidden';
+        }
+        renderMapas();
     }
 };
 
@@ -645,6 +676,52 @@ function renderSetup() {
     
     // 🗑️ HEMOS ELIMINADO LAS LÍNEAS DE ACUMULACIÓN DE STORAGE-TEXT Y STORAGE-BAR QUE ESTABAN AQUÍ ABAJO
 }
+
+// FUNCIONES PARA EL APARTADO DE MAPAS
+function renderMapas() {
+    const mapasGrid = document.getElementById('mapas-grid');
+    if (!mapasGrid) return;
+    mapasGrid.innerHTML = '';
+
+    misMapas.forEach(mapa => {
+        const card = document.createElement('div');
+        card.className = `game-card ${mapa.claseNeon}`;
+        card.style.cursor = 'pointer';
+        // Al hacer clic abre la imagen en pantalla completa
+        card.onclick = () => abrirMapa(mapa.image);
+
+        card.innerHTML = `
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="${mapa.image}" alt="${mapa.title}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'">
+                </div>
+                <div class="card-back" style="padding: 15px; justify-content: center;">
+                    <span style="font-size: 10px; text-transform: uppercase; color: #00ff99; letter-spacing: 1px; font-weight: bold; margin-bottom: 5px;">
+                        ${mapa.juego}
+                    </span>
+                    <h3 class="card-title" style="margin: 10px 0;">${mapa.title}</h3>
+                    <span style="font-size: 11px; color: #777;">🔍 Haz clic para ampliar</span>
+                </div>
+            </div>
+        `;
+        mapasGrid.appendChild(card);
+    });
+}
+
+function abrirMapa(rutaImagen) {
+    const modal = document.getElementById('mapa-modal');
+    const imgGigante = document.getElementById('mapa-gigante');
+    if (modal && imgGigante) {
+        imgGigante.src = rutaImagen;
+        modal.style.display = 'flex';
+    }
+}
+
+function cerrarMapa() {
+    const modal = document.getElementById('mapa-modal');
+    if (modal) modal.style.display = 'none';
+}
+
 
 // Arrancar la web
 renderCards();
