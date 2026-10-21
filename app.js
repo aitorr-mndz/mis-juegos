@@ -64,7 +64,7 @@ const catalogoInicial = [
 const catalogoOtros = [
     { id: 101, title: "Assetto Corsa", image: "ImgGameOther/assetto-corsa.jpg", plataforma: ["Steam"] },
     { id: 102, title: "Apex Legends", image: "ImgGameOther/apex-legends.jpg", plataforma: ["Steam"] },
-    { id: 103, title: "Fortnite", image: "ImgGameOther/fortnite.jpg", plataforma: ["Epic Games", "Nintendo Switch 2", "PlayStation 5] },
+    { id: 103, title: "Fortnite", image: "ImgGameOther/fortnite.jpg", plataforma: ["Epic Games", "Nintendo Switch 2", "PlayStation 5"] },
     { id: 104, title: "Cityes: Skylines", image: "ImgGameOther/cityes skylines.jpg", plataforma: ["Steam"] },
     { id: 105, title: "The Crew Motorfest", image: "ImgGameOther/the-crew-motorfest.jpg", plataforma: ["Epic Games"] },
     { id: 106, title: "Rocket League", image: "ImgGameOther/rocket_league.jpg", plataforma: ["Epic Games"] },
