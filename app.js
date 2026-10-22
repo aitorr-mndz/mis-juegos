@@ -191,7 +191,7 @@ const misMapas = [
     { id: 307, title: "Los Santos, San Fierro & Las venturas - GTA San Andreas", image: "ImgMaps/gtaSa_map.jpg", juego: "Grand Theft San Andreas", claseNeon: "has-completado" },
     { id: 308, title: "Liberty City - GTA III", image: "ImgMaps/gta3_map.jpg", juego: "Grand Theft Auto III", claseNeon: "has-completado" },
     { id: 309, title: "Manhattan, Brooklyn & Queens - Spider-Man 2 ", image: "ImgMaps/spiderman2_amp.jpg", juego: "Spider-Man 2", claseNeon: "has-completado" },
-    { id: 309, title: "Manhattan - Spider-Man Remastered & Spider-Man Miles Morales", image: "ImgMaps/spiderman_amp.jpg", juego: "Spider-Man Remastered & Spider-Man Miles Morales", claseNeon: "has-completado" }
+    { id: 310, title: "Manhattan - Spider-Man Remastered & Spider-Man Miles Morales", image: "ImgMaps/spiderman_amp.jpg", juego: "Spider-Man Remastered & Spider-Man Miles Morales", claseNeon: "has-completado" }
 ];
 // =========================================================================
 // 🚀 🟢 CONTROL DE VERSIÓN INTELIGENTE (LIMPIEZA DE CACHÉ AUTOMÁTICA)
