@@ -183,13 +183,15 @@ const misDispositivos = [
 
 const misMapas = [
     { id: 301, title: "Los Santos - GTA V", image: "ImgMaps/gta5_map.jpg", juego: "Grand Theft Auto V", claseNeon: "has-jugando" },
-    { id: 302, title: "New Austin & West Elizabeth", image: "ImgMaps/rdr2_map.jpg", juego: "Red Dead Redemption 2", claseNeon: "has-pendiente" },
+    { id: 302, title: "New Austin & West Elizabeth - Red Dead Redemption 2", image: "ImgMaps/rdr2_map.jpg", juego: "Red Dead Redemption 2", claseNeon: "has-pendiente" },
     { id: 303, title: "Hogwarts y Alrededores", image: "ImgMaps/hogwarts_map.jpg", juego: "Hogwarts Legacy", claseNeon: "has-completado" },
-    { id: 304, title: "Liberty City- GTA IV", image: "ImgMaps/gta4_map.jpg", juego: "Grand Theft Auto IV", claseNeon: "has-completado" },
-    { id: 305, title: "Estados Unidos y México", image: "ImgMaps/rdr_map.jpg", juego: "Red Dead Redemption", claseNeon: "has-completado" },
-    { id: 306, title: "Vice City- GTA Vice City", image: "ImgMaps/gtavc_map.jpg", juego: "Grand Theft Auto Vice City", claseNeon: "has-completado" },
+    { id: 304, title: "Liberty City - GTA IV", image: "ImgMaps/gta4_map.jpg", juego: "Grand Theft Auto IV", claseNeon: "has-completado" },
+    { id: 305, title: "Estados Unidos y México - Red Dead Redemption", image: "ImgMaps/rdr_map.jpg", juego: "Red Dead Redemption", claseNeon: "has-completado" },
+    { id: 306, title: "Vice City - GTA Vice City", image: "ImgMaps/gtavc_map.jpg", juego: "Grand Theft Auto Vice City", claseNeon: "has-completado" },
     { id: 307, title: "Los Santos, San Fierro & Las venturas - GTA San Andreas", image: "ImgMaps/gtaSa_map.jpg", juego: "Grand Theft San Andreas", claseNeon: "has-completado" },
-    { id: 308, title: "Liberty City- GTA III", image: "ImgMaps/gta3_map.jpg", juego: "Grand Theft Auto III", claseNeon: "has-completado" }
+    { id: 308, title: "Liberty City - GTA III", image: "ImgMaps/gta3_map.jpg", juego: "Grand Theft Auto III", claseNeon: "has-completado" },
+    { id: 309, title: "Manhattan, Brooklyn & Queens - Spider-Man 2 ", image: "ImgMaps/spiderman2_amp.jpg", juego: "Spider-Man 2", claseNeon: "has-completado" },
+    { id: 309, title: "Manhattan - Spider-Man Remastered & Spider-Man Miles Morales", image: "ImgMaps/spiderman_amp.jpg", juego: "Spider-Man Remastered & Spider-Man Miles Morales", claseNeon: "has-completado" }
 ];
 // =========================================================================
 // 🚀 🟢 CONTROL DE VERSIÓN INTELIGENTE (LIMPIEZA DE CACHÉ AUTOMÁTICA)
