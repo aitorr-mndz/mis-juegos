@@ -108,7 +108,7 @@ const catalogoOtros = [
     { id: 144, title: "Dmc Devil May Cry", image: "ImgGameOther/devil_may_cry.jpg", plataforma: ["Steam"] },
     { id: 145, title: "LEFT 4 DEAD 2", image: "ImgGameOther/left_4_dead_2.jpg", plataforma: ["Steam"] },
     { id: 146, title: "HOUSE FLIPPER", image: "ImgGameOther/hause_flipper.jpg", plataforma: ["Steam"] },
-    { id: 147, title: "JACK 3", image: "ImgGameOther/jack_3.jpg", plataforma: ["PlayStation 2"] },
+    { id: 147, title: "JAK 3", image: "ImgGameOther/jack_3.jpg", plataforma: ["PlayStation 2"] },
     { id: 148, title: "Shrek 2", image: "ImgGameOther/shrek2.jpg", plataforma: ["PlayStation 2"] },
     { id: 149, title: "Happy Feet", image: "ImgGameOther/happy feet.jpg", plataforma: ["PlayStation 2"] },
     { id: 150, title: "S.L.A.I Steel Lancer Arena International", image: "ImgGameOther/slai.jpg", plataforma: ["PlayStation 2"] },
