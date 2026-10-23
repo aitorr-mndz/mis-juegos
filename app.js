@@ -8,7 +8,7 @@ const catalogoInicial = [
     { id: 6, title: "Detroit: Become Human", image: "ImgGames/detroit_become_human.jpg", status: "completado", plataforma: ["Steam"] },
     { id: 7, title: "Grand Theft Auto IV", image: "ImgGames/grand_theft_auto_iv.jpg", status: "pendiente", plataforma: ["Steam"] },
     { id: 8, title: "Grand Theft Auto IV: The Ballad of Gay Tony", image: "ImgGames/grand_theft_auto_iv_the_ballad_of_gay_tony.jpg", status: "pendiente", plataforma: ["Steam"] },
-    { id: 9, title: "Grand Theft Auto IV: The Lost and Damned", image: "ImgGames/grand_theft_auto_iv_the_lost_and_damned.jpg", status: "pendiente", plataforma: ["Steam"] },
+    { id: 9, title: "Grand Theft Auto IV: The Lost and Damned", image: "ImgGames/grand_theft_auto_iv_the_lost_and_damned.jpg", status: "jugando", plataforma: ["Steam"] },
     { id: 10, title: "The Quarry", image: "ImgGames/the_quarry.jpg", status: "completado", plataforma: ["Steam"] },
     { id: 11, title: "Red Dead Redemption 2", image: "ImgGames/RDR2.jpg", status: "pendiente", plataforma: ["Steam"] },
     { id: 12, title: "Batman - The Telltale Series", image: "ImgGames/batman_the_telltale_series.jpg", status: "completado", plataforma: ["Steam"] },
