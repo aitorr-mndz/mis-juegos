@@ -1,0 +1,20 @@
+{
+  "name": "Mi Colección de Juegos",
+  "short_name": "App Juegos",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#00ff99",
+  "icons": [
+    {
+      "src": "Logos/steam_logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "Logos/steam_logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

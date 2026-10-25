@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Colección de Videojuegos</title>
     <link rel="stylesheet" href="style.css?v=2">
+    <!-- Enlace al manifiesto de la aplicación -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Pequeño script para activar la instalación -->
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('¡Motor de instalación PWA activado con éxito!', reg))
+            .catch(err => console.log('Fallo al activar instalación', err));
+        });
+    }
+    </script>
+
 </head>
 <body>
     <!-- Contenedor global de la aplicación para separar los lados -->
