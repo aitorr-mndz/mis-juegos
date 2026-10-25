@@ -7,12 +7,12 @@
   "theme_color": "#00ff99",
   "icons": [
     {
-      "src": "Logos/steam_logo.png",
+      "src": "Logos/logo_app.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "Logos/steam_logo.png",
+      "src": "Logos/logo_app.png",
       "sizes": "512x512",
       "type": "image/png"
     }
