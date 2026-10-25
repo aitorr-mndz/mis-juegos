@@ -5,13 +5,11 @@ body {
     padding: 20px;
     display: flex;
     justify-content: center;
-    
-    /* FONDECORATIVO: Luces de neón ambientales */
     background-color: #0b0b0c;
     background-image: 
         radial-gradient(at 0% 0%, rgba(0, 255, 153, 0.08) 0px, transparent 50%),
         radial-gradient(at 100% 100%, rgba(52, 152, 219, 0.08) 0px, transparent 50%);
-    background-attachment: fixed; /* Hace que las luces se queden fijas al mover el ratón */
+    background-attachment: fixed;
 }
 
 .web-container {
@@ -45,17 +43,21 @@ h1 {
     transition: all 0.3s;
 }
 
-.filter-btn:hover {
-    background: #3a3a3a;
+.filter-btn:hover { background: #3a3a3a; }
+.filter-btn.active {
+    background: #00ffcc;
+    color: #000000;
+    font-weight: bold;
+    border-color: #00ffcc;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.6);
 }
 
-/* Estilo especial cuando el botón de filtro "Favoritos" está activo */
 .filter-btn[onclick*="favoritos"].active {
     background: #ff3366;
     color: #ffffff;
+    border-color: #ff3366;
     box-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
 }
-
 
 .games-grid {
     display: grid;
@@ -65,35 +67,53 @@ h1 {
 }
 
 .game-card {
-    background: #1e1e1e;
+    background: transparent !important;
+    perspective: 1000px;
+    cursor: pointer;
+    height: 380px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    border-radius: 12px;
+}
+
+.game-card:hover .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s, box-shadow 0.3s;
-    border: 1px solid #2d2d2d;
+    box-sizing: border-box;
 }
 
-.game-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.7);
-}
-
-.card-banner {
+.card-front { background: #1e1e1e; }
+.card-front .card-banner {
     width: 100%;
-    height: 300px;
+    height: 100%;
     object-fit: cover;
     background-color: #2a2a2a;
 }
 
-.card-info {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    flex-grow: 1;
-    justify-content: space-between;
+.card-back {
+    background: #18181a;
+    border: 2px solid #2d2d2d;
+    padding: 20px;
+    justify-content: center;
+    transform: rotateY(180deg);
 }
 
 .card-title {
@@ -115,36 +135,28 @@ h1 {
     text-align: center;
     transition: background 0.3s;
 }
-
 .card-select.status-pendiente { background: #f39c12; color: black; }
 .card-select.status-jugando { background: #3498db; color: white; }
 .card-select.status-completado { background: #2ecc71; color: white; }
 .card-select.status-noadquirido { background: red; color: white; }
 
-/* Contenedor para alinear los logos en fila si hay más de uno */
 .platform-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px; /* Añade 12px de separación entre cada logotipo */
-    height: 55px; 
+    gap: 12px;
+    height: 55px;
     margin-bottom: 5px;
 }
 
-/* Estilo para tus imágenes locales de las marcas (¡MÁS GRANDES!) */
 .platform-icon {
-    width: 45px;  /* Aumentado de 28px a 45px */
-    height: 45px; /* Aumentado de 28px a 45px */
+    width: 45px;
+    height: 45px;
     object-fit: contain;
     transition: transform 0.2s ease;
 }
+.platform-icon:hover { transform: scale(1.15); }
 
-/* Efecto al pasar el ratón */
-.platform-icon:hover {
-    transform: scale(1.15);
-}
-
-/* Botones de selección de Colección superior */
 .collection-btn {
     background: #1a1a1a;
     color: #aaa;
@@ -156,13 +168,7 @@ h1 {
     cursor: pointer;
     transition: all 0.3s ease;
 }
-
-.collection-btn:hover {
-    color: white;
-    border-color: #555;
-}
-
-/* Color verde brillante cuando la colección está activa */
+.collection-btn:hover { color: white; border-color: #555; }
 .collection-btn.active {
     background: #00ff99;
     color: #121212;
@@ -170,28 +176,24 @@ h1 {
     box-shadow: 0 4px 15px rgba(0, 255, 153, 0.3);
 }
 
-/* Contenedor del buscador */
 .search-container {
     position: relative;
     max-width: 500px;
-    margin: 0 auto 30px auto; /* Centrado y con margen inferior */
+    margin: 0 auto 30px auto;
     display: flex;
     align-items: center;
 }
-
-/* Icono de la lupa */
 .search-icon {
     position: absolute;
     left: 15px;
     font-size: 18px;
-    color: #00ff99; /* Verde gamer */
+    color: #00ff99;
     pointer-events: none;
 }
 
-/* Caja de texto del buscador */
 #game-search {
     width: 100%;
-    padding: 12px 15px 12px 45px; /* Espacio a la izquierda para que no tape la lupa */
+    padding: 12px 15px 12px 45px;
     background: #1e1e1e;
     border: 2px solid #333;
     border-radius: 8px;
@@ -202,28 +204,24 @@ h1 {
     transition: all 0.3s ease;
 }
 
-/* Efecto cuando haces clic dentro del buscador */
 #game-search:focus {
     border-color: #00ff99;
     box-shadow: 0 0 10px rgba(0, 255, 153, 0.2);
     background: #252525;
 }
 
-/* Cambiar el color del texto de ayuda (placeholder) */
-#game-search::placeholder {
-    color: #777;
+#game-search::placeholder { 
+    color: #777; 
 }
 
-/* Contenedor del Panel de Estadísticas */
 .stats-container {
     display: flex;
     justify-content: space-between;
     gap: 15px;
     margin-bottom: 25px;
-    flex-wrap: wrap; /* Se adapta a pantallas más pequeñas */
+    flex-wrap: wrap;
 }
 
-/* Cajas individuales de cada estadística */
 .stat-box {
     flex: 1;
     min-width: 100px;
@@ -238,22 +236,19 @@ h1 {
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-/* Números grandes */
-.stat-number {
-    font-size: 22px;
-    font-weight: bold;
-    color: #ffffff;
+.stat-number { 
+    font-size: 22px; 
+    font-weight: bold; 
+    color: #ffffff; 
 }
 
-/* Textos de abajo pequeños */
-.stat-label {
-    font-size: 11px;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+.stat-label { 
+    font-size: 11px; 
+    color: #888; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px; 
 }
 
-/* Colores personalizados para los bordes de las estadísticas */
 .stat-box.pendiente { border-left: 4px solid #f39c12; }
 .stat-box.pendiente .stat-number { color: #f39c12; }
 
@@ -263,604 +258,211 @@ h1 {
 .stat-box.completado { border-left: 4px solid #2ecc71; }
 .stat-box.completado .stat-number { color: #2ecc71; }
 
-/* Caja especial del porcentaje */
 .stat-box.progreso { 
-    background: linear-gradient(135deg, #1e1e1e, #0e2e1e);
+    background: linear-gradient(135deg, #1e1e1e, #0e2e1e); 
     border: 1px solid #00ff99; 
 }
 .stat-box.progreso .stat-number { 
     color: #00ff99; 
-    text-shadow: 0 0 10px rgba(0, 255, 153, 0.4);
+    text-shadow: 0 0 10px rgba(0, 255, 153, 0.4); 
 }
 
-/* ===================================================
-   ESTILOS AVANZADOS PARA LA ANIMACIÓN DE GIRO 3D
-   =================================================== */
-
-/* Activamos la perspectiva 3D en el contenedor de la tarjeta */
-.game-card {
-    background: transparent !important; /* El fondo real estará en las caras */
-    perspective: 1000px;
-    cursor: pointer;
-    height: 380px; /* Forzamos un alto fijo para que el giro sea perfecto */
-    border: none !important; /* Quitamos el borde antiguo */
-    box-shadow: none !important; /* El brillo de neón pasa al contenedor interno */
-}
-
-/* Contenedor interno que rota físicamente */
-.card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-style: preserve-3d;
-    border-radius: 12px;
-}
-
-/* 🔑 NUEVO: La tarjeta rota automáticamente 180 grados al pasar el ratón por encima */
-.game-card:hover .card-inner {
-    transform: rotateY(180deg);
-}
-
-
-/* Reglas comunes para ambas caras (Delantera y Trasera) */
-.card-front, .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden; /* Oculta la otra cara cuando gira */
-    backface-visibility: hidden;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-}
-
-/* CARA DELANTERA: Ocupa todo el tamaño con el póster */
-.card-front {
-    background: #1e1e1e;
-}
-.card-front .card-banner {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* CARA TRASERA: Fondo oscuro elegante con la info centrada */
-.card-back {
-    background: #18181a;
-    border: 2px solid #2d2d2d;
-    padding: 20px;
-    justify-content: center;
-    transform: rotateY(180deg); /* Arranca dada la vuelta por defecto */
-}
-
-/* TRASLADAMOS LOS BORDES DE NEÓN AL INTERIOR PARA QUE GIREN CON LA TARJETA */
-.has-pendiente .card-inner { border: 1px solid rgba(243, 156, 18, 0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+.has-pendiente .card-inner { border: 1px solid rgba(243, 156, 18, 0.3); }
 .game-card.has-pendiente:hover .card-inner { border-color: #f39c12; box-shadow: 0 0 15px rgba(243, 156, 18, 0.4); }
 
-.has-jugando .card-inner { border: 1px solid rgba(52, 152, 219, 0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+.has-jugando .card-inner { border: 1px solid rgba(52, 152, 219, 0.3); }
 .game-card.has-jugando:hover .card-inner { border-color: #3498db; box-shadow: 0 0 15px rgba(52, 152, 219, 0.4); }
 
-.has-completado .card-inner { border: 1px solid rgba(46, 204, 113, 0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+.has-completado .card-inner { border: 1px solid rgba(46, 204, 113, 0.3); }
 .game-card.has-completado:hover .card-inner { border-color: #2ecc71; box-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
 
-.has-noadquirido .card-inner { border: 1px solid rgba(231, 76, 60, 0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+.has-noadquirido .card-inner { border: 1px solid rgba(231, 76, 60, 0.3); }
 .game-card.has-noadquirido:hover .card-inner { border-color: #e74c3c; box-shadow: 0 0 15px rgba(231, 76, 60, 0.4); }
 
-/* ===================================================
-   SISTEMA DE VALORACIÓN POR ESTRELLAS (⭐)
-   =================================================== */
+.stars-rating { display: flex; justify-content: center; gap: 5px; margin: 10px 0; }
+.star { font-size: 26px; color: #444; cursor: pointer; transition: color 0.2s, transform 0.1s; }
+.star:hover { transform: scale(1.25); color: #ffcc00; }
+.star.active { color: #ffcd3c; text-shadow: 0 0 10px rgba(255, 205, 60, 0.6); }
 
-/* Contenedor de las estrellas */
-.stars-rating {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    margin: 10px 0;
+.calendar-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; width: 100%; box-sizing: border-box; }
+.calendar-day { background: #121212; border: 1px solid #333; border-radius: 8px; display: flex; flex-direction: column; align-items: center; min-height: 105px; justify-content: space-between; padding: 12px 8px; cursor: pointer; transition: all 0.2s ease; }
+.calendar-day:hover { border-color: #555; transform: translateY(-2px); background: #18181a; }
+.day-number { font-size: 18px; font-weight: bold; color: #fff; }
+.day-status { font-size: 10px; font-weight: bold; text-transform: uppercase; color: #e74c3c; }
+
+.calendar-day.free-to-play { 
+    border: 1px solid #00ff99; 
+    background: linear-gradient(135deg, #121212, #072a1a); 
+    box-shadow: 0 0 10px rgba(0, 255, 153, 0.2); 
+}
+.calendar-day.free-to-play .day-number { color: #00ff99; }
+.calendar-day.free-to-play .day-status { color: #00ff99; text-shadow: 0 0 5px rgba(0, 255, 153, 0.5); }
+.calendar-day.free-to-play:hover { box-shadow: 0 0 15px rgba(0, 255, 153, 0.5); }
+
+.calendar-select-game { width: 100%; background: #222; color: #aaa; border: 1px solid #444; padding: 4px; font-size: 11px; border-radius: 4px; cursor: pointer; outline: none; text-align: center; }
+.calendar-select-game:focus { border-color: #00ff99; }
+.calendar-select-game option { background: #1e1e1e; color: white; }
+.day-status-game { font-size: 11px; font-weight: bold; color: #00ff99; text-align: center; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-shadow: 0 0 5px rgba(0, 255, 153, 0.3); margin: 4px 0; }
+.calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; color: #aaaaaa; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 1px solid #333; }
+.calendar-day.empty-day { background: transparent !important; border: none !important; box-shadow: none !important; pointer-events: none; }
+
+.progress-bar-bg { width: 100%; height: 8px; background: #000000; border-radius: 10px; margin-top: 8px; overflow: hidden; border: 1px solid #111; box-sizing: border-box; }
+.progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #00ff99, #00dd82); border-radius: 10px; box-shadow: 0 0 8px rgba(0, 255, 153, 0.7); transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+
+.app-layout { display: flex; width: 100%; max-width: 1400px; gap: 40px; margin: 0 auto; padding: 10px; box-sizing: border-box; }
+.sidebar-platforms { width: 80px; background: #18181a; border: 1px solid #2d2d2d; border-radius: 40px; padding: 20px 10px; display: flex; flex-direction: column; align-items: center; gap: 15px; height: fit-content; position: sticky; top: 25px; box-shadow: 0 8px 25px rgba(0,0,0,0.5); box-sizing: border-box; }
+
+.sidebar-plat-btn { width: 50px; height: 50px; border-radius: 50%; background: #252528; border: 2px solid transparent; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; padding: 0; }
+.sidebar-plat-btn img { width: 32px; height: 32px; object-fit: contain; }
+.plat-all-icon { font-size: 22px; }
+.sidebar-plat-btn:hover { background: #2d2d32; border-color: #555; }
+.sidebar-plat-btn:hover img { transform: scale(1.15); }
+.sidebar-plat-btn.active { background: #121212; border-color: #00ff99; box-shadow: 0 0 12px rgba(0, 255, 153, 0.4); }
+
+.fav-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; color: #444; cursor: pointer; transition: all 0.3s ease; user-select: none; z-index: 10; }
+.fav-btn:hover { transform: scale(1.2); color: #ff3366; }
+.fav-btn.active { color: #ff3366; text-shadow: 0 0 10px rgba(255, 51, 102, 0.8); animation: pulseFav 0.3s ease-in-out; }
+@keyframes pulseFav { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+
+#setup-grid, #mapas-grid { justify-content: center; }
+
+/* =========================================================================
+   🟢 VISIBILIDAD CONDICIONAL PC vs MÓVIL DIRECTA
+   ========================================================================= */
+.mobile-only-menu { 
+    display: none !important; 
 }
 
-/* Estilo base de cada estrella vacía */
-.star {
-    font-size: 26px;
-    color: #444; /* Gris oscuro por defecto */
-    cursor: pointer;
-    transition: color 0.2s ease, transform 0.1s ease;
-}
-
-/* Efecto al pasar el ratón por encima de una estrella suelta */
-.star:hover {
-    transform: scale(1.25);
-    color: #ffcc00;
-}
-
-/* Estrella activa (Dorada brillante con neón) */
-.star.active {
-    color: #ffcd3c;
-    text-shadow: 0 0 10px rgba(255, 205, 60, 0.6);
-}
-
-/* ===================================================
-   SISTEMA DE CALENDARIO GAMER INTERACTIVO (📅)
-   =================================================== */
-
-/* Cuadrícula de días en filas de 7 (Semanas) */
-.calendar-days-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 15px;
-}
-
-/* Diseño base de cada día del mes */
-.calendar-day {
-    background: #121212;
-    border: 1px solid #333;
-    padding: 15px 10px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    min-height: 70px;
-}
-
-.calendar-day:hover {
-    border-color: #555;
-    transform: translateY(-2px);
-    background: #18181a;
-}
-
-/* El número del día */
-.day-number {
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-}
-
-/* El texto de abajo (Ocupado / Jugar) */
-.day-status {
-    font-size: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #e74c3c; /* Rojo por defecto (Ocupado) */
-}
-
-/* 🔥 ESTADO ESPECIAL: DÍA LIBRE PARA JUGAR (Verde Neón) */
-.calendar-day.free-to-play {
-    border: 1px solid #00ff99;
-    background: linear-gradient(135deg, #121212, #072a1a);
-    box-shadow: 0 0 10px rgba(0, 255, 153, 0.2);
-}
-
-.calendar-day.free-to-play .day-number {
-    color: #00ff99;
-}
-
-.calendar-day.free-to-play .day-status {
-    color: #00ff99; /* Verde para el texto JUGAR */
-    text-shadow: 0 0 5px rgba(0, 255, 153, 0.5);
-}
-
-.calendar-day.free-to-play:hover {
-    box-shadow: 0 0 15px rgba(0, 255, 153, 0.5);
-}
-
-/* ===================================================
-   MEJORAS VISUALES PARA EL CALENDARIO CON JUEGOS
-   =================================================== */
-
-/* Forzamos que los días tengan un poco más de alto para albergar el menú */
-.calendar-day {
-    min-height: 105px !important;
-    justify-content: space-between !important;
-    padding: 12px 8px !important;
-}
-
-/* El menú desplegable dentro de cada celda del día */
-.calendar-select-game {
-    width: 100%;
-    background: #222;
-    color: #aaa;
-    border: 1px solid #444;
-    padding: 4px;
-    font-size: 11px;
-    border-radius: 4px;
-    cursor: pointer;
-    outline: none;
-    text-align: center;
-}
-
-.calendar-select-game:focus {
-    border-color: #00ff99;
-}
-
-/* Opciones de dentro del menú desplegable */
-.calendar-select-game option {
-    background: #1e1e1e;
-    color: white;
-}
-
-/* Texto verde brillante personalizado con el nombre del juego elegido */
-.day-status-game {
-    font-size: 11px;
-    font-weight: bold;
-    color: #00ff99;
-    text-align: center;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* Si el nombre es larguísimo, lo corta en 2 líneas para no romper la celda */
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-shadow: 0 0 5px rgba(0, 255, 153, 0.3);
-    margin: 4px 0;
-}
-
-/* ===================================================
-   ESTILOS PARA LOS NOMBRES DE LOS DÍAS DE LA SEMANA
-   =================================================== */
-
-/* Fila de cabeceras de lunes a domingo */
-.calendar-weekdays {
-    display: grid;
-    /* Mantiene las mismas 7 columnas fijas alineadas con los números */
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-    font-weight: bold;
-    color: #888;
-    text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #333;
-}
-
-/* Forzamos que el grid de números use estrictamente 7 columnas fijas (Lunes a Domingo) */
-.calendar-days-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 12px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* Celda invisible para rellenar los huecos iniciales del mes */
-.calendar-day.empty-day {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    pointer-events: none; /* No se puede hacer clic en ellas */
-}
-
-/* ===================================================
-   BARRA DE PROGRESO VISUAL ESTILO PLAYSTATION (📊)
-   =================================================== */
-
-/* El contenedor de fondo de la barra (la ranura oscura) */
-.progress-bar-bg {
-    width: 100%;
-    height: 8px; /* Fina y elegante */
-    background: #000000;
-    border-radius: 10px;
-    margin-top: 8px;
-    overflow: hidden;
-    border: 1px solid #111;
-    box-sizing: border-box;
-}
-
-/* La línea de carga que se rellena (Verde Neón) */
-.progress-bar-fill {
-    height: 100%;
-    width: 0%; /* Empieza en 0% y JavaScript la moverá */
-    background: linear-gradient(90deg, #00ff99, #00dd82);
-    border-radius: 10px;
-    box-shadow: 0 0 8px rgba(0, 255, 153, 0.7); /* Resplandor de neón */
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Animación fluida al rellenarse */
-}
-
-/* ===================================================
-   BARRA LATERAL DE PLATAFORMAS FLOTANTE (🏷️)
-   =================================================== */
-
-/* Alineación global en dos columnas (Barra | Centro) */
-.app-layout {
-    display: flex;
-    width: 100%;
-    max-width: 1400px;
-    gap: 40px;
-    margin: 0 auto;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-/* Contenedor de la barra lateral izquierda (Ajustado para albergar más consolas) */
-.sidebar-platforms {
-    width: 80px;
-    background: #18181a;
-    border: 1px solid #2d2d2d;
-    border-radius: 40px;
-    padding: 20px 10px; /* Reducido un pelín el espacio arriba y abajo */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px; /* Reducido de 20px a 15px para que entren todos los círculos perfectos */
-    height: fit-content;
-    position: sticky;
-    top: 25px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-    box-sizing: border-box;
-}
-
-
-/* Título de arriba pequeño */
-.sidebar-title {
-    font-size: 10px;
-    font-weight: bold;
-    color: #555;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin: 0 0 5px 0;
-}
-
-/* Botones circulares para los logotipos */
-.sidebar-plat-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #252528;
-    border: 2px solid transparent;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease;
-    padding: 0;
-}
-
-/* Tus logotipos locales escalados dentro del círculo */
-.sidebar-plat-btn img {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-    transition: transform 0.2s ease;
-}
-
-.plat-all-icon {
-    font-size: 22px;
-}
-
-/* Efecto hover sobre los logotipos */
-.sidebar-plat-btn:hover {
-    background: #2d2d32;
-    border-color: #555;
-}
-.sidebar-plat-btn:hover img {
-    transform: scale(1.15);
-}
-
-/* Botón seleccionado activo (Iluminación Verde Neón) */
-.sidebar-plat-btn.active {
-    background: #121212;
-    border-color: #00ff99;
-    box-shadow: 0 0 12px rgba(0, 255, 153, 0.4);
-}
-
-/* ===================================================
-   REPARACIÓN DE LOS NOMBRES DE LOS DÍAS DE LA SEMANA
-   =================================================== */
-
-/* Fila de cabeceras de lunes a domingo */
-.calendar-weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr) !important; /* Fuerza las 7 columnas exactas */
-    text-align: center;
-    font-weight: bold;
-    color: #aaaaaa !important; /* Fuerza un color gris claro muy visible */
-    text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #333;
-}
-
-/* Forzamos que la cuadrícula de los días se alinee exactamente debajo */
-.calendar-days-grid {
-    display: grid !important;
-    grid-template-columns: repeat(7, 1fr) !important;
-    gap: 12px;
-}
-
-/* ===================================================
-   SISTEMA DE FAVORITOS DE MI COLECCIÓN (♥)
-   =================================================== */
-
-.fav-btn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 28px;
-    color: #444; /* Gris oscuro cuando no es favorito */
-    cursor: pointer;
-    transition: all 0.3s ease;
-    user-select: none;
-    z-index: 10;
-}
-
-/* Efecto hover al pasar el ratón */
-.fav-btn:hover {
-    transform: scale(1.2);
-    color: #ff3366;
-}
-
-/* Corazón activo: Iluminación Neón Rosa Gamer */
-.fav-btn.active {
-    color: #ff3366;
-    text-shadow: 0 0 10px rgba(255, 51, 102, 0.8),
-                 0 0 20px rgba(255, 51, 102, 0.4);
-    animation: pulseFav 0.3s ease-in-out;
-}
-
-/* Pequeña animación de latido al activarse */
-@keyframes pulseFav {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.3); }
-    100% { transform: scale(1); }
-}
-
-/* Estilo base para los botones del menú (por si no lo tenías) */
-.filter-btn {
-    background: #222222;
-    color: #ffffff;
-    border: 1px solid #444444;
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-/* Efecto al pasar el ratón por encima */
-.filter-btn:hover {
-    background: #333333;
-    border-color: #666666;
-}
-
-/* 🌟 COLOR DEL BOTÓN ACTIVO (Saber dónde estás) */
-.filter-btn.active {
-    background: #00ffcc; /* Color turquesa neón muy gamer (puedes cambiarlo por tu color favorito) */
-    color: #000000;      /* Texto negro para que contraste a la perfección */
-    font-weight: bold;
-    border-color: #00ffcc;
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.6); /* Brillo neón */
-}
-
-/* Centra los elementos internos de la cuadrícula del setup */
-#setup-grid {
-    justify-content: center;
-}
-
-#mapas-grid {
-    justify-content: center;
+.pc-only-menu { 
+    display: flex !important; 
 }
 
 /* =========================================================================
-   📱 RESPONSIVE DESIGN: ARREGLO DE LOGOS OCULTOS Y BOTONES CORTADOS
+   📱 RESPONSIVE DESIGN: CAMBIO ESTRUCTURAL EXCLUSIVO PARA MÓVILES
    ========================================================================= */
 @media (max-width: 768px) {
-    /* 1. Reset completo del espacio */
-    body {
-        padding: 10px !important;
-        display: block !important;
+    .pc-only-menu { 
+        display: none !important; 
     }
-
-    .app-layout, .web-container {
-        display: flex !important;
-        flex-direction: column !important;
+    
+    .mobile-only-menu { 
+        display: block !important; 
+    }
+    
+    body { 
+        padding: 10px !important; 
+        display: block !important; 
+    }
+    
+    .app-layout, .web-container { 
+        display: flex !important; 
+        flex-direction: column !important; 
+        width: 100% !important; 
+        gap: 15px !important; 
+    }
+    
+    h1 { 
+        font-size: 20px !important; 
+        margin: 10px 0 15px 0 !important; 
+    }
+    
+    /* Estilos Estética Neón para Selectores Desplegables de Móvil */
+    .mobile-nav-select, .mobile-status-select {
         width: 100% !important;
-        gap: 15px !important;
+        background: #1c1c1e !important;
+        color: #00ff99 !important;
+        border: 2px solid #00ff99 !important;
+        padding: 12px 15px !important;
+        font-size: 15px !important;
+        font-weight: bold !important;
+        border-radius: 8px !important;
+        box-shadow: 0 0 10px rgba(0, 255, 153, 0.2) !important;
+        outline: none !important;
+        cursor: pointer !important;
+        margin-bottom: 12px !important;
+        text-align: center;
+        appearance: none;
+        -webkit-appearance: none;
     }
-
-    /* 2. 🎛️ BARRA DE PLATAFORMAS: ACTIVACIÓN DE SCROLL LATERAL PARA LOGOS OCULTOS */
+    
+    .mobile-status-select { 
+        color: #00ffcc !important; 
+        border-color: #00ffcc !important; 
+        box-shadow: 0 0 10px rgba(0, 255, 204, 0.2) !important; 
+        margin-top: 5px !important; 
+    }
+    
+    .mobile-nav-select option, .mobile-status-select option { 
+        background: #121212 !important; 
+        color: #ffffff !important; 
+    }
+    
+    /* Barra Horizontal Deslizable para Marcas y Consolas */
     .sidebar-platforms {
         display: flex !important;
         visibility: visible !important;
         position: relative !important;
-        top: 0 !important;
-        left: 0 !important;
+        top: 0 !important; 
+        left: 0 !important; 
         transform: none !important;
         flex-direction: row !important;
-        width: 100% !important;
-        height: auto !important;
-        max-height: 75px !important;
-        
-        /* 🟢 CLAVE: Estas tres líneas permiten deslizar con el dedo de lado para ver TODOS los logos */
+        width: 100% !important; 
+        height: auto !important; 
+        max-height: 70px !important;
         overflow-x: auto !important; 
         overflow-y: hidden !important;
-        white-space: nowrap !important; 
-        
-        padding: 10px !important;
-        justify-content: flex-start !important; /* Alinea al inicio para que el scroll empiece bien */
+        white-space: nowrap !important;
+        padding: 8px !important;
+        justify-content: flex-start !important;
         background: #18181a !important;
-        border-radius: 12px !important;
+        border-radius: 8px !important;
         border: 1px solid #2d2d2d !important;
-        margin: 10px 0 15px 0 !important;
-        box-sizing: border-box !important;
-        
-        /* Oculta la barra visual de scroll para mantener el estilo limpio */
+        margin: 5px 0 15px 0 !important;
         scrollbar-width: none !important;
     }
-    .sidebar-platforms::-webkit-scrollbar {
-        display: none !important;
+    
+    .sidebar-platforms::-webkit-scrollbar { 
+        display: none !important; 
     }
-
-    /* Forzamos a que los círculos mantengan su tamaño y no se achiquen */
-    .sidebar-plat-btn {
-        display: inline-flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        width: 44px !important;
-        height: 44px !important;
-        margin-right: 10px !important; /* Espaciado fijo entre logos */
-        margin-left: 0 !important;
-        flex-shrink: 0 !important; /* 🟢 Evita que el móvil encoja los logotipos */
+    
+    .sidebar-plat-btn { 
+        display: inline-flex !important; 
+        width: 44px !important; 
+        height: 44px !important; 
+        margin-right: 12px !important; 
+        flex-shrink: 0 !important; 
     }
-
-    /* 3. 📁 MENÚ DE PESTAÑAS (Mi Colección, Otros...): OBLIGADO A BAJAR EN FILAS */
-    .filters {
-        display: grid !important;
-        /* 🟢 CLAVE: Fuerza una cuadrícula exacta de 2 botones por fila para que quepan todos */
+    
+    .stats-container { 
+        display: grid !important; 
         grid-template-columns: repeat(2, 1fr) !important; 
-        gap: 8px !important;
-        width: 100% !important;
-        margin-bottom: 25px !important;
-        justify-content: center !important;
+        gap: 10px !important; 
+        width: 100% !important; 
     }
-
-    .collection-btn {
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 12px 5px !important;
-        font-size: 13px !important;
-        text-align: center !important;
-        box-sizing: border-box !important;
-        border-radius: 8px !important;
-        margin: 0 !important; /* Elimina márgenes laterales heredados del PC */
+    
+    .games-grid, #setup-grid, #mapas-grid { 
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 12px !important; 
+        width: 100% !important; 
+        padding: 0 !important; 
     }
-
-    /* 4. SUBFILTROS INTERMEDIOS (Todos, Por jugar...) */
-    #sub-filters {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        justify-content: center !important;
-        gap: 6px !important;
-        margin-bottom: 15px !important;
-        width: 100% !important;
+    
+    .game-card { 
+        height: 250px !important; 
     }
-    .filter-btn {
-        padding: 6px 12px !important;
-        font-size: 12px !important;
+    
+    .calendar-weekdays { 
+        grid-template-columns: repeat(7, 1fr) !important; 
+        font-size: 9px !important; 
     }
-
-    /* 5. PANELES DE ESTADÍSTICAS */
-    .stats-container {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
-        width: 100% !important;
+    
+    .calendar-days-grid { 
+        grid-template-columns: repeat(7, 1fr) !important; 
+        gap: 4px !important; 
     }
-
-    /* 6. CUADRÍCULA DE JUEGOS */
-    .games-grid, #setup-grid, #mapas-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important;
-        width: 100% !important;
-    }
-    .game-card {
-        height: 250px !important;
+    
+    .calendar-day { 
+        min-height: 60px !important; 
+        padding: 2px !important; 
     }
 }
