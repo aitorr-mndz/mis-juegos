@@ -87,9 +87,9 @@ body {
 }
 
 /* =========================================================================
-   3. ELIMINACIÓN DE PLATAFORMAS Y CONTROL DEL BUSCADOR (PC)
+   3. FILTROS Y BUSCADOR (CON SEPARACIÓN PERFECTA - PC)
    ========================================================================= */
-/* 🟢 ELIMINADO: Oculta el menú antiguo de plataformas por completo */
+/* Oculta el menú antiguo de plataformas por completo */
 .sidebar-platforms, 
 #sidebar-plat {
     display: none !important;
@@ -99,23 +99,23 @@ body {
     width: 100%;
 }
 
-/* 🟢 SEPARACIÓN: Fila del buscador y subfiltros con espacios amplios */
+/* 🟢 SEPARACIÓN INTEGRAL: Fila del buscador y subfiltros bien espaciados */
 .search-filter-row {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;            /* Espacio interno entre botones de estado y el input */
+    gap: 25px;            /* 🌌 Espacio generoso entre los botones de estado y el buscador */
     width: 100%;
-    margin-top: 35px;     /* Separación generosa respecto al panel de estadísticas */
-    margin-bottom: 35px;  /* Separación antes de empezar la rejilla de cartas */
+    margin-top: 45px;     /* ⬆️ Separa el bloque completo de las estadísticas de arriba */
+    margin-bottom: 45px;  /* ⬇️ Separa el bloque completo de las cartas de juegos de abajo */
 }
 
 .pc-status-filters {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;            /* Espaciado interno cómodo entre los botones de estado */
 }
 
 .filter-btn {
@@ -139,16 +139,17 @@ body {
     display: none;
 }
 
-/* Buscador centrado y equilibrado */
+/* Buscador independiente, amplio y centrado */
 .search-container {
     position: relative;
     width: 100%;
-    max-width: 450px;
+    max-width: 480px;     /* Un poco más amplio para que respire visualmente */
+    margin-top: 5px;      /* Separación extra vertical */
 }
 
 .search-icon {
     position: absolute;
-    left: 12px;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--neon-green);
@@ -156,7 +157,7 @@ body {
 
 #game-search {
     width: 100%;
-    padding: 11px 12px 11px 35px;
+    padding: 12px 14px 12px 40px; /* Más acolchado para un acabado prémium */
     background: #1c1c1e;
     border: 1px solid #2d2d30;
     border-radius: 6px;
@@ -164,6 +165,11 @@ body {
     outline: none;
     font-size: 14px;
     box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+#game-search:focus {
+    border-color: var(--neon-green); /* Destaca dinámicamente al escribir */
 }
 
 /* =========================================================================
@@ -370,7 +376,7 @@ body {
     
     .app-header h1 { font-size: 22px; margin: 10px 0 15px 0; }
 
-    /* Ajuste de márgenes del buscador en móvil */
+    /* Ajuste de márgenes adaptados para el buscador en móvil */
     .search-filter-row { 
         flex-direction: row; 
         gap: 10px; 
@@ -378,15 +384,38 @@ body {
         margin-bottom: 20px;
     }
 
-    /* Activar el menú desplegable táctil */
+    /* Activar el menú desplegable táctil equilibrado */
     .pc-status-filters { display: none; }
-    .mobile-status-dropdown { display: block; background: #1c1c1e; color: var(--neon-blue); border: 1px solid #2d2d30; padding: 10px; border-radius: 6px; font-weight: bold; font-size: 13px; width: 45%; }
+    .mobile-status-dropdown { 
+        display: block; 
+        background: #1c1c1e; 
+        color: var(--neon-blue); 
+        border: 1px solid #2d2d30; 
+        padding: 10px; 
+        border-radius: 6px; 
+        font-weight: bold; 
+        font-size: 13px; 
+        width: 45%; 
+    }
     
-    .search-container { width: 55%; max-width: 100%; }
-
+    .search-container { 
+        width: 55%; 
+        max-width: 100%; 
+        margin-top: 0; 
+    }
+    
     /* Cuadrículas compactas en móviles (2 columnas simétricas) */
-    .stats-container { flex-wrap: wrap; gap: 8px; }
-    .stat-box { min-width: 47%; max-width: 50%; padding: 10px; }
+    .stats-container { 
+        flex-wrap: wrap; 
+        gap: 8px; 
+    }
+    
+    .stat-box { 
+        min-width: 47%; 
+        max-width: 50%; 
+        padding: 10px; 
+    }
+    
     .stat-box.progreso { 
         min-width: 100%; 
         max-width: 100%; 
