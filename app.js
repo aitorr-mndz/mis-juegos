@@ -300,9 +300,12 @@ function renderCards() {
         card.innerHTML = `<div class="card-inner"> <div class="card-front"> <img src="${game.image}" alt="${game.title}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'"> </div> <div class="card-back"> ${htmlFavoritoOpcional} <h3 class="card-title">${game.title}</h3> <div class="platform-container">${htmlLogos}</div> ${htmlEstrellas} ${htmlMenuOpcional} </div> </div>`;
         gamesGrid.appendChild(card);
     });
+    
+    // 🟢 CORREGIDO: La llamada de estadísticas se ejecuta dentro del renderizado
+    actualizarEstadisticas(); 
 }
-actualizarEstadisticas();
 
+// 🟢 FUNCIÓN DE CONTROL DE PESTAÑAS TOTALMENTE COHESIONADA Y BLINDADA
 window.changeCollection = function(tipo, elemento) {
     coleccionActiva = tipo;
     document.querySelectorAll('.collection-btn').forEach(btn => btn.classList.remove('active'));
@@ -361,7 +364,8 @@ window.changeCollection = function(tipo, elemento) {
         if (calendarContainer) calendarContainer.style.display = 'block';
         if (setupContainer) setupContainer.style.display = 'none';
         if (mapasContainer) mapasContainer.style.display = 'none';
-        if (sidebarPlat) { sidebarPlat.style.display = 'flex'; sidebarPlat.style.visibility = 'hidden'; }
+        /* 🟢 CORREGIDO: En móviles no ocultamos con visibility para que no deje el hueco en blanco, controlamos por display */
+        if (sidebarPlat) { sidebarPlat.style.display = 'none'; } 
         renderCalendar();
     } else if (tipo === 'setup') {
         if (subFilters) subFilters.style.display = 'none';
@@ -371,7 +375,7 @@ window.changeCollection = function(tipo, elemento) {
         if (calendarContainer) calendarContainer.style.display = 'none';
         if (setupContainer) setupContainer.style.display = 'block';
         if (mapasContainer) mapasContainer.style.display = 'none';
-        if (sidebarPlat) { sidebarPlat.style.display = 'flex'; sidebarPlat.style.visibility = 'hidden'; }
+        if (sidebarPlat) { sidebarPlat.style.display = 'none'; }
         renderSetup();
     } else if (tipo === 'mapas') {
         if (subFilters) subFilters.style.display = 'none';
@@ -381,7 +385,7 @@ window.changeCollection = function(tipo, elemento) {
         if (calendarContainer) calendarContainer.style.display = 'none';
         if (setupContainer) setupContainer.style.display = 'none';
         if (mapasContainer) mapasContainer.style.display = 'block';
-        if (sidebarPlat) { sidebarPlat.style.display = 'flex'; sidebarPlat.style.visibility = 'hidden'; }
+        if (sidebarPlat) { sidebarPlat.style.display = 'none'; }
         renderMapas();
     }
 };
