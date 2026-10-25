@@ -282,12 +282,18 @@ window.changeCollection = function(tipo, elemento) {
         // Si es 'otros', ocultamos toda la barra de subfiltros para limpiar la vista.
         if (tipo === 'principal') {
             if(topFilters) topFilters.style.display = 'block';
+            document.getElementById('sub-filters').style.display = 'flex'; // Muestra botones en Principal
+            const mobileSub = document.getElementById('mobile-sub-filters');
+            if(mobileSub) mobileSub.style.display = 'block';
             if(statsPanel) statsPanel.style.display = 'flex';
         } else {
-            if(topFilters) topFilters.style.display = 'none'; // Oculta 'Todos', 'Por jugar', etc. en Otros Juegos
+            if(topFilters) topFilters.style.display = 'block';
+            document.getElementById('sub-filters').style.display = 'none'; // 🟢 Oculta botones en Otros Juegos
+            const mobileSub = document.getElementById('mobile-sub-filters');
+            if(mobileSub) mobileSub.style.display = 'none';
             if(statsPanel) statsPanel.style.display = 'none';
         }
-        
+
         renderCards();
     } else {
         if(topFilters) topFilters.style.display = 'none';
