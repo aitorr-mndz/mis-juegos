@@ -4,28 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mi Colección de Videojuegos</title>
-    <!-- CSS con rompe-caché actualizado -->
-    <link rel="stylesheet" href="style.css?v=2.0">
-    <link rel="manifest" href="manifest.json">
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js').catch(err => console.log('Fallo PWA', err));
-        });
-      }
-    </script>
+    <link rel="stylesheet" href="style.css?v=3.0">
 </head>
 <body>
 
     <div class="web-container">
-        <!-- Cabecera de la App -->
+        <!-- CABECERA -->
         <header class="app-header">
-            <h1>🎮 Mi Colección</h1>
+            <h1>🎮 Mi Colección de Videojuegos</h1>
         </header>
 
-        <!-- Selectores de Filtros Superiores (Se adaptan automáticamente a PC y Móvil) -->
+        <!-- 1. NAVEGACIÓN PRINCIPAL (Botones en PC / Barra inferior en Móvil) -->
+        <nav class="main-navigation">
+            <button class="nav-item active" onclick="changeCollection('principal', this)">
+                <span class="nav-icon">🎮</span><span class="nav-text">Mi Colección</span>
+            </button>
+            <button class="nav-item" onclick="changeCollection('otros', this)">
+                <span class="nav-icon">📁</span><span class="nav-text">Otros Juegos</span>
+            </button>
+            <button class="nav-item" onclick="changeCollection('mapas', this)">
+                <span class="nav-icon">🗺️</span><span class="nav-text">Mapas</span>
+            </button>
+            <button class="nav-item" onclick="changeCollection('calendario', this)">
+                <span class="nav-icon">📅</span><span class="nav-text">Mi Calendario</span>
+            </button>
+            <button class="nav-item" onclick="changeCollection('setup', this)">
+                <span class="nav-icon">🖥️</span><span class="nav-text">Mi Setup</span>
+            </button>
+        </nav>
+
+        <!-- ZONA DE FILTROS SUPERIORES -->
         <div class="top-filters-container">
-            <!-- Barra Horizontal Deslizable de Plataformas -->
+            <!-- Barra Deslizable de Plataformas / Logos -->
             <div class="sidebar-platforms" id="sidebar-plat">
                 <button class="sidebar-plat-btn active" onclick="filterByPlatform('todas', this)">🌐 Todas</button>
                 <button class="sidebar-plat-btn" onclick="filterByPlatform('Steam', this)"><img src="Logos/steam_logo.png" alt="Steam"></button>
@@ -37,71 +47,66 @@
                 <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 3', this)"><img src="Logos/ps3_logo.png" alt="PS3"></button>
             </div>
 
-            <!-- Contenedor del Buscador y Filtro de Estados -->
+            <!-- FILTROS DE ESTADO Y BUSCADOR -->
             <div class="search-filter-row">
-                <div class="search-container">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="game-search" placeholder="Buscar juego..." oninput="searchGames()">
+                <!-- Botones de Estado (Solo se ven en PC) -->
+                <div id="sub-filters" class="pc-status-filters">
+                    <button class="filter-btn active" onclick="filterGames('todos', this)">Todos</button>
+                    <button class="filter-btn" onclick="filterGames('pendiente', this)">Por jugar ⏳</button>
+                    <button class="filter-btn" onclick="filterGames('jugando', this)">Jugando 🕹️</button>
+                    <button class="filter-btn" onclick="filterGames('completado', this)">Completados 🏆</button>
+                    <button class="filter-btn" onclick="filterGames('favoritos', this)">Favoritos ❤️</button>
+                    <button class="filter-btn" onclick="filterGames('noadquirido', this)">No Adquirido 🛑</button>
                 </div>
-                
-                <!-- Desplegable Único de Estados -->
-                <select id="mobile-sub-filters" class="status-select-dropdown" onchange="filterGamesFromSelect(this.value)">
-                    <option value="todos">📋 Todos los Estados</option>
+
+                <!-- Desplegable de Estado (Solo se ve en Móvil) -->
+                <select id="mobile-sub-filters" class="mobile-status-dropdown" onchange="filterGamesFromSelect(this.value)">
+                    <option value="todos">📋 Mostrar Todos los Estados</option>
                     <option value="pendiente">⏳ Por jugar</option>
                     <option value="jugando">🕹️ Jugando</option>
                     <option value="completado">🏆 Completados</option>
                     <option value="favoritos">❤️ Mis Favoritos</option>
-                    <option value="noadquirido">🛑 No Adquiridos</option>
+                    <option value="noadquirido">🛑 No Adquirido</option>
                 </select>
+
+                <!-- Campo de Búsqueda -->
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="game-search" placeholder="Buscar juego por nombre..." oninput="searchGames()">
+                </div>
             </div>
         </div>
 
-        <!-- Zona de Contenido Principal -->
+        <!-- CONTENIDO PRINCIPAL -->
         <main class="app-main-content">
-            <!-- Panel Estadístico -->
+            <!-- Estadísticas -->
             <div class="stats-container" id="stats-panel">
-                <div class="stat-box todos"><span class="stat-number" id="count-todos">0</span><span class="stat-label">Total</span></div>
-                <div class="stat-box pendiente"><span class="stat-number" id="count-pendiente">0</span><span class="stat-label">⏳ Espera</span></div>
-                <div class="stat-box jugando"><span class="stat-number" id="count-jugando">0</span><span class="stat-label">🕹️ Jugando</span></div>
-                <div class="stat-box completado"><span class="stat-number" id="count-completado">0</span><span class="stat-label">🏆 Pasados</span></div>
+                <div class="stat-box todos"><span class="stat-number" id="count-todos">0</span><span class="stat-label">Total Juegos</span></div>
+                <div class="stat-box pendiente"><span class="stat-number" id="count-pendiente">0</span><span class="stat-label">Por Jugar ⏳</span></div>
+                <div class="stat-box jugando"><span class="stat-number" id="count-jugando">0</span><span class="stat-label">Jugando 🕹️</span></div>
+                <div class="stat-box completado"><span class="stat-number" id="count-completado">0</span><span class="stat-label">Pasados 🏆</span></div>
                 <div class="stat-box progreso">
                     <span class="stat-number" id="progress-percent">0%</span>
+                    <span class="stat-label">Progreso Total</span>
                     <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar-fill"></div></div>
                 </div>
             </div>
 
-            <!-- Rejillas Dinámicas -->
+            <!-- Grids de Contenido -->
             <div class="games-grid" id="games-grid"></div>
+            
             <div id="calendar-container" style="display: none;">
                 <h2 id="calendar-month-title">📅 Planificador</h2>
                 <div class="calendar-weekdays"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div>
                 <div class="calendar-days-grid" id="calendar-days-grid"></div>
             </div>
+            
             <div id="setup-container" style="display: none;"><div class="games-grid" id="setup-grid"></div></div>
             <div id="mapas-container" style="display: none;"><div class="games-grid" id="mapas-grid"></div></div>
         </main>
-
-        <!-- 🏢 MENÚ DE NAVEGACIÓN INFERIOR (Estilo App Nativa para Móviles) -->
-        <nav class="bottom-nav">
-            <button class="nav-item active" onclick="changeCollection('principal', this)">
-                <span class="nav-icon">🎮</span><span class="nav-text">Colección</span>
-            </button>
-            <button class="nav-item" onclick="changeCollection('otros', this)">
-                <span class="nav-icon">📁</span><span class="nav-text">Otros</span>
-            </button>
-            <button class="nav-item" onclick="changeCollection('mapas', this)">
-                <span class="nav-icon">🗺️</span><span class="nav-text">Mapas</span>
-            </button>
-            <button class="nav-item" onclick="changeCollection('calendario', this)">
-                <span class="nav-icon">📅</span><span class="nav-text">Agenda</span>
-            </button>
-            <button class="nav-item" onclick="changeCollection('setup', this)">
-                <span class="nav-icon">🖥️</span><span class="nav-text">Setup</span>
-            </button>
-        </nav>
     </div>
 
-    <!-- Modal de mapas ampliado -->
+    <!-- Modal de mapas -->
     <div id="mapa-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; justify-content:center; align-items:center;" onclick="cerrarMapa()">
         <img id="mapa-gigante" src="" alt="Mapa ampliado" style="max-width:95%; max-height:90%; border-radius:8px;">
     </div>
