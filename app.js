@@ -255,7 +255,6 @@ window.changeCollection = function(tipo, elemento) {
     if (elemento) {
         elemento.classList.add('active');
     } else {
-        // Si se llama por código externo, buscar el botón correspondiente
         const targetBtn = document.querySelector(`.nav-item[onclick*="${tipo}"]`);
         if (targetBtn) targetBtn.classList.add('active');
     }
@@ -278,8 +277,17 @@ window.changeCollection = function(tipo, elemento) {
     if (tipo === 'principal' || tipo === 'otros') {
         games = tipo === 'principal' ? juegosPrincipal : juegosOtros;
         if(gamesGridObj) gamesGridObj.style.display = 'grid';
-        if(topFilters) topFilters.style.display = 'block';
-        if(statsPanel) statsPanel.style.display = (tipo === 'principal' ? 'flex' : 'none');
+        
+        // 🟢 CORRECCIÓN: Mostrar los filtros y buscador solo si es 'principal'. 
+        // Si es 'otros', ocultamos toda la barra de subfiltros para limpiar la vista.
+        if (tipo === 'principal') {
+            if(topFilters) topFilters.style.display = 'block';
+            if(statsPanel) statsPanel.style.display = 'flex';
+        } else {
+            if(topFilters) topFilters.style.display = 'none'; // Oculta 'Todos', 'Por jugar', etc. en Otros Juegos
+            if(statsPanel) statsPanel.style.display = 'none';
+        }
+        
         renderCards();
     } else {
         if(topFilters) topFilters.style.display = 'none';
