@@ -87,60 +87,28 @@ body {
 }
 
 /* =========================================================================
-   3. FILTROS SUPERIORES (PLATAFORMAS Y ESTADOS - PC)
+   3. ELIMINACIÓN DE PLATAFORMAS Y CONTROL DEL BUSCADOR (PC)
    ========================================================================= */
+/* 🟢 ELIMINADO: Oculta el menú antiguo de plataformas por completo */
+.sidebar-platforms, 
+#sidebar-plat {
+    display: none !important;
+}
+
 .top-filters-container {
-    margin-bottom: 25px;
-}
-
-/* Barra de logotipos de consolas centrada */
-.sidebar-platforms {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    overflow-x: auto;
-    padding: 10px 0;
-    margin: 0 auto 20px auto;
     width: 100%;
-    max-width: fit-content;
 }
 
-.sidebar-plat-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #1c1c1e;
-    border: 1px solid #2d2d30;
-    color: #ccc;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-}
-
-.sidebar-plat-btn.active {
-    background: #121212;
-    border-color: var(--neon-green);
-    color: var(--neon-green);
-    box-shadow: 0 0 10px rgba(0, 255, 153, 0.2);
-}
-
-.sidebar-plat-btn img {
-    width: 18px;
-    height: 18px;
-    object-fit: contain;
-}
-
-/* Fila del Buscador y subfiltros de estado centrada */
+/* 🟢 SEPARACIÓN: Fila del buscador y subfiltros con espacios amplios */
 .search-filter-row {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 15px;
+    gap: 20px;            /* Espacio interno entre botones de estado y el input */
     width: 100%;
+    margin-top: 35px;     /* Separación generosa respecto al panel de estadísticas */
+    margin-bottom: 35px;  /* Separación antes de empezar la rejilla de cartas */
 }
 
 .pc-status-filters {
@@ -171,11 +139,11 @@ body {
     display: none;
 }
 
-/* Buscador centrado equilibrado */
+/* Buscador centrado y equilibrado */
 .search-container {
     position: relative;
     width: 100%;
-    max-width: 400px;
+    max-width: 450px;
 }
 
 .search-icon {
@@ -402,48 +370,23 @@ body {
     
     .app-header h1 { font-size: 22px; margin: 10px 0 15px 0; }
 
-    /* Forzar re-alineación lateral de filtros en pantallas pequeñas */
-    .sidebar-platforms {
-        justify-content: flex-start;
-        max-width: 100%;
-    }
-
-    /* Ocultar botones de estado de PC y activar desplegable */
-    .pc-status-filters { display: none; }
-    .mobile-status-dropdown { 
-        display: block; 
-        background: #1c1c1e; 
-        color: var(--neon-blue); 
-        border: 1px solid #2d2d30; 
-        padding: 10px; 
-        border-radius: 6px; 
-        font-weight: bold; 
-        font-size: 13px; 
-        width: 45%; 
-    }
-    
+    /* Ajuste de márgenes del buscador en móvil */
     .search-filter-row { 
         flex-direction: row; 
         gap: 10px; 
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
+
+    /* Activar el menú desplegable táctil */
+    .pc-status-filters { display: none; }
+    .mobile-status-dropdown { display: block; background: #1c1c1e; color: var(--neon-blue); border: 1px solid #2d2d30; padding: 10px; border-radius: 6px; font-weight: bold; font-size: 13px; width: 45%; }
     
-    .search-container { 
-        width: 55%; 
-        max-width: 100%; 
-    }
-    
+    .search-container { width: 55%; max-width: 100%; }
+
     /* Cuadrículas compactas en móviles (2 columnas simétricas) */
-    .stats-container { 
-        flex-wrap: wrap; 
-        gap: 8px; 
-    }
-    
-    .stat-box { 
-        min-width: 47%; 
-        max-width: 50%; 
-        padding: 10px; 
-    }
-    
+    .stats-container { flex-wrap: wrap; gap: 8px; }
+    .stat-box { min-width: 47%; max-width: 50%; padding: 10px; }
     .stat-box.progreso { 
         min-width: 100%; 
         max-width: 100%; 
@@ -466,7 +409,7 @@ body {
         height: 200px; 
     }
     
-    /* 🏢 CONVERSIÓN A BARRA DE NAVEGACIÓN INFERIOR ESTILO APP NATIVA */
+    /* BARRA DE NAVEGACIÓN INFERIOR ESTILO APP NATIVA */
     .main-navigation {
         position: fixed;
         bottom: 0;
