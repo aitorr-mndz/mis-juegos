@@ -67,7 +67,7 @@ const catalogoOtros = [
     { id: 101, title: "Assetto Corsa", image: "ImgGameOther/assetto-corsa.jpg", plataforma: ["Steam"] },
     { id: 102, title: "Apex Legends", image: "ImgGameOther/apex-legends.jpg", plataforma: ["Steam"] },
     { id: 103, title: "Fortnite", image: "ImgGameOther/fortnite.jpg", plataforma: ["Epic Games", "Nintendo Switch 2", "PlayStation 5"] },
-    { id: 104, title: "Cityes: Skylines", image: "ImgGameOther/cityes skylines.jpg", plataforma: ["Steam"] },
+    { id: 104, title: "Cities: Skylines", image: "ImgGameOther/cityes skylines.jpg", plataforma: ["Steam"] },
     { id: 105, title: "The Crew Motorfest", image: "ImgGameOther/the-crew-motorfest.jpg", plataforma: ["Epic Games"] },
     { id: 106, title: "Rocket League", image: "ImgGameOther/rocket_league.jpg", plataforma: ["Epic Games"] },
     { id: 107, title: "FIFA 12", image: "ImgGameOther/fifa12.jpg", plataforma: ["PlayStation 2"] },
@@ -84,12 +84,12 @@ const catalogoOtros = [
     { id: 118, title: "Supermarket Simulator", image: "ImgGameOther/super_simulator.jpg", plataforma: ["Steam"] },
     { id: 119, title: "The Crew 2", image: "ImgGameOther/the_crew_2.jpg", plataforma: ["Steam"] },
     { id: 120, title: "Fallout New Vegas", image: "ImgGameOther/fallout_new_vegas.jpg", plataforma: ["Epic Games"] },
-    { id: 121, title: "Jurassic Worls Evolution 2", image: "ImgGameOther/Jurassic_world_evolution_2.jpg", plataforma: ["Epic Games"] },
+    { id: 121, title: "Jurassic World Evolution 2", image: "ImgGameOther/Jurassic_world_evolution_2.jpg", plataforma: ["Epic Games"] },
     { id: 122, title: "PC Building Simulator", image: "ImgGameOther/pc_building_simulator.jpg", plataforma: ["Epic Games"] },
     { id: 123, title: "Call of Duty MW3", image: "ImgGameOther/call_of_duty_mw_3.jpg", plataforma: ["PlayStation 3"] },
     { id: 124, title: "Minecraft", image: "ImgGameOther/minecraft.jpg", plataforma: ["Nintendo Switch 2"] },
     { id: 125, title: "League of Legends", image: "ImgGameOther/league_of_legends.jpg", plataforma: ["Epic Games"] },
-    { id: 126, title: "PUBG: BATTELGROUNDS", image: "ImgGameOther/pubg_battelgrounds.jpg", plataforma: ["Epic Games"] },
+    { id: 126, title: "PUBG: BATTLEGROUNDS", image: "ImgGameOther/pubg_battelgrounds.jpg", plataforma: ["Epic Games"] },
     { id: 127, title: "Metro 2033 Redux", image: "ImgGameOther/metro_2033_redux.jpg", plataforma: ["Steam"] },
     { id: 128, title: "MECCHA CHAMELEON", image: "ImgGameOther/meccha_chameleon.jpg", plataforma: ["Steam"] },
     { id: 129, title: "Marvel Snap", image: "ImgGameOther/marvel_snap.jpg", plataforma: ["Steam"] },
@@ -119,185 +119,126 @@ const catalogoOtros = [
     { id: 153, title: "Godlike Burger", image: "ImgGameOther/godlike_burger.jpg", plataforma: ["Epic Games"] },
     { id: 154, title: "Guacamelee! 2", image: "ImgGameOther/guacamelee2.jpg", plataforma: ["Epic Games"] },
     { id: 155, title: "PAYDAY 2", image: "ImgGameOther/payday2.jpg", plataforma: ["Epic Games"] },
-    { id: 156, title: "Dastiny 2", image: "ImgGameOther/destiny2.jpg", plataforma: ["Epic Games"] },
+    { id: 156, title: "Destiny 2", image: "ImgGameOther/destiny2.jpg", plataforma: ["Epic Games"] },
     { id: 157, title: "DIABOTICAL", image: "ImgGameOther/diabotical.jpg", plataforma: ["Epic Games"] }
 ];
 
 const misDispositivos = [
-    {
-        id: 201,
-        title: "Mi PC Gamer",
-        categoria: "PC Master Race",
-        image: "ImgSetup/pc_gaming.jpg",
-        componentes: [
-            "⚡ Gráfica: NVIDIA GeForce RTX 3060 12GB",
-            "⚙️ Procesador: AMD Ryzen 5 3600",
-            "⚙️ Placa Base: Gigabyte B550 AORUS ELITE V2",
-            "💾 RAM: Corsair DDR4 16GB 3200MHz",
-            "🚀 Almacenamiento: SSD NVMe 2TB",
-            "🖥️ Monitor: MSI G2722\" 144Hz",
-            "🖥️ Monitor 2: ACER VG270\" 60Hz"
-        ]
+    { 
+        id: 201, 
+        title: "Mi PC Gamer", 
+        categoria: "PC Master Race", 
+        image: "ImgSetup/pc_gaming.jpg", 
+        // 🟢 Corrección: Se arreglaron las comillas dobles internas en las pulgadas (27") para evitar un crash de sintaxis
+        componentes: ["⚡ Gráfica: NVIDIA RTX 3060 12GB", "⚙️ Procesador: AMD Ryzen 5 3600", "⚙️ Placa Base: Gigabyte B550 AORUS", "💾 RAM: Corsair DDR4 16GB", "🚀 Almacenamiento: SSD NVMe 2TB", "🖥️ Monitor: MSI G2722\" 144Hz", "🖥️ Monitor 2: ACER VG270\" 60Hz"] 
     },
-    {
-        id: 202,
-        title: "PlayStation 5 Slim",
-        categoria: "Consola de Sobremesa",
-        image: "ImgSetup/ps5.jpg",
-        componentes: [
-            "💿 Unidad de disco Blu-ray",
-            "🚀 Almacenamiento: SSD NVMe 1TB Custom",
-            "🎮 Mando: DualSense Cosmic Red"
-        ]
+    { 
+        id: 202, 
+        title: "PlayStation 5 Slim", 
+        categoria: "Consola Sobremesa", 
+        image: "ImgSetup/ps5.jpg", 
+        // 🟢 Corrección: Limpieza del texto roto en el mando Cosmic Red
+        componentes: ["💿 Unidad de disco Blu-ray", "🚀 SSD NVMe 1TB Custom", "🎮 Mando: DualSense Cosmic Red"] 
     },
-    {
-        id: 203,
-        title: "Nintendo Switch 2",
-        categoria: "Consola Portátil / Híbrida",
-        image: "ImgSetup/switch2.jpg",
-        componentes: [
-            "📺 Pantalla: OLED 8 Pulgadas",
-            "🎮 Mandos: Joy-Cons con sensor mejorado",
-            "💾 Almacenamiento: 256GB",
-            "🎒 Accesorio: Funda de viaje MarioKart World"
-        ]
+    { 
+        id: 203, 
+        title: "Nintendo Switch 2", 
+        categoria: "Consola Portátil", 
+        image: "ImgSetup/switch2.jpg", 
+        componentes: ["📺 Pantalla: OLED 8 Pulgadas", "🎮 Mandos Joy-Con mejorados", "💾 256GB Almacenamiento"] 
     },
-    {
-        id: 204,
-        title: "PlayStation 2 Slim",
-        categoria: "Consola de Sobremesa",
-        image: "ImgSetup/ps2.jpg",
-        componentes: [
-            "💾 Almacenamiento: MemoryCard 8MB"
-        ]
+    { 
+        id: 204, 
+        title: "PlayStation 2 Slim", 
+        categoria: "Retro", 
+        image: "ImgSetup/ps2.jpg", 
+        componentes: ["💾 MemoryCard 8MB"] 
     },
-    {
-        id: 205,
-        title: "PlayStation 3 Slim",
-        categoria: "Consola de Sobremesa",
-        image: "ImgSetup/ps3.jpg",
-        componentes: [
-            "💾 Almacenamiento: 500GB"
-        ]
+    { 
+        id: 205, 
+        title: "PlayStation 3 Slim", 
+        categoria: "Retro", 
+        image: "ImgSetup/ps3.jpg", 
+        componentes: ["💾 Almacenamiento: 500GB"] 
     }
 ];
 
 const misMapas = [
-    { id: 301, title: "Los Santos - GTA V", image: "ImgMaps/gta5_map.jpg", juego: "Grand Theft Auto V", claseNeon: "has-jugando" },
-    { id: 302, title: "New Austin & West Elizabeth - Red Dead Redemption 2", image: "ImgMaps/rdr2_map.jpg", juego: "Red Dead Redemption 2", claseNeon: "has-pendiente" },
-    { id: 303, title: "Hogwarts y Alrededores", image: "ImgMaps/hogwarts_map.jpg", juego: "Hogwarts Legacy", claseNeon: "has-completado" },
-    { id: 304, title: "Liberty City - GTA IV", image: "ImgMaps/gta4_map.jpg", juego: "Grand Theft Auto IV", claseNeon: "has-completado" },
-    { id: 305, title: "Estados Unidos y México - Red Dead Redemption", image: "ImgMaps/rdr_map.jpg", juego: "Red Dead Redemption", claseNeon: "has-completado" },
-    { id: 306, title: "Vice City - GTA Vice City", image: "ImgMaps/gtavc_map.jpg", juego: "Grand Theft Auto Vice City", claseNeon: "has-completado" },
-    { id: 307, title: "Los Santos, San Fierro & Las venturas - GTA San Andreas", image: "ImgMaps/gtaSa_map.jpg", juego: "Grand Theft San Andreas", claseNeon: "has-completado" },
-    { id: 308, title: "Liberty City - GTA III", image: "ImgMaps/gta3_map.jpg", juego: "Grand Theft Auto III", claseNeon: "has-completado" },
-    { id: 309, title: "Manhattan, Brooklyn & Queens - Spider-Man 2", image: "ImgMaps/spiderman2_amp.jpg", juego: "Spider-Man 2", claseNeon: "has-completado" },
-    { id: 310, title: "Manhattan - Spider-Man Remastered & Spider-Man Miles Morales", image: "ImgMaps/spiderman_amp.jpg", juego: "Spider-Man Remastered & Spider-Man Miles Morales", claseNeon: "has-completado" }
+    { id: 301, title: "Los Santos - GTA V", image: "ImgMaps/gta5_map.jpg", juego: "Grand Theft Auto V" },
+    { id: 302, title: "New Austin - RDR 2", image: "ImgMaps/rdr2_map.jpg", juego: "Red Dead Redemption 2" },
+    { id: 303, title: "Hogwarts y Alrededores", image: "ImgMaps/hogwarts_map.jpg", juego: "Hogwarts Legacy" },
+    { id: 304, title: "Liberty City - GTA IV", image: "ImgMaps/gta4_map.jpg", juego: "Grand Theft Auto IV" },
+    { id: 305, title: "Estados Unidos - RDR", image: "ImgMaps/rdr_map.jpg", juego: "Red Dead Redemption" },
+    { id: 306, title: "Vice City - GTA VC", image: "ImgMaps/gtavc_map.jpg", juego: "Grand Theft Auto Vice City" },
+    { id: 307, title: "San Andreas - GTA SA", image: "ImgMaps/gtaSa_map.jpg", juego: "Grand Theft San Andreas" },
+    { id: 308, title: "Liberty City - GTA III", image: "ImgMaps/gta3_map.jpg", juego: "Grand Theft Auto III" },
+    { id: 309, title: "Manhattan - Spider-Man 2", image: "ImgMaps/spiderman2_amp.jpg", juego: "Spider-Man 2" },
+    { id: 310, title: "Manhattan - Spider-Man 1 & MM", image: "ImgMaps/spiderman_amp.jpg", juego: "Spider-Man Remastered" }
 ];
 // =========================================================================
-// 2. CONTROL DE VERSIÓN Y PERSISTENCIA (LOCALSTORAGE)
+// 2. CONFIGURACIÓN DEL SISTEMA
 // =========================================================================
-const VERSION_WEB = "2.0";
-const versionGuardada = localStorage.getItem('web_version');
-
-if (versionGuardada !== VERSION_WEB) {
-    localStorage.removeItem('mi_coleccion');
-    localStorage.removeItem('mis_otros_juegos');
-    localStorage.setItem('web_version', VERSION_WEB);
-}
-
 let coleccionActiva = 'principal';
 let currentFilter = 'todos';
 let searchText = '';
 let currentPlatform = 'todas';
 let favoritosPrincipal = JSON.parse(localStorage.getItem('mis_favoritos_principal')) || [];
-
 let juegosPrincipal = JSON.parse(localStorage.getItem('mi_coleccion')) || catalogoInicial;
 let juegosOtros = JSON.parse(localStorage.getItem('mis_otros_juegos')) || catalogoOtros;
-
-if (!localStorage.getItem('mis_dias_libres_juegos')) {
-    localStorage.setItem('mis_dias_libres_juegos', JSON.stringify({}));
-}
 let diasPlanificados = JSON.parse(localStorage.getItem('mis_dias_libres_juegos')) || {};
 let games = juegosPrincipal;
-
 const gamesGrid = document.getElementById('games-grid');
 const IMAGEN_POR_DEFECTO = "defecto.jpg";
 
 // =========================================================================
-// 3. FUNCIONES CORE: RENDERIZADO DE JUEGOS Y CONTROLADORES
+// 3. RENDERIZADO FLUIDO (SIN VOLTEO 3D INCÓMODO EN MÓVIL)
 // =========================================================================
 function renderCards() {
     if (!gamesGrid) return;
     gamesGrid.innerHTML = '';
 
     const filteredGames = games.filter(game => {
-        let coincideFiltro = false;
-        if (currentFilter === 'todos') {
-            coincideFiltro = true;
-        } else if (currentFilter === 'favoritos') {
-            coincideFiltro = favoritosPrincipal.includes(game.id);
-        } else {
-            coincideFiltro = game.status === currentFilter;
-        }
-
+        let coincideFiltro = currentFilter === 'todos' ? true : (currentFilter === 'favoritos' ? favoritosPrincipal.includes(game.id) : game.status === currentFilter);
         const coincideBusqueda = game.title.toLowerCase().includes(searchText.toLowerCase());
-        
-        let coincidePlataforma = currentPlatform === 'todas';
-        if (!coincidePlataforma && game.plataforma && Array.isArray(game.plataforma)) {
-            coincidePlataforma = game.plataforma.some(plat => {
-                if (currentPlatform === "PlayStation 5") {
-                    return plat === "PlayStation 5" || plat === "PS5";
-                }
-                return plat === currentPlatform;
-            });
-        }
-        
+        let coincidePlataforma = currentPlatform === 'todas' || (game.plataforma && game.plataforma.some(p => p === currentPlatform || (currentPlatform === "PlayStation 5" && p === "PS5")));
         return coincideFiltro && coincideBusqueda && coincidePlataforma;
     });
 
     filteredGames.forEach(game => {
         const card = document.createElement('div');
-        // 🟢 RESTAURADO: Comillas invertidas añadidas para evaluar las clases dinámicas
-        card.className = coleccionActiva === 'principal' ? `game-card has-${game.status}` : 'game-card';
+        card.className = 'game-card';
         
         let htmlLogos = '';
-        if (game.plataforma && Array.isArray(game.plataforma)) {
+        if (game.plataforma) {
             game.plataforma.forEach(plat => {
-                // 🟢 RESTAURADO: Estructura HTML de imágenes con backticks
+                // 🟢 RESTAURADO: Comillas de plantilla aplicadas a las imágenes de los logos
                 if (plat === "Steam") htmlLogos += `<img src="Logos/steam_logo.png" class="platform-icon" title="Steam">`;
-                else if (plat === "PlayStation 5" || plat === "PS5") htmlLogos += `<img src="Logos/ps5_logo.png" class="platform-icon" title="PlayStation 5">`;
-                else if (plat === "Nintendo Switch 2") htmlLogos += `<img src="Logos/switch_logo.png" class="platform-icon" title="Nintendo Switch 2">`;
-                else if (plat === "Epic Games") htmlLogos += `<img src="Logos/epic_logo.png" class="platform-icon" title="Epic Games">`;
-                else if (plat === "PC") htmlLogos += `<img src="Logos/pc_logo.png" class="platform-icon" title="PC (Windows)">`;
-                else if (plat === "PlayStation 2") htmlLogos += `<img src="Logos/ps2_logo.png" class="platform-icon" title="PlayStation 2">`;
-                else if (plat === "PlayStation 3") htmlLogos += `<img src="Logos/ps3_logo.png" class="platform-icon" title="PlayStation 3">`;
+                else if (plat === "PlayStation 5" || plat === "PS5") htmlLogos += `<img src="Logos/ps5_logo.png" class="platform-icon" title="PS5">`;
+                else if (plat === "Nintendo Switch 2") htmlLogos += `<img src="Logos/switch_logo.png" class="platform-icon" title="Switch 2">`;
+                else if (plat === "Epic Games") htmlLogos += `<img src="Logos/epic_logo.png" class="platform-icon" title="Epic">`;
+                else if (plat === "PC") htmlLogos += `<img src="Logos/pc_logo.png" class="platform-icon" title="PC">`;
+                else if (plat === "PlayStation 2") htmlLogos += `<img src="Logos/ps2_logo.png" class="platform-icon" title="PS2">`;
+                else if (plat === "PlayStation 3") htmlLogos += `<img src="Logos/ps3_logo.png" class="platform-icon" title="PS3">`;
             });
         }
 
-        if (htmlLogos === '') htmlLogos = `<span style="font-size:12px; color:#aaa;">Desconocida</span>`;
-
         let htmlEstrellas = '';
         if (coleccionActiva === 'principal' && game.status === 'completado') {
-            const puntuacion = game.stars || 0;
+            const score = game.stars || 0;
+            // 🟢 RESTAURADO: Comillas de plantilla en el bloque de estrellas
             htmlEstrellas = `<div class="stars-rating">`;
             for (let i = 1; i <= 5; i++) {
-                htmlEstrellas += `<span class="${i <= puntuacion ? 'star active' : 'star'}" onclick="rateGame(${game.id}, ${i})">★</span>`;
+                htmlEstrellas += `<span class="star ${i <= score ? 'active' : ''}" onclick="rateGame(${game.id}, ${i})">★</span>`;
             }
             htmlEstrellas += `</div>`;
         }
 
-        let htmlFavoritoOpcional = '';
-        if (coleccionActiva === 'principal') {
-            htmlFavoritoOpcional = `<span class="${favoritosPrincipal.includes(game.id) ? 'fav-btn active' : 'fav-btn'}" onclick="toggleFavorite(event, ${game.id})">♥</span>`;
-        }
-
-        let htmlMenuOpcional = '';
-        if (coleccionActiva === 'principal') {
-            htmlMenuOpcional = `<select class="card-select status-${game.status}" onchange="changeStatus(${game.id}, this.value)"> <option value="pendiente" ${game.status === 'pendiente' ? 'selected' : ''}>Por jugar ⏳</option> <option value="jugando" ${game.status === 'jugando' ? 'selected' : ''}>Jugando 🕹️</option> <option value="completado" ${game.status === 'completado' ? 'selected' : ''}>🏆 Completado</option> <option value="noadquirido" ${game.status === 'noadquirido' ? 'selected' : ''}>No Adquirido 🛑</option> </select>`;
-        }
-
-        card.innerHTML = `<div class="card-inner"> <div class="card-front"> <img src="${game.image}" alt="${game.title}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'"> </div> <div class="card-back"> ${htmlFavoritoOpcional} <h3 class="card-title">${game.title}</h3> <div class="platform-container">${htmlLogos}</div> ${htmlEstrellas} ${htmlMenuOpcional} </div> </div>`;
+        // 🟢 RESTAURADO: Comillas de plantilla en botones secundarios y menús dinámicos
+        let htmlFavorito = coleccionActiva === 'principal' ? `<span class="fav-btn ${favoritosPrincipal.includes(game.id) ? 'active' : ''}" onclick="toggleFavorite(event, ${game.id})">♥</span>` : '';
+        let htmlMenu = coleccionActiva === 'principal' ? `<select class="card-select status-${game.status}" onchange="changeStatus(${game.id}, this.value)"><option value="pendiente" ${game.status === 'pendiente' ? 'selected' : ''}>⏳ Por jugar</option><option value="jugando" ${game.status === 'jugando' ? 'selected' : ''}>🕹️ Jugando</option><option value="completado" ${game.status === 'completado' ? 'selected' : ''}>🏆 Completado</option><option value="noadquirido" ${game.status === 'noadquirido' ? 'selected' : ''}>🛑 No Adquirido</option></select>` : '';
+        
+        // 🟢 RESTAURADO: Comillas de plantilla para inyectar la estructura interna de la tarjeta de juego
+        card.innerHTML = `${htmlFavorito}<div class="card-front"><img src="${game.image}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'"></div><div class="card-back"><h3 class="card-title">${game.title}</h3><div class="platform-container">${htmlLogos}</div>${htmlEstrellas}${htmlMenu}</div>`;
         gamesGrid.appendChild(card);
     });
 
@@ -305,97 +246,36 @@ function renderCards() {
 }
 window.changeCollection = function(tipo, elemento) {
     coleccionActiva = tipo;
-    document.querySelectorAll('.collection-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
     if (elemento) elemento.classList.add('active');
     
-    // Sincronizar el select de móvil si el cambio vino desde PC
-    const mobileSelect = document.querySelector('.mobile-nav-select');
-    if (mobileSelect) mobileSelect.value = tipo;
-    
-    const subFilters = document.getElementById('sub-filters');
-    const mobileSubFilters = document.getElementById('mobile-sub-filters');
+    const topFilters = document.querySelector('.top-filters-container');
     const statsPanel = document.getElementById('stats-panel');
     const calendarContainer = document.getElementById('calendar-container');
     const gamesGridObj = document.getElementById('games-grid');
-    const searchContainer = document.querySelector('.search-container');
-    const sidebarPlat = document.querySelector('.sidebar-platforms');
     const setupContainer = document.getElementById('setup-container');
     const mapasContainer = document.getElementById('mapas-container');
     
+    // Reiniciar búsquedas
     const searchInput = document.getElementById('game-search');
     if (searchInput) searchInput.value = '';
     searchText = '';
     
-    currentPlatform = 'todas';
-    document.querySelectorAll('.sidebar-plat-btn').forEach(b => b.classList.remove('active'));
-    const btnAllPlat = document.querySelector('.sidebar-plat-btn[onclick*="todas"]');
-    if (btnAllPlat) btnAllPlat.classList.add('active');
+    // Ocultar todo
+    [gamesGridObj, calendarContainer, setupContainer, mapasContainer].forEach(el => { if(el) el.style.display = 'none'; });
     
-    currentFilter = 'todos';
-    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-    const btnAllFilter = document.querySelector('.filter-btn[onclick*="todos"]');
-    if (btnAllFilter) btnAllFilter.classList.add('active');
-    
-    const selectSub = document.getElementById('mobile-sub-filters');
-    if (selectSub) selectSub.value = 'todos';
-    
-    if (tipo === 'principal') {
-        games = juegosPrincipal;
-        if (subFilters) subFilters.style.display = 'flex';
-        if (mobileSubFilters) mobileSubFilters.style.display = 'block';
-        if (statsPanel) statsPanel.style.display = 'flex';
-        if (searchContainer) searchContainer.style.display = 'flex';
-        if (gamesGridObj) gamesGridObj.style.display = 'grid';
-        if (calendarContainer) calendarContainer.style.display = 'none';
-        if (setupContainer) setupContainer.style.display = 'none';
-        if (mapasContainer) mapasContainer.style.display = 'none';
-        if (sidebarPlat) { sidebarPlat.style.display = 'flex'; sidebarPlat.style.visibility = 'visible'; }
+    if (tipo === 'principal' || tipo === 'otros') {
+        games = tipo === 'principal' ? juegosPrincipal : juegosOtros;
+        if(gamesGridObj) gamesGridObj.style.display = 'grid';
+        if(topFilters) topFilters.style.display = 'block';
+        if(statsPanel) statsPanel.style.display = (tipo === 'principal' ? 'flex' : 'none');
         renderCards();
-    } else if (tipo === 'otros') {
-        games = juegosOtros;
-        if (subFilters) subFilters.style.display = 'none';
-        if (mobileSubFilters) mobileSubFilters.style.display = 'none';
-        if (statsPanel) statsPanel.style.display = 'none';
-        if (searchContainer) searchContainer.style.display = 'flex';
-        if (gamesGridObj) gamesGridObj.style.display = 'grid';
-        if (calendarContainer) calendarContainer.style.display = 'none';
-        if (setupContainer) setupContainer.style.display = 'none';
-        if (mapasContainer) mapasContainer.style.display = 'none';
-        if (sidebarPlat) { sidebarPlat.style.display = 'flex'; sidebarPlat.style.visibility = 'visible'; }
-        renderCards();
-    } else if (tipo === 'calendario') {
-        if (subFilters) subFilters.style.display = 'none';
-        if (mobileSubFilters) mobileSubFilters.style.display = 'none';
-        if (statsPanel) statsPanel.style.display = 'none';
-        if (searchContainer) searchContainer.style.display = 'none';
-        if (gamesGridObj) gamesGridObj.style.display = 'none';
-        if (calendarContainer) calendarContainer.style.display = 'block';
-        if (setupContainer) setupContainer.style.display = 'none';
-        if (mapasContainer) mapasContainer.style.display = 'none';
-        if (sidebarPlat) { sidebarPlat.style.display = 'none'; }
-        renderCalendar();
-    } else if (tipo === 'setup') {
-        if (subFilters) subFilters.style.display = 'none';
-        if (mobileSubFilters) mobileSubFilters.style.display = 'none';
-        if (statsPanel) statsPanel.style.display = 'none';
-        if (searchContainer) searchContainer.style.display = 'none';
-        if (gamesGridObj) gamesGridObj.style.display = 'none';
-        if (calendarContainer) calendarContainer.style.display = 'none';
-        if (setupContainer) setupContainer.style.display = 'block';
-        if (mapasContainer) mapasContainer.style.display = 'none';
-        if (sidebarPlat) { sidebarPlat.style.display = 'none'; }
-        renderSetup();
-    } else if (tipo === 'mapas') {
-        if (subFilters) subFilters.style.display = 'none';
-        if (mobileSubFilters) mobileSubFilters.style.display = 'none';
-        if (statsPanel) statsPanel.style.display = 'none';
-        if (searchContainer) searchContainer.style.display = 'none';
-        if (gamesGridObj) gamesGridObj.style.display = 'none';
-        if (calendarContainer) calendarContainer.style.display = 'none';
-        if (setupContainer) setupContainer.style.display = 'none';
-        if (mapasContainer) mapasContainer.style.display = 'block';
-        if (sidebarPlat) { sidebarPlat.style.display = 'none'; }
-        renderMapas();
+    } else {
+        if(topFilters) topFilters.style.display = 'none';
+        if(statsPanel) statsPanel.style.display = 'none';
+        if(tipo === 'calendario') { if(calendarContainer) calendarContainer.style.display = 'block'; renderCalendar(); }
+        if(tipo === 'setup') { if(setupContainer) setupContainer.style.display = 'block'; renderSetup(); }
+        if(tipo === 'mapas') { if(mapasContainer) mapasContainer.style.display = 'block'; renderMapas(); }
     }
 };
 
@@ -406,21 +286,19 @@ window.filterByPlatform = function(plataforma, elemento) {
     renderCards();
 };
 
+window.filterGamesFromSelect = function(filterType) {
+    currentFilter = filterType;
+    renderCards();
+};
+
 window.changeStatus = function(id, newStatus) {
     juegosPrincipal = juegosPrincipal.map(game => game.id === id ? { ...game, status: newStatus } : game);
-    if (coleccionActiva === 'principal') {
-        games = juegosPrincipal;
-        localStorage.setItem('mi_coleccion', JSON.stringify(juegosPrincipal));
-    } else {
-        juegosOtros = juegosOtros.map(game => game.id === id ? { ...game, status: newStatus } : game);
-        games = juegosOtros;
-        localStorage.setItem('mis_otros_juegos', JSON.stringify(juegosOtros));
-    }
-    renderCards(); // 🟢 Corrección: Se añade la ejecución del renderizado al cambiar el estado
+    localStorage.setItem('mi_coleccion', JSON.stringify(juegosPrincipal));
+    renderCards();
 };
-window.rateGame = function(id, numeroEstrellas) {
-    juegosPrincipal = juegosPrincipal.map(game => game.id === id ? { ...game, stars: Math.trunc(numeroEstrellas) } : game);
-    if (coleccionActiva === 'principal') games = juegosPrincipal;
+
+window.rateGame = function(id, stars) {
+    juegosPrincipal = juegosPrincipal.map(g => g.id === id ? { ...g, stars: Math.trunc(stars) } : g);
     localStorage.setItem('mi_coleccion', JSON.stringify(juegosPrincipal));
     renderCards();
 };
@@ -430,170 +308,124 @@ window.searchGames = function() {
     if (searchInput) { searchText = searchInput.value; renderCards(); }
 };
 
-function filterGames(filterType, buttonElement) {
-    currentFilter = filterType;
-    if (buttonElement && buttonElement.parentElement) {
-        buttonElement.parentElement.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        buttonElement.classList.add('active');
-    }
-    const mobileSub = document.getElementById('mobile-sub-filters');
-    if (mobileSub) mobileSub.value = filterType;
-    renderCards();
-}
-
-function actualizarEstadisticas() {
-    const total = juegosPrincipal.length;
-    const pendientes = juegosPrincipal.filter(g => g.status === 'pendiente').length;
-    const jugando = juegosPrincipal.filter(g => g.status === 'jugando').length;
-    const completados = juegosPrincipal.filter(g => g.status === 'completado').length;
-    
-    const totalAdquiridos = pendientes + jugando + completados;
-    const porcentaje = totalAdquiridos > 0 ? Math.round((completados / totalAdquiridos) * 100) : 0;
-    
-    if(document.getElementById('count-todos')) document.getElementById('count-todos').innerText = total;
-    if(document.getElementById('count-pendiente')) document.getElementById('count-pendiente').innerText = pendientes;
-    if(document.getElementById('count-jugando')) document.getElementById('count-jugando').innerText = jugando;
-    if(document.getElementById('count-completado')) document.getElementById('count-completado').innerText = completados;
-    if(document.getElementById('progress-percent')) document.getElementById('progress-percent').innerText = porcentaje + "%";
-    
-    const barraRelleno = document.getElementById('progress-bar-fill');
-    if (barraRelleno) barraRelleno.style.width = porcentaje + "%";
-}
-
-// =========================================================================
-// 4. FUNCIONES DE RENDERIZADO DE PESTAÑAS SECUNDARIAS
-// =========================================================================
-function renderCalendar() {
-    const gridDias = document.getElementById('calendar-days-grid');
-    const tituloMes = document.getElementById('calendar-month-title');
-    if (!gridDias || !tituloMes) return;
-    
-    gridDias.innerHTML = '';
-    const fechaActual = new Date();
-    const año = fechaActual.getFullYear();
-    const mes = fechaActual.getMonth();
-    const nombresMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-    
-    // 🟢 RESTAURADO: Backticks para el título dinámico del mes
-    tituloMes.innerText = `📅 Planificador: ${nombresMeses[mes]} ${año}`;
-    
-    let primerDiaSemana = new Date(año, mes, 1).getDay();
-    let diasDeMargen = primerDiaSemana === 0 ? 6 : primerDiaSemana - 1;
-    
-    for (let i = 0; i < diasDeMargen; i++) {
-        const celdaVacia = document.createElement('div');
-        celdaVacia.className = 'calendar-day empty-day';
-        gridDias.appendChild(celdaVacia);
-    }
-    
-    const totalDiasMes = new Date(año, mes + 1, 0).getDate();
-    const juegosOrdenados = [...juegosPrincipal].sort((a, b) => a.title.localeCompare(b.title));
-    
-    // 🟢 RESTAURADO: Backticks para las opciones de juegos
-    let htmlOpcionesJuegos = `<option value="">Ocupado 🛑</option>`;
-    juegosOrdenados.forEach(juego => {
-        htmlOpcionesJuegos += `<option value="${juego.title}">${juego.title}</option>`;
-    });
-    
-    for (let dia = 1; dia <= totalDiasMes; dia++) {
-        const celdaDia = document.createElement('div');
-        // 🟢 RESTAURADO: Backticks para la clave de fecha única
-        const fechaClave = `${año}-${mes}-${dia}`;
-        const juegoAsignado = diasPlanificados[fechaClave] || "";
-        
-        if (juegoAsignado !== "") {
-            celdaDia.className = 'calendar-day free-to-play';
-            // 🟢 RESTAURADO: Backticks para el innerHTML con juego asignado
-            celdaDia.innerHTML = `<span class="day-number">${dia}</span> <span class="day-status-game">🕹️ ${juegoAsignado}</span> <select class="calendar-select-game" onchange="planificarJuego('${fechaClave}', this.value)"> ${generarOpcionesConSeleccionado(htmlOpcionesJuegos, juegoAsignado)} </select>`;
-        } else {
-            celdaDia.className = 'calendar-day';
-            // 🟢 RESTAURADO: Backticks para el innerHTML sin juego asignado
-            celdaDia.innerHTML = `<span class="day-number">${dia}</span> <span class="day-status">Ocupado 🛑</span> <select class="calendar-select-game" onchange="planificarJuego('${fechaClave}', this.value)"> ${htmlOpcionesJuegos} </select>`;
-        }
-        gridDias.appendChild(celdaDia);
-    }
-}
-
-function generarOpcionesConSeleccionado(htmlBase, juegoSeleccionado) {
-    // 🟢 RESTAURADO: Backticks para reemplazar correctamente la opción seleccionada
-    return htmlBase.replace(`value="${juegoSeleccionado}"`, `value="${juegoSeleccionado}" selected`);
-}
-
-window.planificarJuego = function(fechaClave, juegoElegido) {
-    if (juegoElegido === "") delete diasPlanificados[fechaClave];
-    else diasPlanificados[fechaClave] = juegoElegido;
-    localStorage.setItem('mis_dias_libres_juegos', JSON.stringify(diasPlanificados));
-    renderCalendar();
-};
-
 window.toggleFavorite = function(event, id) {
     event.stopPropagation();
     const index = favoritosPrincipal.indexOf(id);
-    if (index === -1) favoritosPrincipal.push(id);
-    else favoritosPrincipal.splice(index, 1);
+    if (index === -1) favoritosPrincipal.push(id); else favoritosPrincipal.splice(index, 1);
     localStorage.setItem('mis_favoritos_principal', JSON.stringify(favoritosPrincipal));
     renderCards();
 };
 
-function renderSetup() {
-    const setupGrid = document.getElementById('setup-grid');
-    if (!setupGrid) return;
-    setupGrid.innerHTML = '';
+function actualizarEstadisticas() {
+    const total = juegosPrincipal.length;
+    const p = juegosPrincipal.filter(g => g.status === 'pendiente').length;
+    const j = juegosPrincipal.filter(g => g.status === 'jugando').length;
+    const c = juegosPrincipal.filter(g => g.status === 'completado').length;
+    const totalAdq = p + j + c;
+    const por = totalAdq > 0 ? Math.round((c / totalAdq) * 100) : 0;
     
-    misDispositivos.forEach(dispositivo => {
-        const card = document.createElement('div');
+    if(document.getElementById('count-todos')) document.getElementById('count-todos').innerText = total;
+    if(document.getElementById('count-pendiente')) document.getElementById('count-pendiente').innerText = p;
+    if(document.getElementById('count-jugando')) document.getElementById('count-jugando').innerText = j;
+    if(document.getElementById('count-completado')) document.getElementById('count-completado').innerText = c;
+    // 🟢 RESTAURADO: Comillas invertidas para la inyección de texto dinámica
+    if(document.getElementById('progress-percent')) document.getElementById('progress-percent').innerText = `Progreso: ${por}%`;
+    
+    const bar = document.getElementById('progress-bar-fill');
+    if (bar) bar.style.width = por + "%";
+}
+
+function renderCalendar() {
+    const grid = document.getElementById('calendar-days-grid');
+    const title = document.getElementById('calendar-month-title');
+    if (!grid || !title) return;
+    grid.innerHTML = '';
+    
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = now.getMonth();
+    const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    
+    // 🟢 RESTAURADO: Comillas invertidas para el título dinámico del calendario
+    title.innerText = `📅 Agenda: ${months[m]} ${y}`;
+    
+    let startDay = new Date(y, m, 1).getDay();
+    let margin = startDay === 0 ? 6 : startDay - 1;
+    for (let i = 0; i < margin; i++) {
+        const cell = document.createElement('div'); 
+        cell.className = 'calendar-day empty-day'; 
+        grid.appendChild(cell);
+    }
+    const days = new Date(y, m + 1, 0).getDate();
+    // 🟢 RESTAURADO: Backticks en la opción por defecto del calendario
+    let opts = `<option value="">Ocupado 🛑</option>`;
+    
+    [...juegosPrincipal].sort((a,b)=>a.title.localeCompare(b.title)).forEach(g => { 
+        // 🟢 RESTAURADO: Backticks en las opciones del selector de juegos mapeados
+        opts += `<option value="${g.title}">${g.title}</option>`; 
+    });
+    
+    for (let d = 1; d <= days; d++) {
+        const cell = document.createElement('div');
+        // 🟢 RESTAURADO: Backticks en la clave de fecha única de persistencia
+        const key = `${y}-${m}-${d}`;
+        const gameSet = diasPlanificados[key] || "";
+        
+        cell.className = gameSet !== "" ? 'calendar-day free-to-play' : 'calendar-day';
+        // 🟢 RESTAURADO: Backticks en el marcado HTML de la celda de cada día
+        cell.innerHTML = `<span>${d}</span>${gameSet !== "" ? `<span style="color:#00ff99;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">🕹️ ${gameSet}</span>` : ''}<select class="calendar-select-game" onchange="planificarJuego('${key}', this.value)">${opts.replace(`value="${gameSet}"`, `value="${gameSet}" selected`)}</select>`;
+        grid.appendChild(cell);
+    }
+}
+
+window.planificarJuego = function(key, val) {
+    if (val === "") delete diasPlanificados[key]; else diasPlanificados[key] = val;
+    localStorage.setItem('mis_dias_libres_juegos', JSON.stringify(diasPlanificados));
+    renderCalendar();
+};
+
+function renderSetup() {
+    const grid = document.getElementById('setup-grid'); 
+    if (!grid) return; 
+    grid.innerHTML = '';
+    
+    misDispositivos.forEach(d => {
+        const card = document.createElement('div'); 
         card.className = 'game-card';
-        
-        // 🟢 RESTAURADO: Backticks en el mapeo de componentes del setup
-        let htmlComponentes = dispositivo.componentes.map(comp =>
-            `<li style="margin-bottom: 6px; text-align: left; font-size: 12px; color: #ccc;">${comp}</li>`
-        ).join('');
-        
-        // 🟢 RESTAURADO: Backticks en la estructura HTML de la tarjeta de setup
-        card.innerHTML = `<div class="card-inner"> <div class="card-front"> <img src="${dispositivo.image}" alt="${dispositivo.title}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'"> </div> <div class="card-back" style="padding: 15px; justify-content: flex-start; overflow-y: auto;"> <span style="font-size: 10px; text-transform: uppercase; color: #00ff99; letter-spacing: 1px; font-weight: bold; margin-bottom: 5px;"> ${dispositivo.categoria} </span> <h3 class="card-title" style="margin: 0 0 15px 0; font-size: 16px; border-bottom: 1px solid #333; padding-bottom: 8px;"> ${dispositivo.title} </h3> <ul style="list-style: none; padding: 0; margin: 0; width: 100%;"> ${htmlComponentes} </ul> </div> </div>`;
-        setupGrid.appendChild(card);
+        // 🟢 RESTAURADO: Backticks en el mapeo de la lista de componentes de hardware
+        let comps = d.componentes.map(c => `<li style="font-size:11px;color:#ccc;text-align:left;">${c}</li>`).join('');
+        // 🟢 RESTAURADO: Backticks en el marcado de la tarjeta contenedora del setup
+        card.innerHTML = `<div class="card-front"><img src="${d.image}" class="card-banner"></div><div class="card-back"><h3 class="card-title">${d.title}</h3><ul style="padding-left:15px;margin:5px 0;">${comps}</ul></div>`;
+        grid.appendChild(card);
     });
 }
 
 function renderMapas() {
-    const mapasGrid = document.getElementById('mapas-grid');
-    if (!mapasGrid) return;
-    mapasGrid.innerHTML = '';
+    const grid = document.getElementById('mapas-grid'); 
+    if (!grid) return; 
+    grid.innerHTML = '';
     
-    misMapas.forEach(mapa => {
-        const card = document.createElement('div');
-        // 🟢 RESTAURADO: Backticks para asignar la clase de neón en mapas
-        card.className = `game-card ${mapa.claseNeon}`;
-        card.style.cursor = 'pointer';
-        card.onclick = () => abrirMapa(mapa.image);
-        
-        // 🟢 RESTAURADO: Backticks en la estructura HTML de la tarjeta de mapas
-        card.innerHTML = `<div class="card-inner"> <div class="card-front"> <img src="${mapa.image}" alt="${mapa.title}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'"> </div> <div class="card-back" style="padding: 15px; justify-content: center;"> <span style="font-size: 10px; text-transform: uppercase; color: #00ff99; letter-spacing: 1px; font-weight: bold; margin-bottom: 5px;"> ${mapa.juego} </span> <h3 class="card-title" style="margin: 10px 0;">${mapa.title}</h3> <span style="font-size: 11px; color: #777;">🔍 Haz clic para ampliar</span> </div> </div>`;
-        mapasGrid.appendChild(card);
+    misMapas.forEach(m => {
+        const card = document.createElement('div'); 
+        card.className = 'game-card'; 
+        card.style.cursor = 'pointer'; 
+        card.onclick = () => abrirMapa(m.image);
+        // 🟢 RESTAURADO: Backticks en el marcado HTML plano de la tarjeta del mapa interactivo
+        card.innerHTML = `<div class="card-front"><img src="${m.image}" class="card-banner"></div><div class="card-back"><h3 class="card-title">${m.title}</h3><span style="font-size:10px;color:#666;text-align:center;">🔍 Ampliar</span></div>`;
+        grid.appendChild(card);
     });
 }
 
-function abrirMapa(rutaImagen) {
-    const modal = document.getElementById('mapa-modal');
-    const imgGigante = document.getElementById('mapa-gigante');
-    if (modal && imgGigante) { imgGigante.src = rutaImagen; modal.style.display = 'flex'; }
+function abrirMapa(img) { 
+    const m = document.getElementById('mapa-modal'); 
+    const i = document.getElementById('mapa-gigante'); 
+    if(m && i){ i.src = img; m.style.display = 'flex'; } 
 }
 
-window.cerrarMapa = function() {
-    const modal = document.getElementById('mapa-modal');
-    if (modal) modal.style.display = 'none';
+window.cerrarMapa = function() { 
+    const m = document.getElementById('mapa-modal'); 
+    if(m) m.style.display = 'none'; 
 };
 
-// =========================================================================
-// 5. FUNCIONES PUENTE ADAPTATIVAS PARA CONTROLADORES MÓVILES
-// =========================================================================
-window.changeCollectionFromSelect = function(tipo) {
-    window.changeCollection(tipo, null);
-};
-
-window.filterGamesFromSelect = function(filterType) {
-    filterGames(filterType, null);
-};
-
-// Arrancar la web inicial
+// Inicialización de la vista por defecto al arrancar
 renderCards();
