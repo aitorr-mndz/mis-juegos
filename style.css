@@ -749,152 +749,169 @@ h1 {
 }
 
 /* =========================================================================
-   📱 RESPONSIVE DESIGN: AJUSTES PARA MÓVILES Y PANTALLAS PEQUEÑAS
+   📱 RESPONSIVE DESIGN: ADAPTACIÓN TOTAL PARA MÓVILES (MEDIA QUERY)
    ========================================================================= */
 @media (max-width: 768px) {
-    /* 1. Cambiamos la estructura global de la app a una sola columna vertical */
+    /* 1. Transformamos la estructura de 2 columnas de PC en una línea vertical */
     body {
-        padding: 10px;
+        padding: 10px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
     }
 
-    /* Modifica el contenedor que envuelve la barra y la cuadrícula (si usas flex/grid en la base) */
-    .app-layout, .main-container { 
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
+    .app-layout {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 15px !important;
     }
 
-          /* 2. FORZAMOS A LA BARRA A SER VISIBLE Y COLOCARSE EN SU SITIO */
+    /* 2. Forzamos al título principal H1 a situarse arriba del todo */
+    h1 {
+        order: -2 !important;
+        font-size: 22px !important;
+        margin-top: 10px !important;
+        margin-bottom: 15px !important;
+        text-align: center !important;
+        width: 100% !important;
+    }
+
+    /* 3. Menú de pestañas principales (Colección, Otros, Mapas...) */
+    .filters {
+        order: -1 !important;
+        display: flex !important;
+        gap: 8px !important;
+        justify-content: center !important;
+        margin-bottom: 15px !important;
+        width: 100% !important;
+    }
+
+    .collection-btn {
+        padding: 8px 12px !important;
+        font-size: 13px !important;
+    }
+
+    /* 4. 🎛️ RECUPERACIÓN Y RESCATE DE LA BARRA DE CONSOLAS EN HORIZONTAL */
     .sidebar-platforms {
-        display: flex !important;        /* Forzamos a que vuelva a aparecer 👁️ */
+        display: inline-flex !important; /* Forzamos su aparición en pantalla */
         visibility: visible !important;
-        position: relative !important;   
+        position: relative !important;   /* Deja de flotar de forma fija a la izquierda */
         top: 0 !important;
         left: 0 !important;
         transform: none !important;
-        flex-direction: row !important;  
+        flex-direction: row !important;  /* Tumba los logos uno al lado del otro */
         width: 100% !important;
         height: auto !important;
-        max-height: 70px !important;
-        overflow-x: auto !important;     /* Permite deslizar si hay muchos logos */
+        max-height: 75px !important;
+        overflow-x: auto !important;     /* Activa scroll horizontal si metes más consolas */
         white-space: nowrap !important;
         padding: 10px !important;
-        justify-content: center !important; /* Centra los logos en móviles */
+        justify-content: center !important; /* Centra los círculos en el móvil */
         background: #1a1a1a !important;
-        border-radius: 8px !important;
+        border-radius: 40px !important;
         border: 1px solid #2d2d2d !important;
-        margin-top: 10px !important;
         margin-bottom: 15px !important;
-        order: 2 !important;             /* La colocamos justo debajo de las pestañas */
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
         
-        /* Oculta la barra de scroll */
+        /* Oculta la barra de scroll inferior en móviles */
         scrollbar-width: none !important; 
     }
     .sidebar-platforms::-webkit-scrollbar {
         display: none !important;
     }
 
+    /* Ajuste de los botones circulares en horizontal */
     .sidebar-plat-btn {
         display: inline-flex !important;
-        margin: 0 8px !important;
-        padding: 5px !important;
-        flex-shrink: 0 !important;       
+        width: 45px !important;
+        height: 45px !important;
+        margin: 0 6px !important;
+        flex-shrink: 0 !important; /* Evita que el móvil aplaste los círculos */
+    }
+    .sidebar-plat-btn img {
+        width: 26px !important;
+        height: 26px !important;
     }
 
-    /* 3. Ajustamos la cuadrícula de juegos a 2 columnas (o 1 si es muy estrecho) */
+    /* 5. Cuadrícula de juegos ajustada a 2 columnas perfectas */
     .games-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* Fuerza 2 tarjetas por fila exactas */
         gap: 12px !important;
         width: 100% !important;
+        padding: 5px !important;
     }
 
-    /* 4. Hacemos que los paneles especiales ocupen todo el ancho sin comerse la pantalla */
-    #calendar-container, 
-    #setup-container, 
-    #mapas-container, 
-    #trucos-container {
+    .game-card {
+        height: 260px !important; /* Reducimos la altura física para que no ocupe todo el alto */
+    }
+
+    .card-banner {
+        height: 100% !important;
+    }
+
+    .card-back {
+        padding: 10px !important;
+    }
+
+    .card-title {
+        font-size: 13px !important;
+    }
+
+    /* 6. Adaptación total de las cajas de estadísticas */
+    .stats-container {
+        gap: 10px !important;
+        margin-bottom: 20px !important;
         width: 100% !important;
-        padding: 15px !important;
-        margin-top: 10px !important;
     }
 
-    /* 5. Adaptamos la cuadrícula interna del calendario para móviles */
-    .calendar-weekdays, .calendar-days-grid {
+    .stat-box {
+        padding: 8px !important;
+    }
+
+    .stat-number {
+        font-size: 18px !important;
+    }
+
+    /* 7. Ajustes del contenedor del buscador */
+    .search-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 20px !important;
+    }
+    
+    #game-search {
+        font-size: 14px !important;
+        padding: 10px 15px 10px 40px !important;
+    }
+
+    /* 8. Ajustes del planificador de calendario en móviles */
+    .calendar-weekdays {
+        grid-template-columns: repeat(7, 1fr) !important;
+        font-size: 10px !important;
+        letter-spacing: 0px !important;
+    }
+
+    .calendar-days-grid {
         grid-template-columns: repeat(7, 1fr) !important;
         gap: 4px !important;
     }
 
     .calendar-day {
-        padding: 5px 2px !important;
-        font-size: 11px !important;
-        min-height: 50px !important;
+        min-height: 65px !important;
+        padding: 4px 2px !important;
+    }
+
+    .day-number {
+        font-size: 14px !important;
     }
 
     .day-status-game {
-        font-size: 9px !important;
-        display: block;
+        font-size: 8px !important;
     }
 
     .calendar-select-game {
-        font-size: 9px !important;
-        padding: 2px !important;
+        font-size: 8px !important;
+        padding: 1px !important;
     }
-
-    /* 6. Ajustamos los botones del menú de arriba para que no se desborden */
-    .filters {
-        display: flex;
-        flex-wrap: wrap; /* Si no caben, bajan de línea limpiamente */
-        gap: 8px;
-        justify-content: center;
-    }
-
-    .collection-btn, .filter-btn {
-        padding: 8px 12px;
-        font-size: 13px;
-    }
-        /* 🔄 REORDENACIÓN LIMPIA DEL CONTENIDO EN MÓVILES */
-    .main-container, .app-layout {
-        display: flex !important;
-        flex-direction: column !important;
-    }
-
-    /* Forzamos el orden de los elementos usando la propiedad order de flex */
-    .main-container h1, .app-layout h1, title-container { 
-        order: 1 !important; 
-        margin-top: 10px !important;
-        margin-bottom: 15px !important;
-        font-size: 22px !important; /* Un pelín más pequeño para que no sature en móvil */
-    }
-
-    .filters { 
-        order: 2 !important; 
-        margin-bottom: 15px !important;
-    }
-
-    .sidebar-platforms { 
-        order: 3 !important; 
-        margin-bottom: 20px !important;
-    }
-
-    .stats-panel { 
-        order: 4 !important; 
-    }
-    
-        /* 🔴 SOLUCIÓN DEFINITIVA: Forzamos la alineación desde el body */
-    body {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-    }
-
-    /* Buscamos CUALQUIER elemento H1 (título) y lo mandamos arriba del todo */
-    h1 {
-        order: -1 !important; 
-        margin-top: 15px !important;
-        margin-bottom: 20px !important;
-        font-size: 24px !important;
-        text-align: center !important;
-        width: 100% !important;
-    }
-
 }
