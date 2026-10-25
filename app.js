@@ -244,11 +244,22 @@ function renderCards() {
 
     actualizarEstadisticas();
 }
+// =========================================================================
+// 1. CONTROLADORES DE FILTROS Y ESTADOS UNIFICADOS
+// =========================================================================
 window.changeCollection = function(tipo, elemento) {
     coleccionActiva = tipo;
-    document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-    if (elemento) elemento.classList.add('active');
     
+    // Sincronizar clases activas en los botones de navegación
+    document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+    if (elemento) {
+        elemento.classList.add('active');
+    } else {
+        // Si se llama por código externo, buscar el botón correspondiente
+        const targetBtn = document.querySelector(`.nav-item[onclick*="${tipo}"]`);
+        if (targetBtn) targetBtn.classList.add('active');
+    }
+
     const topFilters = document.querySelector('.top-filters-container');
     const statsPanel = document.getElementById('stats-panel');
     const calendarContainer = document.getElementById('calendar-container');
@@ -256,12 +267,12 @@ window.changeCollection = function(tipo, elemento) {
     const setupContainer = document.getElementById('setup-container');
     const mapasContainer = document.getElementById('mapas-container');
     
-    // Reiniciar búsquedas
+    // Resetear búsquedas al cambiar de sección
     const searchInput = document.getElementById('game-search');
     if (searchInput) searchInput.value = '';
     searchText = '';
-    
-    // Ocultar todo
+
+    // Esconder todas las rejillas
     [gamesGridObj, calendarContainer, setupContainer, mapasContainer].forEach(el => { if(el) el.style.display = 'none'; });
     
     if (tipo === 'principal' || tipo === 'otros') {
@@ -279,15 +290,35 @@ window.changeCollection = function(tipo, elemento) {
     }
 };
 
-window.filterByPlatform = function(plataforma, elemento) {
-    currentPlatform = plataforma;
-    document.querySelectorAll('.sidebar-plat-btn').forEach(btn => btn.classList.remove('active'));
-    if (elemento) elemento.classList.add('active');
+// Vincula tanto los botones de PC como el desplegable móvil a la misma función core
+window.filterGames = function(filterType, buttonElement) {
+    currentFilter = filterType;
+    if (buttonElement && buttonElement.parentElement) {
+        buttonElement.parentElement.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        buttonElement.classList.add('active');
+    }
+    // Sincronizar el select móvil por si está visible
+    const mobileSub = document.getElementById('mobile-sub-filters');
+    if (mobileSub) mobileSub.value = filterType;
     renderCards();
 };
 
 window.filterGamesFromSelect = function(filterType) {
     currentFilter = filterType;
+    // Sincronizar los botones de PC por si está en resolución intermedia
+    const pcButtons = document.getElementById('sub-filters');
+    if (pcButtons) {
+        pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        const activeBtn = pcButtons.querySelector(`.filter-btn[onclick*="${filterType}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+    }
+    renderCards();
+};
+
+window.filterByPlatform = function(plataforma, elemento) {
+    currentPlatform = plataforma;
+    document.querySelectorAll('.sidebar-plat-btn').forEach(btn => btn.classList.remove('active'));
+    if (elemento) elemento.classList.add('active');
     renderCards();
 };
 
@@ -312,7 +343,7 @@ window.toggleFavorite = function(event, id) {
     event.stopPropagation();
     const index = favoritosPrincipal.indexOf(id);
     if (index === -1) favoritosPrincipal.push(id); else favoritosPrincipal.splice(index, 1);
-    localStorage.setItem('mis_favoritos_principal', JSON.stringify(favoritosPrincipal));
+    localStorage.setItem('mis_favoritos_principal', JSON.stringify(favoritesPrincipal));
     renderCards();
 };
 
