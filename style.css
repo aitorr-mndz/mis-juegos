@@ -749,57 +749,23 @@ h1 {
 }
 
 /* =========================================================================
-   📱 RESPONSIVE DESIGN: BLINDAJE Y RESET TOTAL PARA PANTALLAS MÓVILES
+   📱 RESPONSIVE DESIGN: ARREGLO DE LOGOS OCULTOS Y BOTONES CORTADOS
    ========================================================================= */
 @media (max-width: 768px) {
-    /* 1. Forzamos un flujo vertical natural desde la raíz */
-    body, html {
-        padding: 8px !important;
+    /* 1. Reset completo del espacio */
+    body {
+        padding: 10px !important;
         display: block !important;
     }
 
-    /* Rompemos el layout de dos columnas de PC para que todo caiga en fila */
-    .app-layout, .web-container, main {
+    .app-layout, .web-container {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
         gap: 15px !important;
-        position: relative !important;
     }
 
-    /* Anulamos cualquier propiedad 'order' conflictiva previa */
-    h1, .filters, .sidebar-platforms, .stats-container, #sub-filters, .search-container, .games-grid {
-        order: initial !important;
-    }
-
-    /* 2. TÍTULO PRINCIPAL */
-    h1 {
-        font-size: 20px !important;
-        margin: 10px 0 !important;
-        text-align: center !important;
-        width: 100% !important;
-    }
-
-    /* 3. MENÚ PRINCIPAL (Mi Colección, Otros Juegos, Mapas...): Evita cortes */
-    .filters {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important; /* Forza una rejilla limpia de 2 botones por fila */
-        gap: 8px !important;
-        width: 100% !important;
-        margin-bottom: 15px !important;
-    }
-
-    .collection-btn {
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 10px 6px !important;
-        font-size: 13px !important;
-        text-align: center !important;
-        box-sizing: border-box !important;
-        border-radius: 6px !important;
-    }
-
-    /* 4. BARRA HORIZONTAL DE CONSOLAS */
+    /* 2. 🎛️ BARRA DE PLATAFORMAS: ACTIVACIÓN DE SCROLL LATERAL PARA LOGOS OCULTOS */
     .sidebar-platforms {
         display: flex !important;
         visibility: visible !important;
@@ -807,54 +773,66 @@ h1 {
         top: 0 !important;
         left: 0 !important;
         transform: none !important;
-        flex-direction: row !important; /* Alineación horizontal de logos */
+        flex-direction: row !important;
         width: 100% !important;
         height: auto !important;
-        max-height: 70px !important;
-        overflow-x: auto !important; /* Deslizamiento lateral fluido ↔️ */
-        white-space: nowrap !important;
-        padding: 8px !important;
-        justify-content: flex-start !important; /* Permite scroll natural si hay muchos logos */
+        max-height: 75px !important;
+        
+        /* 🟢 CLAVE: Estas tres líneas permiten deslizar con el dedo de lado para ver TODOS los logos */
+        overflow-x: auto !important; 
+        overflow-y: hidden !important;
+        white-space: nowrap !important; 
+        
+        padding: 10px !important;
+        justify-content: flex-start !important; /* Alinea al inicio para que el scroll empiece bien */
         background: #18181a !important;
-        border-radius: 8px !important;
+        border-radius: 12px !important;
         border: 1px solid #2d2d2d !important;
         margin: 10px 0 15px 0 !important;
         box-sizing: border-box !important;
+        
+        /* Oculta la barra visual de scroll para mantener el estilo limpio */
         scrollbar-width: none !important;
     }
     .sidebar-platforms::-webkit-scrollbar {
         display: none !important;
     }
 
+    /* Forzamos a que los círculos mantengan su tamaño y no se achiquen */
     .sidebar-plat-btn {
-        width: 44px !important;
-        height: 44px !important;
-        margin: 0 5px !important;
-        flex-shrink: 0 !important; /* Evita que el móvil los aplaste */
         display: inline-flex !important;
         justify-content: center !important;
         align-items: center !important;
-    }
-    .sidebar-plat-btn img {
-        width: 26px !important;
-        height: 26px !important;
+        width: 44px !important;
+        height: 44px !important;
+        margin-right: 10px !important; /* Espaciado fijo entre logos */
+        margin-left: 0 !important;
+        flex-shrink: 0 !important; /* 🟢 Evita que el móvil encoja los logotipos */
     }
 
-    /* 5. PANEL DE ESTADÍSTICAS (Cuadrícula simétrica) */
-    .stats-container {
+    /* 3. 📁 MENÚ DE PESTAÑAS (Mi Colección, Otros...): OBLIGADO A BAJAR EN FILAS */
+    .filters {
         display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important; /* 2 cajas por fila exactas */
-        gap: 10px !important;
+        /* 🟢 CLAVE: Fuerza una cuadrícula exacta de 2 botones por fila para que quepan todos */
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 8px !important;
         width: 100% !important;
-        margin-bottom: 15px !important;
-    }
-    .stat-box {
-        width: 100% !important;
-        margin: 0 !important;
-        box-sizing: border-box !important;
+        margin-bottom: 25px !important;
+        justify-content: center !important;
     }
 
-    /* 6. SUBFILTROS DE ESTADO (Todos, Por jugar, Jugando...) */
+    .collection-btn {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 12px 5px !important;
+        font-size: 13px !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+        border-radius: 8px !important;
+        margin: 0 !important; /* Elimina márgenes laterales heredados del PC */
+    }
+
+    /* 4. SUBFILTROS INTERMEDIOS (Todos, Por jugar...) */
     #sub-filters {
         display: flex !important;
         flex-wrap: wrap !important;
@@ -868,23 +846,19 @@ h1 {
         font-size: 12px !important;
     }
 
-    /* 7. BUSCADOR */
-    .search-container {
+    /* 5. PANELES DE ESTADÍSTICAS */
+    .stats-container {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
         width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 0 15px 0 !important;
-    }
-    #game-search {
-        font-size: 14px !important;
-        padding: 10px 15px 10px 40px !important;
     }
 
-    /* 8. CUADRÍCULA DE JUEGOS, SETUP Y MAPAS (2 columnas limpias) */
-    .games-grid, #setup-grid, #mapas-grid, #trucos-grid {
+    /* 6. CUADRÍCULA DE JUEGOS */
+    .games-grid, #setup-grid, #mapas-grid {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 12px !important;
         width: 100% !important;
-        padding: 0 !important;
     }
     .game-card {
         height: 250px !important;
