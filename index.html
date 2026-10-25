@@ -23,123 +23,121 @@
     <div class="web-container">
         
         <!-- Título Principal -->
-        <h1>🎮 Mi Colección de Videojuegos</h1>
+<h1>🎮 Mi Colección de Videojuegos</h1>
 
-        <!-- Contenedor del Menú Principal -->
-        <div class="filters-wrapper">
-            <!-- Menú de Botones (Solo visible en PC) -->
-            <div class="filters pc-only-menu">
-                <button class="collection-btn active" onclick="changeCollection('principal', this)">🎮 Mi Colección</button>
-                <button class="collection-btn" onclick="changeCollection('otros', this)">📁 Otros Juegos</button>
-                <button class="collection-btn" onclick="changeCollection('mapas', this)">🗺️ Mapas</button>
-                <button class="collection-btn" onclick="changeCollection('calendario', this)">📅 Mi Calendario</button>
-                <button class="collection-btn" onclick="changeCollection('setup', this)">🖥️ Mi Setup</button>
+<!-- 1. PRIMER MENÚ: PESTAÑAS PRINCIPALES -->
+<div class="filters-wrapper">
+    <!-- Menú de Botones (Solo PC) -->
+    <div class="filters pc-only-menu">
+        <button class="collection-btn active" onclick="changeCollection('principal', this)">🎮 Mi Colección</button>
+        <button class="collection-btn" onclick="changeCollection('otros', this)">📁 Otros Juegos</button>
+        <button class="collection-btn" onclick="changeCollection('mapas', this)">🗺️ Mapas</button>
+        <button class="collection-btn" onclick="changeCollection('calendario', this)">📅 Mi Calendario</button>
+        <button class="collection-btn" onclick="changeCollection('setup', this)">🖥️ Mi Setup</button>
+    </div>
+    
+    <!-- Selector Desplegable Inteligente (Solo Móviles) -->
+    <select class="mobile-nav-select mobile-only-menu" onchange="changeCollectionFromSelect(this.value)">
+        <option value="principal">🎮 Mi Colección</option>
+        <option value="otros">📁 Otros Juegos</option>
+        <option value="mapas">🗺️ Mapas</option>
+        <option value="calendario">📅 Mi Calendario</option>
+        <option value="setup">🖥️ Mi Setup</option>
+    </select>
+</div>
+
+<!-- 2. SEGUNDO MENÚ: BARRA DE CONSOLAS / LOGOS (Ahora reubicada abajo del primero) -->
+<div class="sidebar-platforms" id="sidebar-plat">
+    <button class="sidebar-plat-btn active" onclick="filterByPlatform('todas', this)">
+        <span class="plat-all-icon">🌐</span>
+    </button>
+    <button class="sidebar-plat-btn" onclick="filterByPlatform('Steam', this)">
+        <img src="Logos/steam_logo.png" alt="Steam">
+    </button>
+    <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 5', this)">
+        <img src="Logos/ps5_logo.png" alt="PS5">
+    </button>
+    <button class="sidebar-plat-btn" onclick="filterByPlatform('Nintendo Switch 2', this)">
+        <img src="Logos/switch_logo.png" alt="Switch 2">
+    </button>
+    <button class="sidebar-plat-btn" onclick="filterByPlatform('Epic Games', this)">
+        <img src="Logos/epic_logo.png" alt="Epic">
+    </button>
+    <button class="sidebar-plat-btn" onclick="filterByPlatform('PC', this)">
+        <img src="Logos/pc_logo.png" alt="PC">
+    </button>
+    <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 2', this)">
+        <img src="Logos/ps2_logo.png" alt="PS2">
+    </button>
+    <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 3', this)">
+        <img src="Logos/ps3_logo.png" alt="PS3">
+    </button>
+</div>
+
+<!-- Layout Base: Contiene el panel central -->
+<div class="app-layout">
+    <div style="flex-grow: 1; width: 100%;">
+        
+        <!-- Panel Estadístico -->
+        <div class="stats-container" id="stats-panel">
+            <div class="stat-box todos">
+                <span class="stat-number" id="count-todos">0</span>
+                <span class="stat-label">Total Juegos</span>
             </div>
-            
-            <!-- Selector Desplegable (Solo visible en Móviles) -->
-            <select class="mobile-nav-select mobile-only-menu" onchange="changeCollectionFromSelect(this.value)">
-                <option value="principal">🎮 Mi Colección</option>
-                <option value="otros">📁 Otros Juegos</option>
-                <option value="mapas">🗺️ Mapas</option>
-                <option value="calendario">📅 Mi Calendario</option>
-                <option value="setup">🖥️ Mi Setup</option>
+            <div class="stat-box pendiente">
+                <span class="stat-number" id="count-pendiente">0</span>
+                <span class="stat-label">Por Jugar ⏳</span>
+            </div>
+            <div class="stat-box jugando">
+                <span class="stat-number" id="count-jugando">0</span>
+                <span class="stat-label">Jugando 🕹️</span>
+            </div>
+            <div class="stat-box completado">
+                <span class="stat-number" id="count-completado">0</span>
+                <span class="stat-label">Pasados 🏆</span>
+            </div>
+            <div class="stat-box progreso">
+                <span class="stat-number" id="progress-percent">0%</span>
+                <span class="stat-label">Progreso Total</span>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. TERCER MENÚ: SUBFILTROS DE ESTADO (Todos, Por jugar...) -->
+        <div class="sub-filters-wrapper">
+            <!-- Botones Subfiltros (Solo PC) -->
+            <div id="sub-filters" class="filters pc-only-menu" style="margin-bottom: 20px;">
+                <button class="filter-btn active" onclick="filterGames('todos', this)">Todos</button>
+                <button class="filter-btn" onclick="filterGames('pendiente', this)">Por jugar ⏳</button>
+                <button class="filter-btn" onclick="filterGames('jugando', this)">Jugando 🕹️</button>
+                <button class="filter-btn" onclick="filterGames('completado', this)">Completados 🏆</button>
+                <button class="filter-btn" onclick="filterGames('favoritos', this)">Favoritos ❤️</button>
+                <button class="filter-btn" onclick="filterGames('noadquirido', this)">No Adquirido 🛑</button>
+            </div>
+
+            <!-- Selector Estados Desplegable (Solo Móvil - Reemplaza los botones rotos) -->
+            <select id="mobile-sub-filters" class="mobile-status-select mobile-only-menu" onchange="filterGamesFromSelect(this.value)">
+                <option value="todos">📋 Mostrar Todos los Estados</option>
+                <option value="pendiente">⏳ Por jugar</option>
+                <option value="jugando">🕹️ Jugando</option>
+                <option value="completado">🏆 Completados</option>
+                <option value="favoritos">❤️ Mis Favoritos</option>
+                <option value="noadquirido">🛑 No Adquirido</option>
             </select>
         </div>
 
-        <!-- Layout Base: Contiene la barra lateral de logos y el panel central -->
-        <div class="app-layout">
-            
-            <!-- Barra Lateral de Plataformas (Se convierte en fila horizontal en móviles) -->
-            <div class="sidebar-platforms" id="sidebar-plat">
-                <button class="sidebar-plat-btn active" onclick="filterByPlatform('todas', this)">
-                    <span class="plat-all-icon">🌐</span>
-                </button>
-                <button class="sidebar-plat-btn" onclick="filterByPlatform('Steam', this)">
-                    <img src="Logos/steam_logo.png" alt="Steam">
-                </button>
-                <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 5', this)">
-                    <img src="Logos/ps5_logo.png" alt="PS5">
-                </button>
-                <button class="sidebar-plat-btn" onclick="filterByPlatform('Nintendo Switch 2', this)">
-                    <img src="Logos/switch_logo.png" alt="Switch 2">
-                </button>
-                <button class="sidebar-plat-btn" onclick="filterByPlatform('Epic Games', this)">
-                    <img src="Logos/epic_logo.png" alt="Epic">
-                </button>
-                <button class="sidebar-plat-btn" onclick="filterByPlatform('PC', this)">
-                    <img src="Logos/pc_logo.png" alt="PC">
-                </button>
-                <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 2', this)">
-                    <img src="Logos/ps2_logo.png" alt="PS2">
-                </button>
-                <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 3', this)">
-                    <img src="Logos/ps3_logo.png" alt="PS3">
-                </button>
-            </div>
+        <!-- Barra de búsqueda -->
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="game-search" placeholder="Buscar juego por nombre..." oninput="searchGames()">
+        </div>
 
-            <!-- Panel de Contenido Principal -->
-            <div style="flex-grow: 1; width: 100%;">
-                
-                <!-- Panel Estadístico -->
-                <div class="stats-container" id="stats-panel">
-                    <div class="stat-box todos">
-                        <span class="stat-number" id="count-todos">0</span>
-                        <span class="stat-label">Total Juegos</span>
-                    </div>
-                    <div class="stat-box pendiente">
-                        <span class="stat-number" id="count-pendiente">0</span>
-                        <span class="stat-label">Por Jugar ⏳</span>
-                    </div>
-                    <div class="stat-box jugando">
-                        <span class="stat-number" id="count-jugando">0</span>
-                        <span class="stat-label">Jugando 🕹️</span>
-                    </div>
-                    <div class="stat-box completado">
-                        <span class="stat-number" id="count-completado">0</span>
-                        <span class="stat-label">Pasados 🏆</span>
-                    </div>
-                    <div class="stat-box progreso">
-                        <span class="stat-number" id="progress-percent">0%</span>
-                        <span class="stat-label">Progreso Total</span>
-                        <div class="progress-bar-bg">
-                            <div class="progress-bar-fill" id="progress-bar-fill"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Contenedor del Buscador y Subfiltros -->
-                <div class="sub-filters-wrapper">
-                    <!-- Botones Subfiltros (Solo PC) -->
-                    <div id="sub-filters" class="filters pc-only-menu" style="margin-bottom: 20px;">
-                        <button class="filter-btn active" onclick="filterGames('todos', this)">Todos</button>
-                        <button class="filter-btn" onclick="filterGames('pendiente', this)">Por jugar ⏳</button>
-                        <button class="filter-btn" onclick="filterGames('jugando', this)">Jugando 🕹️</button>
-                        <button class="filter-btn" onclick="filterGames('completado', this)">Completados 🏆</button>
-                        <button class="filter-btn" onclick="filterGames('favoritos', this)">Favoritos ❤️</button>
-                        <button class="filter-btn" onclick="filterGames('noadquirido', this)">No Adquirido 🛑</button>
-                    </div>
-
-                    <!-- Selector Estados (Solo Móvil) -->
-                    <select id="mobile-sub-filters" class="mobile-status-select mobile-only-menu" onchange="filterGamesFromSelect(this.value)">
-                        <option value="todos">📋 Mostrar Todos los Estados</option>
-                        <option value="pendiente">⏳ Por jugar</option>
-                        <option value="jugando">🕹️ Jugando</option>
-                        <option value="completado">🏆 Completados</option>
-                        <option value="favoritos">❤️ Mis Favoritos</option>
-                        <option value="noadquirido">🛑 No Adquirido</option>
-                    </select>
-                </div>
-
-                <!-- Barra de búsqueda -->
-                <div class="search-container">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="game-search" placeholder="Buscar juego por nombre..." oninput="searchGames()">
-                </div>
-
-                <!-- Rejilla Principal para Cartas de Juegos -->
-                <div class="games-grid" id="games-grid"></div>
-
-                <!-- Contenedor Oculto del Planificador (Calendario) -->
+        <!-- Rejilla Principal para Cartas de Juegos -->
+        <div class="games-grid" id="games-grid"></div>
+        
+                    <!-- Contenedor Oculto del Planificador (Calendario) -->
                 <div id="calendar-container" style="display: none;">
                     <h2 id="calendar-month-title" style="text-align:center; color:#00ff99; margin-bottom:20px;">📅 Planificador</h2>
                     <div class="calendar-weekdays">
