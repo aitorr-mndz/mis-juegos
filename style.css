@@ -764,38 +764,41 @@ h1 {
         gap: 15px;
     }
 
-        /* 2. FORZAMOS A LA BARRA LATERAL A PASAR A HORIZONTAL Y DEJAR DE FLOTAR */
+          /* 2. FORZAMOS A LA BARRA A SER VISIBLE Y COLOCARSE EN SU SITIO */
     .sidebar-platforms {
-        position: relative !important;   /* 🟢 Clave: Deja de flotar fija sobre la pantalla */
+        display: flex !important;        /* Forzamos a que vuelva a aparecer 👁️ */
+        visibility: visible !important;
+        position: relative !important;   
         top: 0 !important;
         left: 0 !important;
         transform: none !important;
-        flex-direction: row !important;  /* 🟢 Clave: Tumba los logos uno al lado del otro */
+        flex-direction: row !important;  
         width: 100% !important;
         height: auto !important;
         max-height: 70px !important;
         overflow-x: auto !important;     /* Permite deslizar si hay muchos logos */
         white-space: nowrap !important;
         padding: 10px !important;
-        justify-content: flex-start !important;
+        justify-content: center !important; /* Centra los logos en móviles */
         background: #1a1a1a !important;
         border-radius: 8px !important;
         border: 1px solid #2d2d2d !important;
-        margin-bottom: 15px !important;  /* Separa la barra del panel de estadísticas */
+        margin-top: 10px !important;
+        margin-bottom: 15px !important;
+        order: 2 !important;             /* La colocamos justo debajo de las pestañas */
         
-        /* Oculta la barra de scroll en móviles */
+        /* Oculta la barra de scroll */
         scrollbar-width: none !important; 
     }
     .sidebar-platforms::-webkit-scrollbar {
         display: none !important;
     }
 
-    /* Asegura que los botones de los logos tengan espacio físico en horizontal */
     .sidebar-plat-btn {
         display: inline-flex !important;
-        margin: 0 5px !important;
+        margin: 0 8px !important;
         padding: 5px !important;
-        flex-shrink: 0 !important;       /* Evita que los logos se aplasten */
+        flex-shrink: 0 !important;       
     }
 
     /* 3. Ajustamos la cuadrícula de juegos a 2 columnas (o 1 si es muy estrecho) */
