@@ -420,12 +420,13 @@ function renderSetup() {
     if (!grid) return; 
     grid.innerHTML = '';
     
+    // 🟢 CORRECCIÓN: Forzar que el contenedor use la rejilla CSS adaptativa
+    grid.className = 'games-grid';
+    
     misDispositivos.forEach(d => {
         const card = document.createElement('div'); 
         card.className = 'game-card';
-        // 🟢 RESTAURADO: Backticks en el mapeo de la lista de componentes de hardware
         let comps = d.componentes.map(c => `<li style="font-size:11px;color:#ccc;text-align:left;">${c}</li>`).join('');
-        // 🟢 RESTAURADO: Backticks en el marcado de la tarjeta contenedora del setup
         card.innerHTML = `<div class="card-front"><img src="${d.image}" class="card-banner"></div><div class="card-back"><h3 class="card-title">${d.title}</h3><ul style="padding-left:15px;margin:5px 0;">${comps}</ul></div>`;
         grid.appendChild(card);
     });
@@ -436,12 +437,14 @@ function renderMapas() {
     if (!grid) return; 
     grid.innerHTML = '';
     
+    // 🟢 CORRECCIÓN: Forzar que el contenedor use la rejilla CSS adaptativa
+    grid.className = 'games-grid';
+    
     misMapas.forEach(m => {
         const card = document.createElement('div'); 
         card.className = 'game-card'; 
         card.style.cursor = 'pointer'; 
         card.onclick = () => abrirMapa(m.image);
-        // 🟢 RESTAURADO: Backticks en el marcado HTML plano de la tarjeta del mapa interactivo
         card.innerHTML = `<div class="card-front"><img src="${m.image}" class="card-banner"></div><div class="card-back"><h3 class="card-title">${m.title}</h3><span style="font-size:10px;color:#666;text-align:center;">🔍 Ampliar</span></div>`;
         grid.appendChild(card);
     });
