@@ -749,50 +749,47 @@ h1 {
 }
 
 /* =========================================================================
-   📱 RESPONSIVE DESIGN: ADAPTACIÓN TOTAL Y CORRECCIÓN DE FLUJO
+   📱 RESPONSIVE DESIGN: CORRECCIÓN DEFINITIVA DE FLUJO SIN SUPERPOSICIONES
    ========================================================================= */
 @media (max-width: 768px) {
+    /* 1. Resetear el cuerpo para que todo fluya hacia abajo de forma natural */
     body {
-        padding: 8px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
+        padding: 10px !important;
+        display: block !important; /* Desactivamos el flex masivo que causaba el caos */
     }
 
-    /* Forzamos que la caja contenedora de la web sea vertical pura */
-    .web-container, .app-layout {
+    .app-layout {
         display: flex !important;
-        flex-direction: column !important;
+        flex-direction: column !important; /* Estructura vertical natural */
         width: 100% !important;
-        gap: 12px !important;
+        gap: 15px !important;
     }
 
-    /* 1. El título manda arriba */
-    h1 {
-        order: -3 !important;
-        font-size: 20px !important;
-        margin: 10px 0 !important;
-        text-align: center !important;
+    /* 2. Forzamos a limpiar los órdenes del CSS anterior */
+    h1, .filters, .sidebar-platforms, .stats-container, #sub-filters, .search-container {
+        order: initial !important; 
     }
 
-    /* 2. El menú de pestañas justo debajo */
+    /* 3. Evitar que el menú principal de pestañas se corte (Hacemos que baje en filas si no cabe) */
     .filters {
-        order: -2 !important;
         display: flex !important;
-        gap: 6px !important;
+        flex-wrap: wrap !important; /* Permite que los botones bajen limpiamente en vez de cortarse */
+        gap: 8px !important;
         justify-content: center !important;
-        margin-bottom: 10px !important;
+        margin-bottom: 20px !important;
         width: 100% !important;
     }
 
     .collection-btn {
-        padding: 6px 10px !important;
-        font-size: 12px !important;
-        flex: 1 !important; /* Hace que los botones se repartan el ancho de forma limpia */
-        text-align: center;
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+        border-radius: 6px !important;
+        flex-grow: 1 !important; /* Se distribuyen el espacio de forma equilibrada */
+        max-width: 45% !important; /* Mete 2 botones por fila de forma limpia */
+        text-align: center !important;
     }
 
-    /* 3. La barra de consolas horizontal */
+    /* 4. Barra horizontal de logos de consolas (Debajo de los juegos en HTML, fluirá de forma natural) */
     .sidebar-platforms {
         display: flex !important;
         position: relative !important;
@@ -802,63 +799,64 @@ h1 {
         flex-direction: row !important;
         width: 100% !important;
         height: auto !important;
-        max-height: 65px !important;
-        overflow-x: auto !important;
-        padding: 8px !important;
+        max-height: 70px !important;
+        overflow-x: auto !important; /* Si añades más logos, se pueden deslizar con el dedo ↔️ */
+        white-space: nowrap !important;
+        padding: 10px !important;
         justify-content: center !important;
         background: #18181a !important;
-        border-radius: 25px !important;
-        margin-bottom: 10px !important;
-        order: -1 !important; /* Se coloca fija arriba antes de los datos */
+        border-radius: 8px !important;
+        border: 1px solid #2d2d2d !important;
+        margin: 15px 0 !important;
         scrollbar-width: none !important;
     }
-    
     .sidebar-platforms::-webkit-scrollbar {
         display: none !important;
     }
 
     .sidebar-plat-btn {
-        width: 40px !important;
-        height: 40px !important;
-        margin: 0 4px !important;
+        width: 42px !important;
+        height: 42px !important;
+        margin: 0 6px !important;
+        flex-shrink: 0 !important;
     }
-
     .sidebar-plat-btn img {
-        width: 24px !important;
-        height: 24px !important;
+        width: 26px !important;
+        height: 26px !important;
     }
 
-    /* 4. Los paneles de juegos en dos columnas perfectas */
+    /* 5. Subfiltros (Todos, Por jugar, Jugando...) */
+    #sub-filters {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        margin-bottom: 15px !important;
+    }
+    .filter-btn {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+    }
+
+    /* 6. Cuadrícula de juegos adaptada a 2 columnas perfectas */
     .games-grid, #setup-grid, #mapas-grid {
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
+        gap: 12px !important;
         width: 100% !important;
     }
-
     .game-card {
         height: 250px !important;
     }
 
-    /* 5. Corrección de los contenedores para que no se desborden al fondo */
-    #calendar-container, #setup-container, #mapas-container {
+    /* 7. Estadísticas fluidas */
+    .stats-container {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* 2 cajas por fila */
+        gap: 10px !important;
         width: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
     }
-
-    /* Ajuste del calendario para pantallas táctiles estrechas */
-    .calendar-weekdays {
-        grid-template-columns: repeat(7, 1fr) !important;
-        font-size: 9px !important;
-    }
-
-    .calendar-days-grid {
-        grid-template-columns: repeat(7, 1fr) !important;
-        gap: 4px !important;
-    }
-
-    .calendar-day {
-        min-height: 60px !important;
-        padding: 2px !important;
+    .stat-box {
+        width: 100% !important;
+        box-sizing: border-box !important;
     }
 }
