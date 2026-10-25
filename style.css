@@ -749,65 +749,77 @@ h1 {
 }
 
 /* =========================================================================
-   📱 RESPONSIVE DESIGN: CORRECCIÓN DEFINITIVA DE FLUJO SIN SUPERPOSICIONES
+   📱 RESPONSIVE DESIGN: BLINDAJE Y RESET TOTAL PARA PANTALLAS MÓVILES
    ========================================================================= */
 @media (max-width: 768px) {
-    /* 1. Resetear el cuerpo para que todo fluya hacia abajo de forma natural */
-    body {
-        padding: 10px !important;
-        display: block !important; /* Desactivamos el flex masivo que causaba el caos */
+    /* 1. Forzamos un flujo vertical natural desde la raíz */
+    body, html {
+        padding: 8px !important;
+        display: block !important;
     }
 
-    .app-layout {
+    /* Rompemos el layout de dos columnas de PC para que todo caiga en fila */
+    .app-layout, .web-container, main {
         display: flex !important;
-        flex-direction: column !important; /* Estructura vertical natural */
+        flex-direction: column !important;
         width: 100% !important;
         gap: 15px !important;
+        position: relative !important;
     }
 
-    /* 2. Forzamos a limpiar los órdenes del CSS anterior */
-    h1, .filters, .sidebar-platforms, .stats-container, #sub-filters, .search-container {
-        order: initial !important; 
+    /* Anulamos cualquier propiedad 'order' conflictiva previa */
+    h1, .filters, .sidebar-platforms, .stats-container, #sub-filters, .search-container, .games-grid {
+        order: initial !important;
     }
 
-    /* 3. Evitar que el menú principal de pestañas se corte (Hacemos que baje en filas si no cabe) */
-    .filters {
-        display: flex !important;
-        flex-wrap: wrap !important; /* Permite que los botones bajen limpiamente en vez de cortarse */
-        gap: 8px !important;
-        justify-content: center !important;
-        margin-bottom: 20px !important;
+    /* 2. TÍTULO PRINCIPAL */
+    h1 {
+        font-size: 20px !important;
+        margin: 10px 0 !important;
+        text-align: center !important;
         width: 100% !important;
+    }
+
+    /* 3. MENÚ PRINCIPAL (Mi Colección, Otros Juegos, Mapas...): Evita cortes */
+    .filters {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* Forza una rejilla limpia de 2 botones por fila */
+        gap: 8px !important;
+        width: 100% !important;
+        margin-bottom: 15px !important;
     }
 
     .collection-btn {
-        padding: 8px 14px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 10px 6px !important;
         font-size: 13px !important;
-        border-radius: 6px !important;
-        flex-grow: 1 !important; /* Se distribuyen el espacio de forma equilibrada */
-        max-width: 45% !important; /* Mete 2 botones por fila de forma limpia */
         text-align: center !important;
+        box-sizing: border-box !important;
+        border-radius: 6px !important;
     }
 
-    /* 4. Barra horizontal de logos de consolas (Debajo de los juegos en HTML, fluirá de forma natural) */
+    /* 4. BARRA HORIZONTAL DE CONSOLAS */
     .sidebar-platforms {
         display: flex !important;
+        visibility: visible !important;
         position: relative !important;
         top: 0 !important;
         left: 0 !important;
         transform: none !important;
-        flex-direction: row !important;
+        flex-direction: row !important; /* Alineación horizontal de logos */
         width: 100% !important;
         height: auto !important;
         max-height: 70px !important;
-        overflow-x: auto !important; /* Si añades más logos, se pueden deslizar con el dedo ↔️ */
+        overflow-x: auto !important; /* Deslizamiento lateral fluido ↔️ */
         white-space: nowrap !important;
-        padding: 10px !important;
-        justify-content: center !important;
+        padding: 8px !important;
+        justify-content: flex-start !important; /* Permite scroll natural si hay muchos logos */
         background: #18181a !important;
         border-radius: 8px !important;
         border: 1px solid #2d2d2d !important;
-        margin: 15px 0 !important;
+        margin: 10px 0 15px 0 !important;
+        box-sizing: border-box !important;
         scrollbar-width: none !important;
     }
     .sidebar-platforms::-webkit-scrollbar {
@@ -815,48 +827,66 @@ h1 {
     }
 
     .sidebar-plat-btn {
-        width: 42px !important;
-        height: 42px !important;
-        margin: 0 6px !important;
-        flex-shrink: 0 !important;
+        width: 44px !important;
+        height: 44px !important;
+        margin: 0 5px !important;
+        flex-shrink: 0 !important; /* Evita que el móvil los aplaste */
+        display: inline-flex !important;
+        justify-content: center !important;
+        align-items: center !important;
     }
     .sidebar-plat-btn img {
         width: 26px !important;
         height: 26px !important;
     }
 
-    /* 5. Subfiltros (Todos, Por jugar, Jugando...) */
+    /* 5. PANEL DE ESTADÍSTICAS (Cuadrícula simétrica) */
+    .stats-container {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* 2 cajas por fila exactas */
+        gap: 10px !important;
+        width: 100% !important;
+        margin-bottom: 15px !important;
+    }
+    .stat-box {
+        width: 100% !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 6. SUBFILTROS DE ESTADO (Todos, Por jugar, Jugando...) */
     #sub-filters {
         display: flex !important;
         flex-wrap: wrap !important;
         justify-content: center !important;
         gap: 6px !important;
         margin-bottom: 15px !important;
+        width: 100% !important;
     }
     .filter-btn {
         padding: 6px 12px !important;
         font-size: 12px !important;
     }
 
-    /* 6. Cuadrícula de juegos adaptada a 2 columnas perfectas */
-    .games-grid, #setup-grid, #mapas-grid {
+    /* 7. BUSCADOR */
+    .search-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 0 15px 0 !important;
+    }
+    #game-search {
+        font-size: 14px !important;
+        padding: 10px 15px 10px 40px !important;
+    }
+
+    /* 8. CUADRÍCULA DE JUEGOS, SETUP Y MAPAS (2 columnas limpias) */
+    .games-grid, #setup-grid, #mapas-grid, #trucos-grid {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 12px !important;
         width: 100% !important;
+        padding: 0 !important;
     }
     .game-card {
         height: 250px !important;
-    }
-
-    /* 7. Estadísticas fluidas */
-    .stats-container {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important; /* 2 cajas por fila */
-        gap: 10px !important;
-        width: 100% !important;
-    }
-    .stat-box {
-        width: 100% !important;
-        box-sizing: border-box !important;
     }
 }
