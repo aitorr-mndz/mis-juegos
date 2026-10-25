@@ -4,156 +4,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Colección de Videojuegos</title>
-    <link rel="stylesheet" href="style.css?v=1.1">
-    <!-- Enlace al manifiesto de la aplicación -->
+    <!-- Enlace al CSS con rompe-caché integrado -->
+    <link rel="stylesheet" href="style.css?v=1.3">
+    <!-- Enlace al manifiesto de la PWA para instalación -->
     <link rel="manifest" href="manifest.json">
-    <!-- Pequeño script para activar la instalación -->
     <script>
-    if ('serviceWorker' in navigator) {
+      if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('¡Motor de instalación PWA activado con éxito!', reg))
-            .catch(err => console.log('Fallo al activar instalación', err));
+          navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('¡PWA Activada!', reg))
+            .catch(err => console.log('Fallo PWA', err));
         });
-    }
+      }
     </script>
-
 </head>
 <body>
-    <!-- Contenedor global de la aplicación para separar los lados -->
-    <div class="app-layout">
-        
-        <!-- Barra Lateral Flotante de Consolas a la Izquierda -->
-                <!-- Barra Lateral Flotante de Consolas a la Izquierda (CON PS2 Y PS3) -->
-        <div class="sidebar-platforms">
-            <p class="sidebar-title"></p>
-            <button class="sidebar-plat-btn active" onclick="filterByPlatform('todas', this)" title="Todas las plataformas">
-                <span class="plat-all-icon">🌐</span>
-            </button>
-            <button class="sidebar-plat-btn" onclick="filterByPlatform('Steam', this)" title="Steam">
-                <img src="Logos/steam_logo.png" onerror="this.src='Logos/steam_logo.png'">
-            </button>
-            <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 5', this)" title="PlayStation 5">
-                <img src="Logos/ps5_logo.png" onerror="this.src='Logos/ps5_logo.png'">
-            </button>
-            <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 3', this)" title="PlayStation 3">
-                <img src="Logos/ps3_logo.png" onerror="this.src='Logos/ps3_logo.png'">
-            </button>
-            <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 2', this)" title="PlayStation 2">
-                <img src="Logos/ps2_logo.png" onerror="this.src='Logos/ps2_logo.png'">
-            </button>
-            <button class="sidebar-plat-btn" onclick="filterByPlatform('Nintendo Switch 2', this)" title="Nintendo Switch 2">
-                <img src="Logos/switch_logo.png" onerror="this.src='Logos/switch_logo.png'">
-            </button>
-            <button class="sidebar-plat-btn" onclick="filterByPlatform('Epic Games', this)" title="Epic Games">
-                <img src="Logos/epic_logo.png" onerror="this.src='Logos/epic_logo.png'">
-            </button>
-            <button class="sidebar-plat-btn" onclick="filterByPlatform('PC', this)" title="PC (Windows)">
-                <img src="Logos/pc_logo.png" onerror="this.src='Logos/pc_logo.png'">
-            </button>
-        </div>
 
-        <!-- Bloque central de tu colección (CON TODO RECOVERY) -->
-        <div class="web-container">
-            <h1>🎮 Mi Colección de Videojuegos</h1>
-            
-            <!-- Pestañas de Colección Superior -->
-            <div class="collection-tabs" style="display: flex; justify-content: center; gap: 15px; margin-bottom: 25px;">
+    <div class="web-container">
+        
+        <!-- Título Principal -->
+        <h1>🎮 Mi Colección de Videojuegos</h1>
+
+        <!-- Contenedor del Menú Principal -->
+        <div class="filters-wrapper">
+            <!-- Menú de Botones (Solo visible en PC) -->
+            <div class="filters pc-only-menu">
                 <button class="collection-btn active" onclick="changeCollection('principal', this)">🎮 Mi Colección</button>
                 <button class="collection-btn" onclick="changeCollection('otros', this)">📁 Otros Juegos</button>
                 <button class="collection-btn" onclick="changeCollection('mapas', this)">🗺️ Mapas</button>
                 <button class="collection-btn" onclick="changeCollection('calendario', this)">📅 Mi Calendario</button>
                 <button class="collection-btn" onclick="changeCollection('setup', this)">🖥️ Mi Setup</button>
             </div>
+            
+            <!-- Selector Desplegable (Solo visible en Móviles) -->
+            <select class="mobile-nav-select mobile-only-menu" onchange="changeCollectionFromSelect(this.value)">
+                <option value="principal">🎮 Mi Colección</option>
+                <option value="otros">📁 Otros Juegos</option>
+                <option value="mapas">🗺️ Mapas</option>
+                <option value="calendario">📅 Mi Calendario</option>
+                <option value="setup">🖥️ Mi Setup</option>
+            </select>
+        </div>
 
-            <!-- Panel de Estadísticas Inteligente (RECUPERADO) -->
-            <div id="stats-panel" class="stats-container">
-                <div class="stat-box">
-                    <span class="stat-number" id="count-todos">0</span>
-                    <span class="stat-label">Total Juegos</span>
-                </div>
-                <div class="stat-box pendiente">
-                    <span class="stat-number" id="count-pendiente">0</span>
-                    <span class="stat-label">Por Jugar ⏳</span>
-                </div>
-                <div class="stat-box jugando">
-                    <span class="stat-number" id="count-jugando">0</span>
-                    <span class="stat-label">Jugando 🕹️</span>
-                </div>
-                <div class="stat-box completado">
-                    <span class="stat-number" id="count-completado">0</span>
-                    <span class="stat-label">Pasados 🏆</span>
-                </div>
-                <div class="stat-box progreso">
-                    <span class="stat-number" id="progress-percent">0%</span>
-                    <span class="stat-label">Progreso Total</span>
-                    <div class="progress-bar-bg">
-                        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+        <!-- Layout Base: Contiene la barra lateral de logos y el panel central -->
+        <div class="app-layout">
+            
+            <!-- Barra Lateral de Plataformas (Se convierte en fila horizontal en móviles) -->
+            <div class="sidebar-platforms" id="sidebar-plat">
+                <button class="sidebar-plat-btn active" onclick="filterByPlatform('todas', this)">
+                    <span class="plat-all-icon">🌐</span>
+                </button>
+                <button class="sidebar-plat-btn" onclick="filterByPlatform('Steam', this)">
+                    <img src="Logos/steam_logo.png" alt="Steam">
+                </button>
+                <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 5', this)">
+                    <img src="Logos/ps5_logo.png" alt="PS5">
+                </button>
+                <button class="sidebar-plat-btn" onclick="filterByPlatform('Nintendo Switch 2', this)">
+                    <img src="Logos/switch_logo.png" alt="Switch 2">
+                </button>
+                <button class="sidebar-plat-btn" onclick="filterByPlatform('Epic Games', this)">
+                    <img src="Logos/epic_logo.png" alt="Epic">
+                </button>
+                <button class="sidebar-plat-btn" onclick="filterByPlatform('PC', this)">
+                    <img src="Logos/pc_logo.png" alt="PC">
+                </button>
+                <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 2', this)">
+                    <img src="Logos/ps2_logo.png" alt="PS2">
+                </button>
+                <button class="sidebar-plat-btn" onclick="filterByPlatform('PlayStation 3', this)">
+                    <img src="Logos/ps3_logo.png" alt="PS3">
+                </button>
+            </div>
+
+            <!-- Panel de Contenido Principal -->
+            <div style="flex-grow: 1; width: 100%;">
+                
+                <!-- Panel Estadístico -->
+                <div class="stats-container" id="stats-panel">
+                    <div class="stat-box todos">
+                        <span class="stat-number" id="count-todos">0</span>
+                        <span class="stat-label">Total Juegos</span>
+                    </div>
+                    <div class="stat-box pendiente">
+                        <span class="stat-number" id="count-pendiente">0</span>
+                        <span class="stat-label">Por Jugar ⏳</span>
+                    </div>
+                    <div class="stat-box jugando">
+                        <span class="stat-number" id="count-jugando">0</span>
+                        <span class="stat-label">Jugando 🕹️</span>
+                    </div>
+                    <div class="stat-box completado">
+                        <span class="stat-number" id="count-completado">0</span>
+                        <span class="stat-label">Pasados 🏆</span>
+                    </div>
+                    <div class="stat-box progreso">
+                        <span class="stat-number" id="progress-percent">0%</span>
+                        <span class="stat-label">Progreso Total</span>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Filtros Secundarios (RECUPERADOS) -->
-            <div id="sub-filters" class="filters">
-                <button class="filter-btn active" onclick="filterGames('todos', this)">Todos</button>
-                <button class="filter-btn" onclick="filterGames('pendiente', this)">Por jugar ⏳</button>
-                <button class="filter-btn" onclick="filterGames('jugando', this)">Jugando 🕹️</button>
-                <button class="filter-btn" onclick="filterGames('completado', this)">Completados 🏆</button>
-                <button class="filter-btn" onclick="filterGames('favoritos', this)">Favoritos ❤️</button>
-                <button class="filter-btn" onclick="filterGames('noadquirido', this)">No Adquirido 🛑</button>
-            </div>
+                <!-- Contenedor del Buscador y Subfiltros -->
+                <div class="sub-filters-wrapper">
+                    <!-- Botones Subfiltros (Solo PC) -->
+                    <div id="sub-filters" class="filters pc-only-menu" style="margin-bottom: 20px;">
+                        <button class="filter-btn active" onclick="filterGames('todos', this)">Todos</button>
+                        <button class="filter-btn" onclick="filterGames('pendiente', this)">Por jugar ⏳</button>
+                        <button class="filter-btn" onclick="filterGames('jugando', this)">Jugando 🕹️</button>
+                        <button class="filter-btn" onclick="filterGames('completado', this)">Completados 🏆</button>
+                        <button class="filter-btn" onclick="filterGames('favoritos', this)">Favoritos ❤️</button>
+                        <button class="filter-btn" onclick="filterGames('noadquirido', this)">No Adquirido 🛑</button>
+                    </div>
 
-            <!-- Buscador de Texto con Lupa -->
-            <div class="search-container">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="game-search" placeholder="Buscar juego por nombre..." oninput="searchGames()">
-            </div>
-
-            <!-- B) Añade este nuevo bloque justo abajo del contenedor de tu setup -->
-            <div id="mapas-container" style="display: none; max-width: 1100px; margin: 0 auto;">
-                <div class="games-grid" id="mapas-grid"></div>
-            </div>
-
-            <!-- C) Añade este bloque al final del body (Modal para ver el mapa gigante al hacer clic) -->
-            <div id="mapa-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; cursor: zoom-out;" onclick="cerrarMapa()">
-                <img id="mapa-gigante" src="" style="max-width: 90%; max-height: 90%; border: 2px solid #00ff99; border-radius: 8px; box-shadow: 0 0 20px rgba(0, 255, 153, 0.5);">
-            </div>
-
-            <!-- Contenedor del Calendario -->
-            <div id="calendar-container" style="display: none; background: #1e1e1e; border: 1px solid #2d2d2d; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); margin-top: 10px;">
-                <h2 id="calendar-month-title" style="color: #00ff99; text-align: center; margin-top: 0; margin-bottom: 20px;"></h2>
-    
-                <!-- 🔑 REVISA QUE ESTO NO FALTE: Fila fija con los nombres de los días -->
-                <div class="calendar-weekdays">
-                    <div>Lun</div>
-                    <div>Mar</div>
-                    <div>Mié</div>
-                    <div>Jue</div>
-                    <div>Vie</div>
-                    <div>Sáb</div>
-                    <div>Dom</div>
+                    <!-- Selector Estados (Solo Móvil) -->
+                    <select id="mobile-sub-filters" class="mobile-status-select mobile-only-menu" onchange="filterGamesFromSelect(this.value)">
+                        <option value="todos">📋 Mostrar Todos los Estados</option>
+                        <option value="pendiente">⏳ Por jugar</option>
+                        <option value="jugando">🕹️ Jugando</option>
+                        <option value="completado">🏆 Completados</option>
+                        <option value="favoritos">❤️ Mis Favoritos</option>
+                        <option value="noadquirido">🛑 No Adquirido</option>
+                    </select>
                 </div>
 
-            <!-- Aquí abajo se siguen pintando las celdas automáticas de JavaScript -->
-            <div class="calendar-days-grid" id="calendar-days-grid"></div>
+                <!-- Barra de búsqueda -->
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="game-search" placeholder="Buscar juego por nombre..." oninput="searchGames()">
+                </div>
+
+                <!-- Rejilla Principal para Cartas de Juegos -->
+                <div class="games-grid" id="games-grid"></div>
+
+                <!-- Contenedor Oculto del Planificador (Calendario) -->
+                <div id="calendar-container" style="display: none;">
+                    <h2 id="calendar-month-title" style="text-align:center; color:#00ff99; margin-bottom:20px;">📅 Planificador</h2>
+                    <div class="calendar-weekdays">
+                        <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
+                    </div>
+                    <div class="calendar-days-grid" id="calendar-days-grid"></div>
+                </div>
+
+                <!-- Contenedor Oculto del Setup -->
+                <div id="setup-container" style="display: none;">
+                    <div class="games-grid" id="setup-grid"></div>
+                </div>
+
+                <!-- Contenedor Oculto de los Mapas -->
+                <div id="mapas-container" style="display: none;">
+                    <div class="games-grid" id="mapas-grid"></div>
+                </div>
+
+            </div>
         </div>
+    </div>
 
-<!-- Modifica este bloque en tu HTML eliminando la barra de almacenamiento -->
-<div id="setup-container" style="display: none;">
-    
-    <!-- 🗑️ HEMOS BORRADO TODO EL COLOCO DE LAS ESTADÍSTICAS Y LA BARRA VERDE -->
+    <!-- Modal para visualización de mapas a pantalla completa -->
+    <div id="mapa-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; justify-content:center; align-items:center;" onclick="cerrarMapa()">
+        <img id="mapa-gigante" src="" alt="Mapa ampliado" style="max-width:90%; max-height:90%; border-radius:10px; box-shadow:0 0 30px rgba(0,255,153,0.5);">
+    </div>
 
-    <!-- Dejamos únicamente la cuadrícula para tus dispositivos ⏬ -->
-    <div class="games-grid" id="setup-grid"></div>
-</div>
-
-
-            <!-- Cuadrícula de Tarjetas de Juegos -->
-            <div id="games-grid" class="games-grid"></div>
-        </div>
-    
-    </div> <!-- Cierre de app-layout -->
-
+    <!-- Carga del Script lógico -->
     <script src="app.js"></script>
 </body>
 </html>
