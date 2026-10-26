@@ -434,7 +434,7 @@ function renderSetup() {
     if (!grid) return; 
     grid.innerHTML = '';
     
-    // 🟢 CORRECCIÓN: Forzar que el contenedor use la rejilla CSS adaptativa
+    // 🟢 Asegura que se mantenga el diseño en columnas al renderizar
     grid.className = 'games-grid';
     
     misDispositivos.forEach(d => {
@@ -451,7 +451,7 @@ function renderMapas() {
     if (!grid) return; 
     grid.innerHTML = '';
     
-    // 🟢 CORRECCIÓN: Forzar que el contenedor use la rejilla CSS adaptativa
+    // 🟢 Asegura que se mantenga el diseño en columnas al renderizar
     grid.className = 'games-grid';
     
     misMapas.forEach(m => {
@@ -459,7 +459,7 @@ function renderMapas() {
         card.className = 'game-card'; 
         card.style.cursor = 'pointer'; 
         card.onclick = () => abrirMapa(m.image);
-        card.innerHTML = `<div class="card-front"><img src="${m.image}" class="card-banner"></div><div class="card-back"><h3 class="card-title">${m.title}</h3><span style="font-size:10px;color:#666;text-align:center;">🔍 Ampliar</span></div>`;
+        card.innerHTML = `<div class="card-front"><img src="${m.image}" class="card-banner"></div><div class="card-back"><h3 class="card-title">${m.title}</h3><span style="font-size:10px;color:#666;text-align:center;margin-top:5px;display:block;">🔍 Ampliar</span></div>`;
         grid.appendChild(card);
     });
 }
