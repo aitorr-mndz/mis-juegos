@@ -492,7 +492,7 @@ function renderCalendar() {
         cell.className = gameSet !== "" ? 'calendar-day free-to-play' : 'calendar-day';
         cell.innerHTML = `
             <span>${d}</span>
-            ${gameSet !== "" ? `<span style="color:#00ff99; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11px; font-weight:bold; display:block; margin: 4px 0;">🕹️ ${gameSet}</span>` : ''}
+            ${gameSet !== "" ? `<span style="color:#00ff99; font-weight:bold;">🕹️ ${gameSet}</span>` : ''}
             <select class="calendar-select-game" onchange="planificarJuego('${key}', this.value)">
                 ${opts.replace(`value="${gameSet}"`, `value="${gameSet}" selected`)}
             </select>
