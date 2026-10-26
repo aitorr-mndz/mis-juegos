@@ -186,6 +186,7 @@ let favoritosPrincipal = JSON.parse(localStorage.getItem('mis_favoritos_principa
 let juegosPrincipal = JSON.parse(localStorage.getItem('mi_coleccion')) || catalogoInicial;
 let juegosOtros = JSON.parse(localStorage.getItem('mis_otros_juegos')) || catalogoOtros;
 let diasPlanificados = JSON.parse(localStorage.getItem('mis_dias_libres_juegos')) || {};
+let fechaCalendarioActual = new Date(); // Guarda el mes y año seleccionado en la agenda
 let games = juegosPrincipal;
 const gamesGrid = document.getElementById('games-grid');
 const IMAGEN_POR_DEFECTO = "defecto.jpg";
@@ -396,15 +397,21 @@ function renderCalendar() {
     const title = document.getElementById('calendar-month-title');
     if (!grid || !title) return;
     grid.innerHTML = '';
-    
-    const now = new Date();
-    const y = now.getFullYear();
-    const m = now.getMonth();
+
+    // Obtener el año y mes de la variable de control global
+    const y = fechaCalendarioActual.getFullYear();
+    const m = fechaCalendarioActual.getMonth();
     const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-    
-    // 🟢 RESTAURADO: Comillas invertidas para el título dinámico del calendario
-    title.innerText = `📅 Agenda: ${months[m]} ${y}`;
-    
+
+    // 🟢 Cabecera interactiva con flechas para cambiar de mes de forma ilimitada
+    title.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 15px;">
+            <button onclick="cambiarMesCalendario(-1)" style="background: #1c1c1e; border: 1px solid #2d2d30; color: #00ff99; font-size: 18px; padding: 6px 14px; border-radius: 6px; cursor: pointer;">◀</button>
+            <span style="font-weight: bold; min-width: 200px; display: inline-block;">📅 ${months[m]} ${y}</span>
+            <button onclick="cambiarMesCalendario(1)" style="background: #1c1c1e; border: 1px solid #2d2d30; color: #00ff99; font-size: 18px; padding: 6px 14px; border-radius: 6px; cursor: pointer;">▶</button>
+        </div>
+    `;
+
     let startDay = new Date(y, m, 1).getDay();
     let margin = startDay === 0 ? 6 : startDay - 1;
     for (let i = 0; i < margin; i++) {
@@ -412,27 +419,37 @@ function renderCalendar() {
         cell.className = 'calendar-day empty-day'; 
         grid.appendChild(cell);
     }
+
     const days = new Date(y, m + 1, 0).getDate();
-    // 🟢 RESTAURADO: Backticks en la opción por defecto del calendario
     let opts = `<option value="">Ocupado 🛑</option>`;
     
     [...juegosPrincipal].sort((a,b)=>a.title.localeCompare(b.title)).forEach(g => { 
-        // 🟢 RESTAURADO: Backticks en las opciones del selector de juegos mapeados
         opts += `<option value="${g.title}">${g.title}</option>`; 
     });
     
     for (let d = 1; d <= days; d++) {
         const cell = document.createElement('div');
-        // 🟢 RESTAURADO: Backticks en la clave de fecha única de persistencia
+        // La clave de almacenamiento ahora incluye dinámicamente el año y mes correspondiente
         const key = `${y}-${m}-${d}`;
         const gameSet = diasPlanificados[key] || "";
         
         cell.className = gameSet !== "" ? 'calendar-day free-to-play' : 'calendar-day';
-        // 🟢 RESTAURADO: Backticks en el marcado HTML de la celda de cada día
-        cell.innerHTML = `<span>${d}</span>${gameSet !== "" ? `<span style="color:#00ff99;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">🕹️ ${gameSet}</span>` : ''}<select class="calendar-select-game" onchange="planificarJuego('${key}', this.value)">${opts.replace(`value="${gameSet}"`, `value="${gameSet}" selected`)}</select>`;
+        cell.innerHTML = `
+            <span>${d}</span>
+            ${gameSet !== "" ? `<span style="color:#00ff99; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11px; font-weight:bold;">🕹️ ${gameSet}</span>` : ''}
+            <select class="calendar-select-game" onchange="planificarJuego('${key}', this.value)">
+                ${opts.replace(`value="${gameSet}"`, `value="${gameSet}" selected`)}
+            </select>
+        `;
         grid.appendChild(cell);
     }
 }
+
+// 🟢 Nueva función para saltar hacia delante o hacia atrás en los meses del año
+window.cambiarMesCalendario = function(direccion) {
+    fechaCalendarioActual.setMonth(fechaCalendarioActual.getMonth() + direccion);
+    renderCalendar();
+};
 
 window.planificarJuego = function(key, val) {
     if (val === "") delete diasPlanificados[key]; else diasPlanificados[key] = val;
