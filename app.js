@@ -172,8 +172,8 @@ const misMapas = [
     { id: 306, title: "Vice City - GTA VC", image: "ImgMaps/gtavc_map.jpg", juego: "Grand Theft Auto Vice City" },
     { id: 307, title: "San Andreas - GTA SA", image: "ImgMaps/gtaSa_map.jpg", juego: "Grand Theft San Andreas" },
     { id: 308, title: "Liberty City - GTA III", image: "ImgMaps/gta3_map.jpg", juego: "Grand Theft Auto III" },
-    { id: 309, title: "Manhattan - Spider-Man 2", image: "ImgMaps/spiderman2_amp.jpg", juego: "Spider-Man 2" },
-    { id: 310, title: "Manhattan - Spider-Man 1 & MM", image: "ImgMaps/spiderman_amp.jpg", juego: "Spider-Man Remastered" },
+    { id: 309, title: "Manhattan - Spider-Man 2", image: "ImgMaps/spiderman2_map.jpg", juego: "Spider-Man 2" },
+    { id: 310, title: "Manhattan - Spider-Man 1 & MM", image: "ImgMaps/spiderman_map.jpg", juego: "Spider-Man Remastered" },
     { id: 310, title: "Islas Palápagos - Palworld", image: "ImgMaps/palworld_map.jpg", juego: "Palworld" }
 ];
 // =========================================================================
