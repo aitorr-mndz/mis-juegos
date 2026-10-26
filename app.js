@@ -174,7 +174,7 @@ const misMapas = [
     { id: 308, title: "Liberty City - GTA III", image: "ImgMaps/gta3_map.jpg", juego: "Grand Theft Auto III" },
     { id: 309, title: "Manhattan - Spider-Man 2", image: "ImgMaps/spiderman2_amp.jpg", juego: "Spider-Man 2" },
     { id: 310, title: "Manhattan - Spider-Man 1 & MM", image: "ImgMaps/spiderman_amp.jpg", juego: "Spider-Man Remastered" },
-    { id: 310, title: "Islas Palápagos - Palworld", image: "ImgMaps/palworld_amp.jpg", juego: "Palworld" }
+    { id: 310, title: "Islas Palápagos - Palworld", image: "ImgMaps/palworld_map.jpg", juego: "Palworld" }
 ];
 // =========================================================================
 // 2. CONFIGURACIÓN DEL SISTEMA
