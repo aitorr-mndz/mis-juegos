@@ -135,8 +135,9 @@ body {
 }
 
 /* Ocultar select de móvil en ordenadores */
-.mobile-status-dropdown {
-    display: none;
+.mobile-status-dropdown,
+#mobile-sub-filters {
+    display: none !important;
 }
 
 /* Buscador independiente, amplio y centrado */
