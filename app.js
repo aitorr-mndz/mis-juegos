@@ -392,56 +392,49 @@ function actualizarEstadisticas() {
     if (bar) bar.style.width = por + "%";
 }
 
-function renderCalendar() {
-    const grid = document.getElementById('calendar-days-grid');
-    const title = document.getElementById('calendar-month-title');
-    if (!grid || !title) return;
-    grid.innerHTML = '';
-
-    // Obtener el año y mes de la variable de control global
-    const y = fechaCalendarioActual.getFullYear();
-    const m = fechaCalendarioActual.getMonth();
-    const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-
-    // 🟢 Cabecera interactiva con flechas para cambiar de mes de forma ilimitada
-    title.innerHTML = `
-        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 15px;">
-            <button onclick="cambiarMesCalendario(-1)" style="background: #1c1c1e; border: 1px solid #2d2d30; color: #00ff99; font-size: 18px; padding: 6px 14px; border-radius: 6px; cursor: pointer;">◀</button>
-            <span style="font-weight: bold; min-width: 200px; display: inline-block;">📅 ${months[m]} ${y}</span>
-            <button onclick="cambiarMesCalendario(1)" style="background: #1c1c1e; border: 1px solid #2d2d30; color: #00ff99; font-size: 18px; padding: 6px 14px; border-radius: 6px; cursor: pointer;">▶</button>
-        </div>
-    `;
-
-    let startDay = new Date(y, m, 1).getDay();
-    let margin = startDay === 0 ? 6 : startDay - 1;
-    for (let i = 0; i < margin; i++) {
-        const cell = document.createElement('div'); 
-        cell.className = 'calendar-day empty-day'; 
-        grid.appendChild(cell);
-    }
-
-    const days = new Date(y, m + 1, 0).getDate();
-    let opts = `<option value="">Ocupado 🛑</option>`;
+function actualizarEstadisticas() {
+    const total = juegosPrincipal.length;
+    const p = juegosPrincipal.filter(g => g.status === 'pendiente').length;
+    const j = juegosPrincipal.filter(g => g.status === 'jugando').length;
+    const c = juegosPrincipal.filter(g => g.status === 'completado').length;
+    const totalAdq = p + j + c;
+    const porObjetivo = totalAdq > 0 ? Math.round((c / totalAdq) * 100) : 0;
     
-    [...juegosPrincipal].sort((a,b)=>a.title.localeCompare(b.title)).forEach(g => { 
-        opts += `<option value="${g.title}">${g.title}</option>`; 
-    });
-    
-    for (let d = 1; d <= days; d++) {
-        const cell = document.createElement('div');
-        // La clave de almacenamiento ahora incluye dinámicamente el año y mes correspondiente
-        const key = `${y}-${m}-${d}`;
-        const gameSet = diasPlanificados[key] || "";
+    if(document.getElementById('count-todos')) document.getElementById('count-todos').innerText = total;
+    if(document.getElementById('count-pendiente')) document.getElementById('count-pendiente').innerText = p;
+    if(document.getElementById('count-jugando')) document.getElementById('count-jugando').innerText = j;
+    if(document.getElementById('count-completado')) document.getElementById('count-completado').innerText = c;
+
+    const percentEl = document.getElementById('progress-percent');
+    const bar = document.getElementById('progress-bar-fill');
+
+    // 🟢 ANIMACIÓN PROFESIONAL: Incremento fluido desde 0% hasta el objetivo
+    if (percentEl && bar) {
+        // Cancelar cualquier animación previa que se esté ejecutando para evitar conflictos
+        if (window.intervaloProgreso) clearInterval(window.intervaloProgreso);
         
-        cell.className = gameSet !== "" ? 'calendar-day free-to-play' : 'calendar-day';
-        cell.innerHTML = `
-            <span>${d}</span>
-            ${gameSet !== "" ? `<span style="color:#00ff99; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11px; font-weight:bold;">🕹️ ${gameSet}</span>` : ''}
-            <select class="calendar-select-game" onchange="planificarJuego('${key}', this.value)">
-                ${opts.replace(`value="${gameSet}"`, `value="${gameSet}" selected`)}
-            </select>
-        `;
-        grid.appendChild(cell);
+        let conteoActual = 0;
+        bar.style.width = "0%"; // Reinicia la barra a cero antes de expandirse
+
+        // Si el objetivo es 0, lo pintamos directamente sin bucle
+        if (porObjetivo === 0) {
+            percentEl.innerText = `Progreso: 0%`;
+            return;
+        }
+
+        // Calculamos la velocidad para que la carga dure exactamente 1 segundo (1000ms)
+        const pasos Totales = porObjetivo;
+        const tiempoPaso = Math.max(10, Math.floor(1000 / pasosTotales));
+
+        window.intervaloProgreso = setInterval(() => {
+            conteoActual++;
+            percentEl.innerText = `Progreso: ${conteoActual}%`;
+            bar.style.width = conteoActual + "%";
+
+            if (conteoActual >= porObjetivo) {
+                clearInterval(window.intervaloProgreso);
+            }
+        }, tiempoPaso);
     }
 }
 
