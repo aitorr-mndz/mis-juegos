@@ -250,7 +250,20 @@ function renderCards() {
 window.changeCollection = function(tipo, elemento) {
     coleccionActiva = tipo;
     
-    // Sincronizar clases activas en los botones de navegación
+    // 🟢 CORRECCIÓN: Resetear el filtro global para que "Otros Juegos" no se rompa con filtros residuales
+    currentFilter = 'todos';
+    
+    // Sincronizar los botones visuales de filtros por si acaso
+    const pcButtons = document.getElementById('sub-filters');
+    if (pcButtons) {
+        pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        const todosBtn = pcButtons.querySelector('.filter-btn[onclick*="todos"]');
+        if (todosBtn) todosBtn.classList.add('active');
+    }
+    const mobileSub = document.getElementById('mobile-sub-filters');
+    if (mobileSub) mobileSub.value = 'todos';
+
+    // Sincronizar clases activas en los botones de navegación principales
     document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
     if (elemento) {
         elemento.classList.add('active');
@@ -278,22 +291,14 @@ window.changeCollection = function(tipo, elemento) {
         games = tipo === 'principal' ? juegosPrincipal : juegosOtros;
         if(gamesGridObj) gamesGridObj.style.display = 'grid';
         
-        // 🟢 CORRECCIÓN: Mostrar los filtros y buscador solo si es 'principal'. 
-        // Si es 'otros', ocultamos toda la barra de subfiltros para limpiar la vista.
         if (tipo === 'principal') {
             if(topFilters) topFilters.style.display = 'block';
-            document.getElementById('sub-filters').style.display = 'flex'; // Muestra botones en Principal
-            const mobileSub = document.getElementById('mobile-sub-filters');
-            if(mobileSub) mobileSub.style.display = 'block';
             if(statsPanel) statsPanel.style.display = 'flex';
         } else {
-            if(topFilters) topFilters.style.display = 'block';
-            document.getElementById('sub-filters').style.display = 'none'; // 🟢 Oculta botones en Otros Juegos
-            const mobileSub = document.getElementById('mobile-sub-filters');
-            if(mobileSub) mobileSub.style.display = 'none';
+            if(topFilters) topFilters.style.display = 'none'; // Oculta el menú de estados
             if(statsPanel) statsPanel.style.display = 'none';
         }
-
+        
         renderCards();
     } else {
         if(topFilters) topFilters.style.display = 'none';
