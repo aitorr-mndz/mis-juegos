@@ -417,9 +417,65 @@ function actualizarEstadisticas() {
     }
 }
 
-// 🟢 Nueva función para saltar hacia delante o hacia atrás en los meses del año
+function renderCalendar() {
+    const grid = document.getElementById('calendar-days-grid');
+    const title = document.getElementById('calendar-month-title');
+    if (!grid || !title) return;
+    grid.innerHTML = '';
+
+    // Si por alguna razón la variable global no se ha instanciado, la forzamos aquí
+    if (!window.fechaCalendarioActual) {
+        window.fechaCalendarioActual = new Date();
+    }
+
+    const y = window.fechaCalendarioActual.getFullYear();
+    const m = window.fechaCalendarioActual.getMonth();
+    const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+    // 🟢 Renderizado seguro y centrado del título interactivo
+    title.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 20px 0; width: 100%;">
+            <button onclick="cambiarMesCalendario(-1)" style="background: #1c1c1e; border: 1px solid #2d2d30; color: #00ff99; font-size: 18px; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold;">◀</button>
+            <span style="font-weight: bold; font-size: 22px; min-width: 220px; display: inline-block; text-align: center; color: #fff;">📅 ${months[m]} ${y}</span>
+            <button onclick="cambiarMesCalendario(1)" style="background: #1c1c1e; border: 1px solid #2d2d30; color: #00ff99; font-size: 18px; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold;">▶</button>
+        </div>
+    `;
+
+    let startDay = new Date(y, m, 1).getDay();
+    let margin = startDay === 0 ? 6 : startDay - 1;
+    for (let i = 0; i < margin; i++) {
+        const cell = document.createElement('div'); 
+        cell.className = 'calendar-day empty-day'; 
+        grid.appendChild(cell);
+    }
+
+    const days = new Date(y, m + 1, 0).getDate();
+    let opts = `<option value="">Ocupado 🛑</option>`;
+    
+    [...juegosPrincipal].sort((a,b)=>a.title.localeCompare(b.title)).forEach(g => { 
+        opts += `<option value="${g.title}">${g.title}</option>`; 
+    });
+    
+    for (let d = 1; d <= days; d++) {
+        const cell = document.createElement('div');
+        const key = `${y}-${m}-${d}`;
+        const gameSet = diasPlanificados[key] || "";
+        
+        cell.className = gameSet !== "" ? 'calendar-day free-to-play' : 'calendar-day';
+        cell.innerHTML = `
+            <span>${d}</span>
+            ${gameSet !== "" ? `<span style="color:#00ff99; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11px; font-weight:bold; display:block; margin: 4px 0;">🕹️ ${gameSet}</span>` : ''}
+            <select class="calendar-select-game" onchange="planificarJuego('${key}', this.value)">
+                ${opts.replace(`value="${gameSet}"`, `value="${gameSet}" selected`)}
+            </select>
+        `;
+        grid.appendChild(cell);
+    }
+}
+
 window.cambiarMesCalendario = function(direccion) {
-    fechaCalendarioActual.setMonth(fechaCalendarioActual.getMonth() + direccion);
+    if (!window.fechaCalendarioActual) window.fechaCalendarioActual = new Date();
+    window.fechaCalendarioActual.setMonth(window.fechaCalendarioActual.getMonth() + direccion);
     renderCalendar();
 };
 
