@@ -354,9 +354,22 @@ window.changeStatus = function(id, newStatus) {
     renderCards();
 };
 
+// =========================================================================
+// SISTEMA DE CALIFICACIÓN POR ESTRELLAS (CORREGIDO)
+// =========================================================================
 window.rateGame = function(id, stars) {
+    // 1. Actualizamos la colección principal buscando el juego por ID
     juegosPrincipal = juegosPrincipal.map(g => g.id === id ? { ...g, stars: Math.trunc(stars) } : g);
+    
+    // 2. Guardamos inmediatamente el catálogo actualizado en localStorage
     localStorage.setItem('mi_coleccion', JSON.stringify(juegosPrincipal));
+    
+    // 3. Sincronizamos la variable de trabajo activa si estamos visualizando la colección principal
+    if (coleccionActiva === 'principal') {
+        games = juegosPrincipal;
+    }
+    
+    // 4. Volvemos a pintar las tarjetas para mostrar el nuevo número de estrellas doradas
     renderCards();
 };
 
@@ -365,11 +378,26 @@ window.searchGames = function() {
     if (searchInput) { searchText = searchInput.value; renderCards(); }
 };
 
+// =========================================================================
+// SISTEMA DE FAVORITOS (CORREGIDO - ERROR DE VARIABLE ELIMINADO)
+// =========================================================================
 window.toggleFavorite = function(event, id) {
+    // Evitamos que al hacer clic en el corazón se active el evento de la tarjeta trasera/frontal
     event.stopPropagation();
+    
     const index = favoritosPrincipal.indexOf(id);
-    if (index === -1) favoritosPrincipal.push(id); else favoritosPrincipal.splice(index, 1);
-    localStorage.setItem('mis_favoritos_principal', JSON.stringify(favoritesPrincipal));
+    if (index === -1) {
+        // Si no está en favoritos, lo agregamos
+        favoritosPrincipal.push(id);
+    } else {
+        // Si ya estaba, lo eliminamos de la lista
+        favoritosPrincipal.splice(index, 1);
+    }
+    
+    // 🟢 CORRECCIÓN: Cambiado de 'favoritesPrincipal' a 'favoritosPrincipal' para evitar fallos de ejecución
+    localStorage.setItem('mis_favoritos_principal', JSON.stringify(favoritosPrincipal));
+    
+    // Volvemos a renderizar las tarjetas para actualizar el estado visual del corazón (rojo/gris)
     renderCards();
 };
 
