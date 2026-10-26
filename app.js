@@ -379,25 +379,6 @@ function actualizarEstadisticas() {
     const j = juegosPrincipal.filter(g => g.status === 'jugando').length;
     const c = juegosPrincipal.filter(g => g.status === 'completado').length;
     const totalAdq = p + j + c;
-    const por = totalAdq > 0 ? Math.round((c / totalAdq) * 100) : 0;
-    
-    if(document.getElementById('count-todos')) document.getElementById('count-todos').innerText = total;
-    if(document.getElementById('count-pendiente')) document.getElementById('count-pendiente').innerText = p;
-    if(document.getElementById('count-jugando')) document.getElementById('count-jugando').innerText = j;
-    if(document.getElementById('count-completado')) document.getElementById('count-completado').innerText = c;
-    // 🟢 RESTAURADO: Comillas invertidas para la inyección de texto dinámica
-    if(document.getElementById('progress-percent')) document.getElementById('progress-percent').innerText = `Progreso: ${por}%`;
-    
-    const bar = document.getElementById('progress-bar-fill');
-    if (bar) bar.style.width = por + "%";
-}
-
-function actualizarEstadisticas() {
-    const total = juegosPrincipal.length;
-    const p = juegosPrincipal.filter(g => g.status === 'pendiente').length;
-    const j = juegosPrincipal.filter(g => g.status === 'jugando').length;
-    const c = juegosPrincipal.filter(g => g.status === 'completado').length;
-    const totalAdq = p + j + c;
     const porObjetivo = totalAdq > 0 ? Math.round((c / totalAdq) * 100) : 0;
     
     if(document.getElementById('count-todos')) document.getElementById('count-todos').innerText = total;
