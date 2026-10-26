@@ -389,22 +389,20 @@ function actualizarEstadisticas() {
     const percentEl = document.getElementById('progress-percent');
     const bar = document.getElementById('progress-bar-fill');
 
-    // 🟢 ANIMACIÓN PROFESIONAL: Incremento fluido desde 0% hasta el objetivo
+    // 🟢 ANIMACIÓN CORREGIDA: Incremento fluido sin espacios en variables
     if (percentEl && bar) {
-        // Cancelar cualquier animación previa que se esté ejecutando para evitar conflictos
         if (window.intervaloProgreso) clearInterval(window.intervaloProgreso);
         
         let conteoActual = 0;
-        bar.style.width = "0%"; // Reinicia la barra a cero antes de expandirse
+        bar.style.width = "0%";
 
-        // Si el objetivo es 0, lo pintamos directamente sin bucle
         if (porObjetivo === 0) {
             percentEl.innerText = `Progreso: 0%`;
             return;
         }
 
-        // Calculamos la velocidad para que la carga dure exactamente 1 segundo (1000ms)
-        const pasos Totales = porObjetivo;
+        // Corregido: variable unificada sin espacios
+        const pasosTotales = porObjetivo; 
         const tiempoPaso = Math.max(10, Math.floor(1000 / pasosTotales));
 
         window.intervaloProgreso = setInterval(() => {
