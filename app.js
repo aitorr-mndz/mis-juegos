@@ -250,10 +250,10 @@ function renderCards() {
 window.changeCollection = function(tipo, elemento) {
     coleccionActiva = tipo;
     
-    // 🟢 CORRECCIÓN: Resetear el filtro global para que "Otros Juegos" no se rompa con filtros residuales
+    // 🟢 CORRECCIÓN: Resetear el filtro global de estados para que "Otros Juegos" muestre todo por defecto
     currentFilter = 'todos';
     
-    // Sincronizar los botones visuales de filtros por si acaso
+    // Sincronizar botones de filtro por si acaso
     const pcButtons = document.getElementById('sub-filters');
     if (pcButtons) {
         pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
@@ -263,7 +263,7 @@ window.changeCollection = function(tipo, elemento) {
     const mobileSub = document.getElementById('mobile-sub-filters');
     if (mobileSub) mobileSub.value = 'todos';
 
-    // Sincronizar clases activas en los botones de navegación principales
+    // Sincronizar clases activas en botones de navegación
     document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
     if (elemento) {
         elemento.classList.add('active');
@@ -279,24 +279,30 @@ window.changeCollection = function(tipo, elemento) {
     const setupContainer = document.getElementById('setup-container');
     const mapasContainer = document.getElementById('mapas-container');
     
-    // Resetear búsquedas al cambiar de sección
+    // Reiniciar texto escrito en el buscador al cambiar de pestaña
     const searchInput = document.getElementById('game-search');
     if (searchInput) searchInput.value = '';
     searchText = '';
 
-    // Esconder todas las rejillas
+    // Esconder todas las secciones de contenido
     [gamesGridObj, calendarContainer, setupContainer, mapasContainer].forEach(el => { if(el) el.style.display = 'none'; });
     
     if (tipo === 'principal' || tipo === 'otros') {
         games = tipo === 'principal' ? juegosPrincipal : juegosOtros;
         if(gamesGridObj) gamesGridObj.style.display = 'grid';
         
+        // 🟢 CORRECCIÓN: El contenedor del buscador se queda visible en ambos apartados, 
+        // pero encendemos o apagamos selectivamente los sub-botones de estado y las estadísticas.
         if (tipo === 'principal') {
             if(topFilters) topFilters.style.display = 'block';
+            if(pcButtons) pcButtons.style.display = 'flex'; // Muestra botones en Principal
+            if(mobileSub) mobileSub.style.display = 'block';
             if(statsPanel) statsPanel.style.display = 'flex';
         } else {
-            if(topFilters) topFilters.style.display = 'none'; // Oculta el menú de estados
-            if(statsPanel) statsPanel.style.display = 'none';
+            if(topFilters) topFilters.style.display = 'block'; // 👈 Mantiene el buscador visible en Otros Juegos
+            if(pcButtons) pcButtons.style.display = 'none';    // 🛑 Oculta los botones de estado (Todos, Por jugar...)
+            if(mobileSub) mobileSub.style.display = 'none';   // 🛑 Oculta el selector móvil
+            if(statsPanel) statsPanel.style.display = 'none';   // 🛑 Oculta las estadísticas
         }
         
         renderCards();
