@@ -435,14 +435,51 @@ body {
     font-size: 12px !important;          /* Tamaño ideal para celdas grandes */
 }
 
-/* Ajuste del desplegable selector para evitar que se coma texto */
-.calendar-select-game {
-    white-space: normal !important;
-    height: auto !important;             /* Permite que el control crezca verticalmente */
+/* =========================================================================
+   ESTILIZADO PREMIUM PARA LOS SELECTORES DEL CALENDARIO
+   ========================================================================= */
+.calendar-select-game { 
+    width: 100% !important; 
+    background-color: #1a1a1c !important; /* Fondo oscuro a juego con las tarjetas */
+    color: #ffffff !important;            /* Texto blanco brillante */
+    border: 1px solid #2d2d30 !important; /* Borde sutil por defecto */
+    font-size: 12px !important; 
+    padding: 6px 24px 6px 10px !important; /* Espacio para que el texto respire */
+    border-radius: 6px !important;        /* Esquinas redondeadas y suaves */
+    margin-top: 8px !important;
+    outline: none !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+    
+    /* Personalización de la flecha del selector */
+    appearance: none !important;          /* Quita la flecha gris fea nativa de Windows */
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='10' height='6' viewBox='0 0 10 6'><path fill='%2300ff99' d='M0 0l5 5 5-5z'/></svg>") !important; /* Flecha verde neón */
+    background-repeat: no-repeat !important;
+    background-position: right 10px center !important;
+    background-size: 10px 6px !important;
+    
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
 }
 
+/* Efecto al pasar el ratón por encima del selector */
+.calendar-select-game:hover {
+    border-color: #444448 !important;
+    background-color: #222224 !important;
+}
+
+/* Efecto de enfoque cuando haces clic para abrir el menú */
 .calendar-select-game:focus {
-    border-color: var(--neon-green);
+    border-color: var(--neon-green) !important; /* Borde verde neón iluminado */
+    box-shadow: 0 0 8px rgba(0, 255, 153, 0.2) !important;
+}
+
+/* Estilo para las opciones de la lista desplegable interna */
+.calendar-select-game option {
+    background-color: #161618 !important; /* Mantiene las opciones con fondo oscuro */
+    color: #ffffff !important;
+    padding: 8px !important;
 }
 
 /* =========================================================================
