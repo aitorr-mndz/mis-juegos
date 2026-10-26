@@ -355,16 +355,80 @@ body {
 }
 
 /* =========================================================================
-   6. CONTENEDOR DE CALENDARIO / AGENDA
+   6. CONTENEDOR DE CALENDARIO / AGENDA (ARREGLO DE ALINEACIÓN EN PC)
    ========================================================================= */
-#calendar-container { width: 100%; }
-#calendar-month-title { text-align: center; color: var(--neon-green); margin-bottom: 20px; }
-.calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-bottom: 10px; color: #666; font-weight: bold; }
-.calendar-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; width: 100%; }
-.calendar-day { background: #131315; border: 1px solid #232326; min-height: 90px; border-radius: 6px; padding: 6px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; }
-.calendar-day.free-to-play { border-color: var(--neon-green); background: #0c1f15; }
-.calendar-day.empty-day { visibility: hidden; }
-.calendar-select-game { width: 100%; background: #222; color: #fff; border: none; font-size: 11px; padding: 2px; }
+#calendar-container { 
+    width: 100%;
+    max-width: 1200px; /* Ancho ideal para ver la agenda en PC */
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+#calendar-month-title { 
+    text-align: center; 
+    color: var(--neon-green); 
+    margin-bottom: 25px; 
+    font-size: 22px;
+}
+
+/* Forzar que los encabezados de los días de la semana ocupen 7 columnas reales */
+.calendar-weekdays { 
+    display: grid; 
+    grid-template-columns: repeat(7, 1fr); 
+    text-align: center; 
+    margin-bottom: 12px; 
+    color: #666; 
+    font-weight: bold; 
+    width: 100%;
+}
+
+/* 🟢 CORRECCIÓN CLAVE: Forzar una rejilla estricta de 7 columnas para los días */
+.calendar-days-grid { 
+    display: grid !important; 
+    grid-template-columns: repeat(7, 1fr) !important; 
+    gap: 10px; 
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Estilizado interno de cada celda del día */
+.calendar-day { 
+    background: #131315; 
+    border: 1px solid #232326; 
+    min-height: 100px; /* Un poco más alto para albergar bien los textos largos */
+    border-radius: 6px; 
+    padding: 8px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    box-sizing: border-box; 
+    overflow: hidden;
+}
+
+.calendar-day.free-to-play { 
+    border-color: var(--neon-green); 
+    background: rgba(0, 255, 153, 0.05); 
+    box-shadow: inset 0 0 10px rgba(0, 255, 153, 0.05);
+}
+
+.calendar-day.empty-day { 
+    visibility: hidden; 
+    pointer-events: none;
+}
+
+/* Ajuste del selector interno para que no rompa la celda */
+.calendar-select-game { 
+    width: 100%; 
+    background: #1c1c1e; 
+    color: #fff; 
+    border: 1px solid #2d2d30; 
+    font-size: 11px; 
+    padding: 4px; 
+    border-radius: 4px;
+    margin-top: 5px;
+    outline: none;
+    cursor: pointer;
+}
 
 /* =========================================================================
    7. ADAPTACIÓN EXCLUSIVA PARA DISPOSITIVOS MÓVILES
