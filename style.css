@@ -559,12 +559,6 @@ body {
     object-fit: cover;
 }
 
-/* 🟢 Oculta el menú desplegable de estados en la pestaña de otros juegos */
-#setup-container ~ #games-grid .game-card select, 
-.tab-otros-activa .card-select {
-    display: none !important;
-}
-
 /* =========================================================================
    FILTROS Y BUSCADOR (DISEÑO ADAPTATIVO MÓVIL/PC)
    ========================================================================= */
@@ -700,15 +694,4 @@ body {
     
     .calendar-days-grid { gap: 4px; }
     .calendar-day { min-height: 65px; font-size: 11px; }
-}
-
-/* 🟢 Si la colección activa NO es la principal, ocultamos el selector a la fuerza */
-.game-card select {
-    display: var(--display-menu, block);
-}
-
-/* Fuerza el borrado del select si el elemento padre no pertenece a la colección principal */
-#games-grid:not(.coleccion-principal) .card-select,
-#games-grid:not(.coleccion-principal) select {
-    display: none !important;
 }
