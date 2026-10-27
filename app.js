@@ -124,42 +124,41 @@ const catalogoOtros = [
 ];
 
 const misDispositivos = [
-    { 
-        id: 201, 
-        title: "Mi PC Gamer", 
-        categoria: "PC Master Race", 
-        image: "ImgSetup/pc_gaming.jpg", 
-        // 🟢 Corrección: Se arreglaron las comillas dobles internas en las pulgadas (27") para evitar un crash de sintaxis
-        componentes: ["⚡ Gráfica: NVIDIA RTX 3060 12GB", "⚙️ Procesador: AMD Ryzen 5 3600", "⚙️ Placa Base: Gigabyte B550 AORUS", "💾 RAM: Corsair DDR4 16GB", "🚀 Almacenamiento: SSD NVMe 2TB", "🖥️ Monitor: MSI G2722\" 144Hz", "🖥️ Monitor 2: ACER VG270\" 60Hz"] 
+    {
+        id: 201,
+        title: "Mi PC Gamer",
+        categoria: "PC Master Race",
+        image: "ImgSetup/pc_gaming.jpg",
+        // 🟢 CORRECCIÓN: Comillas dobles corregidas en los monitores (27\" y 27\") para que no rompan el script
+        componentes: ["⚡ Gráfica: NVIDIA RTX 3060 12GB", "⚙️ Procesador: AMD Ryzen 5 3600", "⚙️ Placa Base: Gigabyte B550 AORUS", "💾 RAM: Corsair DDR4 16GB", "🚀 Almacenamiento: SSD NVMe 2TB", "🖥️ Monitor: MSI G2722\" 144Hz", "🖥️ Monitor 2: ACER VG270\" 60Hz"]
     },
-    { 
-        id: 202, 
-        title: "PlayStation 5 Slim", 
-        categoria: "Consola Sobremesa", 
-        image: "ImgSetup/ps5.jpg", 
-        // 🟢 Corrección: Limpieza del texto roto en el mando Cosmic Red
-        componentes: ["💿 Unidad de disco Blu-ray", "🚀 SSD NVMe 1TB Custom", "🎮 Mando: DualSense Cosmic Red"] 
+    {
+        id: 202,
+        title: "PlayStation 5 Slim",
+        categoria: "Consola Sobremesa",
+        image: "ImgSetup/ps5.jpg",
+        componentes: ["💿 Unidad de disco Blu-ray", "🚀 SSD NVMe 1TB Custom", "🎮 Mando: DualSense Cosmic Red"]
     },
-    { 
-        id: 203, 
-        title: "Nintendo Switch 2", 
-        categoria: "Consola Portátil", 
-        image: "ImgSetup/switch2.jpg", 
-        componentes: ["📺 Pantalla: OLED 8 Pulgadas", "🎮 Mandos Joy-Con mejorados", "💾 256GB Almacenamiento"] 
+    {
+        id: 203,
+        title: "Nintendo Switch 2",
+        categoria: "Consola Portátil",
+        image: "ImgSetup/switch2.jpg",
+        componentes: ["📺 Pantalla: OLED 8 Pulgadas", "🎮 Mandos Joy-Con mejorados", "💾 256GB Almacenamiento"]
     },
-    { 
-        id: 204, 
-        title: "PlayStation 2 Slim", 
-        categoria: "Retro", 
-        image: "ImgSetup/ps2.jpg", 
-        componentes: ["💾 MemoryCard 8MB"] 
+    {
+        id: 204,
+        title: "PlayStation 2 Slim",
+        categoria: "Retro",
+        image: "ImgSetup/ps2.jpg",
+        componentes: ["💾 MemoryCard 8MB"]
     },
-    { 
-        id: 205, 
-        title: "PlayStation 3 Slim", 
-        categoria: "Retro", 
-        image: "ImgSetup/ps3.jpg", 
-        componentes: ["💾 Almacenamiento: 500GB"] 
+    {
+        id: 205,
+        title: "PlayStation 3 Slim",
+        categoria: "Retro",
+        image: "ImgSetup/ps3.jpg",
+        componentes: ["💾 Almacenamiento: 500GB"]
     }
 ];
 
@@ -187,24 +186,32 @@ let favoritosPrincipal = JSON.parse(localStorage.getItem('mis_favoritos_principa
 let juegosPrincipal = JSON.parse(localStorage.getItem('mi_coleccion')) || catalogoInicial;
 let juegosOtros = JSON.parse(localStorage.getItem('mis_otros_juegos')) || catalogoOtros;
 let diasPlanificados = JSON.parse(localStorage.getItem('mis_dias_libres_juegos')) || {};
-let fechaCalendarioActual = new Date(); // Guarda el mes y año seleccionado en la agenda
-let games = juegosPrincipal;
+let fechaCalendarioActual = new Date();
 const gamesGrid = document.getElementById('games-grid');
 const IMAGEN_POR_DEFECTO = "defecto.jpg";
 
 // =========================================================================
-// 3. RENDERIZADO FLUIDO (SIN VOLTEO 3D INCÓMODO EN MÓVIL)
+// 3. RENDERIZADO FLUIDO
 // =========================================================================
 function renderCards() {
     if (!gamesGrid) return;
     gamesGrid.innerHTML = '';
 
-    const filteredGames = games.filter(game => {
+    // El buscador ahora lee dinámicamente de juegosPrincipal o juegosOtros dependiendo de la pestaña activa
+    let listaActual = coleccionActiva === 'principal' ? juegosPrincipal : juegosOtros;
+
+    const filteredGames = listaActual.filter(game => {
         let coincideFiltro = currentFilter === 'todos' ? true : (currentFilter === 'favoritos' ? favoritosPrincipal.includes(game.id) : game.status === currentFilter);
         const coincideBusqueda = game.title.toLowerCase().includes(searchText.toLowerCase());
         let coincidePlataforma = currentPlatform === 'todas' || (game.plataforma && game.plataforma.some(p => p === currentPlatform || (currentPlatform === "PlayStation 5" && p === "PS5")));
         return coincideFiltro && coincideBusqueda && coincidePlataforma;
     });
+
+    if (filteredGames.length === 0) {
+        // 🟢 RESTAURADO: Comillas invertidas para el mensaje de alerta
+        gamesGrid.innerHTML = `<p style="color: #666; text-align: center; width: 100%; grid-column: 1/-1; margin: 40px 0;">No se encontraron videojuegos.</p>`;
+        return;
+    }
 
     filteredGames.forEach(game => {
         const card = document.createElement('div');
@@ -213,7 +220,7 @@ function renderCards() {
         let htmlLogos = '';
         if (game.plataforma) {
             game.plataforma.forEach(plat => {
-                // 🟢 RESTAURADO: Comillas de plantilla aplicadas a las imágenes de los logos
+                // 🟢 RESTAURADO: Comillas invertidas aplicadas a las imágenes de los logos de las plataformas
                 if (plat === "Steam") htmlLogos += `<img src="Logos/steam_logo.png" class="platform-icon" title="Steam">`;
                 else if (plat === "PlayStation 5" || plat === "PS5") htmlLogos += `<img src="Logos/ps5_logo.png" class="platform-icon" title="PS5">`;
                 else if (plat === "Nintendo Switch 2") htmlLogos += `<img src="Logos/switch_logo.png" class="platform-icon" title="Switch 2">`;
@@ -227,7 +234,7 @@ function renderCards() {
         let htmlEstrellas = '';
         if (coleccionActiva === 'principal' && game.status === 'completado') {
             const score = game.stars || 0;
-            // 🟢 RESTAURADO: Comillas de plantilla en el bloque de estrellas
+            // 🟢 RESTAURADO: Comillas invertidas en el contenedor de estrellas y sus elementos dinámicos
             htmlEstrellas = `<div class="stars-rating">`;
             for (let i = 1; i <= 5; i++) {
                 htmlEstrellas += `<span class="star ${i <= score ? 'active' : ''}" onclick="rateGame(${game.id}, ${i})">★</span>`;
@@ -235,11 +242,11 @@ function renderCards() {
             htmlEstrellas += `</div>`;
         }
 
-        // 🟢 RESTAURADO: Comillas de plantilla en botones secundarios y menús dinámicos
+        // 🟢 RESTAURADO: Comillas invertidas para el botón de favoritos y el selector de estados
         let htmlFavorito = coleccionActiva === 'principal' ? `<span class="fav-btn ${favoritosPrincipal.includes(game.id) ? 'active' : ''}" onclick="toggleFavorite(event, ${game.id})">♥</span>` : '';
         let htmlMenu = coleccionActiva === 'principal' ? `<select class="card-select status-${game.status}" onchange="changeStatus(${game.id}, this.value)"><option value="pendiente" ${game.status === 'pendiente' ? 'selected' : ''}>⏳ Por jugar</option><option value="jugando" ${game.status === 'jugando' ? 'selected' : ''}>🕹️ Jugando</option><option value="completado" ${game.status === 'completado' ? 'selected' : ''}>🏆 Completado</option><option value="noadquirido" ${game.status === 'noadquirido' ? 'selected' : ''}>🛑 No Adquirido</option></select>` : '';
         
-        // 🟢 RESTAURADO: Comillas de plantilla para inyectar la estructura interna de la tarjeta de juego
+        // 🟢 RESTAURADO: Comillas invertidas para inyectar la estructura interna de la tarjeta de juego
         card.innerHTML = `${htmlFavorito}<div class="card-front"><img src="${game.image}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'"></div><div class="card-back"><h3 class="card-title">${game.title}</h3><div class="platform-container">${htmlLogos}</div>${htmlEstrellas}${htmlMenu}</div>`;
         gamesGrid.appendChild(card);
     });
@@ -247,13 +254,13 @@ function renderCards() {
     actualizarEstadisticas();
 }
 // =========================================================================
-// 1. CONTROLADORES DE FILTROS Y ESTADOS UNIFICADOS
+// 4. CONTROLADORES DE FILTROS Y ESTADOS UNIFICADOS
 // =========================================================================
 window.changeCollection = function(tipo, elemento) {
     coleccionActiva = tipo;
     currentFilter = 'todos';
+    currentPlatform = 'todas';
     
-    // Sincronizar botones de filtro de PC
     const pcButtons = document.getElementById('sub-filters');
     if (pcButtons) {
         pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
@@ -263,8 +270,7 @@ window.changeCollection = function(tipo, elemento) {
     
     const mobileSub = document.getElementById('mobile-sub-filters');
     if (mobileSub) mobileSub.value = 'todos';
-
-    // Sincronizar clases activas en botones de navegación principales
+    
     document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
     if (elemento) {
         elemento.classList.add('active');
@@ -272,7 +278,7 @@ window.changeCollection = function(tipo, elemento) {
         const targetBtn = Array.from(document.querySelectorAll('.nav-item')).find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tipo));
         if (targetBtn) targetBtn.classList.add('active');
     }
-
+    
     const topFilters = document.querySelector('.top-filters-container');
     const statsPanel = document.getElementById('stats-panel');
     const calendarContainer = document.getElementById('calendar-container');
@@ -280,18 +286,14 @@ window.changeCollection = function(tipo, elemento) {
     const setupContainer = document.getElementById('setup-container');
     const mapasContainer = document.getElementById('mapas-container');
     
-    // Reiniciar buscador
     const searchInput = document.getElementById('game-search');
     if (searchInput) searchInput.value = '';
     searchText = '';
-
-    // Esconder secciones
+    
     [gamesGridObj, calendarContainer, setupContainer, mapasContainer].forEach(el => { if(el) el.style.display = 'none'; });
     
     if (tipo === 'principal' || tipo === 'otros') {
-        games = tipo === 'principal' ? juegosPrincipal : juegosOtros;
         if(gamesGridObj) gamesGridObj.style.display = 'grid';
-        
         if (tipo === 'principal') {
             if(topFilters) topFilters.style.display = 'block';
             if(pcButtons) pcButtons.style.display = 'flex';
@@ -303,7 +305,6 @@ window.changeCollection = function(tipo, elemento) {
             if(mobileSub) mobileSub.style.display = 'none';
             if(statsPanel) statsPanel.style.display = 'none';
         }
-        
         renderCards();
     } else {
         if(topFilters) topFilters.style.display = 'none';
@@ -314,61 +315,34 @@ window.changeCollection = function(tipo, elemento) {
     }
 };
 
-// Función unificada que corrige el click tanto en PC como en móviles
-window.filterGames = function(filterType, buttonElement) {
-    currentFilter = filterType;
-    
-    const pcButtons = document.getElementById('sub-filters');
-    if (pcButtons) {
-        pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-    }
-    
-    if (buttonElement) {
-        buttonElement.classList.add('active');
-    } else if (pcButtons) {
-        const botonEquivalente = Array.from(pcButtons.querySelectorAll('.filter-btn'))
-            .find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(filterType));
-        if (botonEquivalente) botonEquivalente.classList.add('active');
-    }
-
-    const mobileSub = document.getElementById('mobile-sub-filters');
-    if (mobileSub) mobileSub.value = filterType;
-    
+// 🟢 FUNCIÓN CONECTADA AL ONINPUT DEL HTML: Ejecuta la búsqueda instantánea por palabras
+window.handleSearch = function(text) {
+    searchText = text;
     renderCards();
 };
 
-window.filterGamesFromSelect = function(filterType) {
-    window.filterGames(filterType, null);
-};
-
-window.searchGames = function() {
-    const searchInput = document.getElementById('game-search');
-    if (searchInput) { 
-        searchText = searchInput.value; 
-        renderCards(); 
+// Enlaza los botones de PC y selectores al mismo filtrado de estados
+window.filterStatus = function(status, btnElement) {
+    currentFilter = status;
+    const container = document.getElementById('sub-filters');
+    if (container) {
+        container.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
     }
-};
-
-// Vincula tanto los botones de PC como el desplegable móvil a la misma función core
-window.filterGames = function(filterType, buttonElement) {
-    currentFilter = filterType;
-    if (buttonElement && buttonElement.parentElement) {
-        buttonElement.parentElement.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        buttonElement.classList.add('active');
+    if (btnElement) {
+        btnElement.classList.add('active');
     }
-    // Sincronizar el select móvil por si está visible
-    const mobileSub = document.getElementById('mobile-sub-filters');
-    if (mobileSub) mobileSub.value = filterType;
     renderCards();
 };
 
+// Mantener compatibilidad hacia atrás con el nombre viejo de la función si hiciera falta
+window.filterGames = window.filterStatus;
+
 window.filterGamesFromSelect = function(filterType) {
     currentFilter = filterType;
-    // Sincronizar los botones de PC por si está en resolución intermedia
     const pcButtons = document.getElementById('sub-filters');
     if (pcButtons) {
         pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        const activeBtn = pcButtons.querySelector(`.filter-btn[onclick*="${filterType}"]`);
+        const activeBtn = Array.from(pcButtons.querySelectorAll('.filter-btn')).find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(filterType));
         if (activeBtn) activeBtn.classList.add('active');
     }
     renderCards();
@@ -388,49 +362,25 @@ window.changeStatus = function(id, newStatus) {
 };
 
 // =========================================================================
-// SISTEMA DE CALIFICACIÓN POR ESTRELLAS (CORREGIDO)
+// 5. SISTEMA DE CALIFICACIÓN POR ESTRELLAS
 // =========================================================================
 window.rateGame = function(id, stars) {
-    // 1. Actualizamos la colección principal buscando el juego por ID
     juegosPrincipal = juegosPrincipal.map(g => g.id === id ? { ...g, stars: Math.trunc(stars) } : g);
-    
-    // 2. Guardamos inmediatamente el catálogo actualizado en localStorage
     localStorage.setItem('mi_coleccion', JSON.stringify(juegosPrincipal));
-    
-    // 3. Sincronizamos la variable de trabajo activa si estamos visualizando la colección principal
-    if (coleccionActiva === 'principal') {
-        games = juegosPrincipal;
-    }
-    
-    // 4. Volvemos a pintar las tarjetas para mostrar el nuevo número de estrellas doradas
     renderCards();
 };
-
-window.searchGames = function() {
-    const searchInput = document.getElementById('game-search');
-    if (searchInput) { searchText = searchInput.value; renderCards(); }
-};
-
 // =========================================================================
-// SISTEMA DE FAVORITOS (CORREGIDO - ERROR DE VARIABLE ELIMINADO)
+// 6. SISTEMA DE FAVORITOS
 // =========================================================================
 window.toggleFavorite = function(event, id) {
-    // Evitamos que al hacer clic en el corazón se active el evento de la tarjeta trasera/frontal
     event.stopPropagation();
-    
     const index = favoritosPrincipal.indexOf(id);
     if (index === -1) {
-        // Si no está en favoritos, lo agregamos
         favoritosPrincipal.push(id);
     } else {
-        // Si ya estaba, lo eliminamos de la lista
         favoritosPrincipal.splice(index, 1);
     }
-    
-    // 🟢 CORRECCIÓN: Cambiado de 'favoritesPrincipal' a 'favoritosPrincipal' para evitar fallos de ejecución
     localStorage.setItem('mis_favoritos_principal', JSON.stringify(favoritosPrincipal));
-    
-    // Volvemos a renderizar las tarjetas para actualizar el estado visual del corazón (rojo/gris)
     renderCards();
 };
 
@@ -446,31 +396,23 @@ function actualizarEstadisticas() {
     if(document.getElementById('count-pendiente')) document.getElementById('count-pendiente').innerText = p;
     if(document.getElementById('count-jugando')) document.getElementById('count-jugando').innerText = j;
     if(document.getElementById('count-completado')) document.getElementById('count-completado').innerText = c;
-
+    
     const percentEl = document.getElementById('progress-percent');
     const bar = document.getElementById('progress-bar-fill');
-
-    // 🟢 ANIMACIÓN CORREGIDA: Incremento fluido sin espacios en variables
     if (percentEl && bar) {
         if (window.intervaloProgreso) clearInterval(window.intervaloProgreso);
-        
         let conteoActual = 0;
         bar.style.width = "0%";
-
         if (porObjetivo === 0) {
             percentEl.innerText = `Progreso: 0%`;
             return;
         }
-
-        // Corregido: variable unificada sin espacios
-        const pasosTotales = porObjetivo; 
+        const pasosTotales = porObjetivo;
         const tiempoPaso = Math.max(10, Math.floor(1000 / pasosTotales));
-
         window.intervaloProgreso = setInterval(() => {
             conteoActual++;
             percentEl.innerText = `Progreso: ${conteoActual}%`;
             bar.style.width = conteoActual + "%";
-
             if (conteoActual >= porObjetivo) {
                 clearInterval(window.intervaloProgreso);
             }
@@ -478,58 +420,48 @@ function actualizarEstadisticas() {
     }
 }
 
+// =========================================================================
+// 7. GESTIÓN DEL CALENDARIO
+// =========================================================================
 function renderCalendar() {
     const grid = document.getElementById('calendar-days-grid');
     const title = document.getElementById('calendar-month-title');
     if (!grid || !title) return;
     grid.innerHTML = '';
-
-    // Si por alguna razón la variable global no se ha instanciado, la forzamos aquí
+    
     if (!window.fechaCalendarioActual) {
         window.fechaCalendarioActual = new Date();
     }
-
     const y = window.fechaCalendarioActual.getFullYear();
     const m = window.fechaCalendarioActual.getMonth();
     const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-
-    // 🟢 Renderizado seguro y centrado del título interactivo
-    title.innerHTML = `
-        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 20px 0; width: 100%;">
-            <button onclick="cambiarMesCalendario(-1)" style="background: #1c1c1e; border: 1px solid #2d2d30; color: #00ff99; font-size: 18px; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold;">◀</button>
-            <span style="font-weight: bold; font-size: 22px; min-width: 220px; display: inline-block; text-align: center; color: #fff;">📅 ${months[m]} ${y}</span>
-            <button onclick="cambiarMesCalendario(1)" style="background: #1c1c1e; border: 1px solid #2d2d30; color: #00ff99; font-size: 18px; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold;">▶</button>
-        </div>
-    `;
-
+    
+    // 🟢 RESTAURADO: Comillas invertidas para el HTML del mes del calendario
+    title.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 20px 0; width: 100%;"> <button onclick="cambiarMesCalendario(-1)" style="background: #1c1c1e; border: 1px solid #2d2d30; color: #00ff99; font-size: 18px; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold;">◀</button> <span style="font-weight: bold; font-size: 22px; min-width: 220px; display: inline-block; text-align: center; color: #fff;">📅 ${months[m]} ${y}</span> <button onclick="cambiarMesCalendario(1)" style="background: #1c1c1e; border: 1px solid #2d2d30; color: #00ff99; font-size: 18px; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold;">▶</button> </div>`;
+    
     let startDay = new Date(y, m, 1).getDay();
     let margin = startDay === 0 ? 6 : startDay - 1;
     for (let i = 0; i < margin; i++) {
-        const cell = document.createElement('div'); 
-        cell.className = 'calendar-day empty-day'; 
+        const cell = document.createElement('div');
+        cell.className = 'calendar-day empty-day';
         grid.appendChild(cell);
     }
-
-    const days = new Date(y, m + 1, 0).getDate();
-    let opts = `<option value="">Ocupado 🛑</option>`;
     
-    [...juegosPrincipal].sort((a,b)=>a.title.localeCompare(b.title)).forEach(g => { 
-        opts += `<option value="${g.title}">${g.title}</option>`; 
+    const days = new Date(y, m + 1, 0).getDate();
+    // 🟢 RESTAURADO: Comillas invertidas para la opción por defecto en el menú desplegable del calendario
+    let opts = `<option value="">Ocupado 🛑</option>`;
+    [...juegosPrincipal].sort((a,b)=>a.title.localeCompare(b.title)).forEach(g => {
+        opts += `<option value="${g.title}">${g.title}</option>`;
     });
     
     for (let d = 1; d <= days; d++) {
         const cell = document.createElement('div');
         const key = `${y}-${m}-${d}`;
         const gameSet = diasPlanificados[key] || "";
-        
         cell.className = gameSet !== "" ? 'calendar-day free-to-play' : 'calendar-day';
-        cell.innerHTML = `
-            <span>${d}</span>
-            ${gameSet !== "" ? `<span style="color:#00ff99; font-weight:bold;">🕹️ ${gameSet}</span>` : ''}
-            <select class="calendar-select-game" onchange="planificarJuego('${key}', this.value)">
-                ${opts.replace(`value="${gameSet}"`, `value="${gameSet}" selected`)}
-            </select>
-        `;
+        
+        // 🟢 RESTAURADO: Estructura interna de los días del calendario con condicionales para inyectar iconos
+        cell.innerHTML = `<span>${d}</span> ${gameSet !== "" ? `🕹️ ${gameSet}` : ''} <select class="calendar-select-game" onchange="planificarJuego('${key}', this.value)"> ${opts.replace(`value="${gameSet}"`, `value="${gameSet}" selected`)} </select>`;
         grid.appendChild(cell);
     }
 }
@@ -546,17 +478,18 @@ window.planificarJuego = function(key, val) {
     renderCalendar();
 };
 
+// =========================================================================
+// 8. RENDERS ADAPTATIVOS PARA MI SETUP Y MAPAS
+// =========================================================================
 function renderSetup() {
-    const grid = document.getElementById('setup-grid'); 
-    if (!grid) return; 
+    const grid = document.getElementById('setup-grid');
+    if (!grid) return;
     grid.innerHTML = '';
-    
-    // 🟢 Asegura que se mantenga el diseño en columnas al renderizar
     grid.className = 'games-grid';
-    
     misDispositivos.forEach(d => {
-        const card = document.createElement('div'); 
+        const card = document.createElement('div');
         card.className = 'game-card';
+        // 🟢 RESTAURADO: Comillas invertidas en el mapeo de la lista de componentes del Setup
         let comps = d.componentes.map(c => `<li style="font-size:11px;color:#ccc;text-align:left;">${c}</li>`).join('');
         card.innerHTML = `<div class="card-front"><img src="${d.image}" class="card-banner"></div><div class="card-back"><h3 class="card-title">${d.title}</h3><ul style="padding-left:15px;margin:5px 0;">${comps}</ul></div>`;
         grid.appendChild(card);
@@ -564,33 +497,31 @@ function renderSetup() {
 }
 
 function renderMapas() {
-    const grid = document.getElementById('mapas-grid'); 
-    if (!grid) return; 
+    const grid = document.getElementById('mapas-grid');
+    if (!grid) return;
     grid.innerHTML = '';
-    
-    // 🟢 Asegura que se mantenga el diseño en columnas al renderizar
     grid.className = 'games-grid';
-    
     misMapas.forEach(m => {
-        const card = document.createElement('div'); 
-        card.className = 'game-card'; 
-        card.style.cursor = 'pointer'; 
+        const card = document.createElement('div');
+        card.className = 'game-card';
+        card.style.cursor = 'pointer';
         card.onclick = () => abrirMapa(m.image);
+        // 🟢 RESTAURADO: Estructura interna para renderizar las tarjetas correspondientes a la galería de mapas
         card.innerHTML = `<div class="card-front"><img src="${m.image}" class="card-banner"></div><div class="card-back"><h3 class="card-title">${m.title}</h3><span style="font-size:10px;color:#666;text-align:center;margin-top:5px;display:block;">🔍 Ampliar</span></div>`;
         grid.appendChild(card);
     });
 }
 
-function abrirMapa(img) { 
-    const m = document.getElementById('mapa-modal'); 
-    const i = document.getElementById('mapa-gigante'); 
-    if(m && i){ i.src = img; m.style.display = 'flex'; } 
+function abrirMapa(img) {
+    const m = document.getElementById('mapa-modal');
+    const i = document.getElementById('mapa-gigante');
+    if(m && i){ i.src = img; m.style.display = 'flex'; }
 }
 
-window.cerrarMapa = function() { 
-    const m = document.getElementById('mapa-modal'); 
-    if(m) m.style.display = 'none'; 
+window.cerrarMapa = function() {
+    const m = document.getElementById('mapa-modal');
+    if(m) m.style.display = 'none';
 };
 
-// Inicialización de la vista por defecto al arrancar
+// Inicialización automática
 renderCards();
