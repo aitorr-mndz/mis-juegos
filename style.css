@@ -695,3 +695,8 @@ body {
     .calendar-days-grid { gap: 4px; }
     .calendar-day { min-height: 65px; font-size: 11px; }
 }
+
+/* 🟢 PERMITE OCULTAR LA FILA DE BOTONES DE ESTADO SIN TOCAR EL BUSCADOR */
+.hide-status-filters .pc-status-filters {
+    display: none !important;
+}
