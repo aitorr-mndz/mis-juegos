@@ -20,6 +20,7 @@ body {
     overflow-x: hidden;
 }
 
+/* Contenedor global centrado absolutamente */
 .web-container {
     width: 100%;
     max-width: 1300px;
@@ -28,9 +29,10 @@ body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Centra todos los bloques hijos horizontalmente */
 }
 
+/* Forzar que las secciones principales actúen como bloques centrados */
 .app-header, 
 .main-navigation, 
 .top-filters-container, 
@@ -52,15 +54,17 @@ body {
 }
 
 /* =========================================================================
-   2. MENÚ DE NAVEGACIÓN PRINCIPAL (FILA HORIZONTAL EN PC)
+   2. MENÚ DE NAVEGACIÓN PRINCIPAL (PC - CENTRADO)
    ========================================================================= */
 .main-navigation {
     display: flex !important;
-    flex-direction: row !important;
+    flex-direction: row !important; /* Forzar fila horizontal por defecto */
     justify-content: center;
     gap: 12px;
     margin-bottom: 30px;
     flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .nav-item {
@@ -86,30 +90,35 @@ body {
 }
 
 /* =========================================================================
-   3. FILTROS Y BUSCADOR (DISEÑO ADAPTATIVO)
+   3. FILTROS Y BUSCADOR (CON SEPARACIÓN PERFECTA - PC)
    ========================================================================= */
+/* Oculta el menú antiguo de plataformas por completo */
+.sidebar-platforms, 
+#sidebar-plat {
+    display: none !important;
+}
+
+.top-filters-container {
+    width: 100%;
+}
+
+/* 🟢 SEPARACIÓN INTEGRAL: Fila del buscador y subfiltros bien espaciados */
 .search-filter-row {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 25px;
+    gap: 25px;            /* 🌌 Espacio generoso entre los botones de estado y el buscador */
     width: 100%;
-    margin-top: 45px;
-    margin-bottom: 45px;
-    box-sizing: border-box;
+    margin-top: 45px;     /* ⬆️ Separa el bloque completo de las estadísticas de arriba */
+    margin-bottom: 45px;  /* ⬇️ Separa el bloque completo de las cartas de juegos de abajo */
 }
 
 .pc-status-filters {
-    display: flex !important;
+    display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 10px;
-}
-
-/* Ocultación inteligente de los botones de estado en Otras Colecciones */
-.top-filters-container.modo-otros .pc-status-filters {
-    display: none !important;
+    gap: 10px;            /* Espaciado interno cómodo entre los botones de estado */
 }
 
 .filter-btn {
@@ -128,11 +137,18 @@ body {
     border-color: var(--neon-blue);
 }
 
+/* Ocultar select de móvil en ordenadores */
+.mobile-status-dropdown,
+#mobile-sub-filters {
+    display: none !important;
+}
+
+/* Buscador independiente, amplio y centrado */
 .search-container {
     position: relative;
     width: 100%;
-    max-width: 480px;
-    margin-top: 5px;
+    max-width: 480px;     /* Un poco más amplio para que respire visualmente */
+    margin-top: 5px;      /* Separación extra vertical */
 }
 
 .search-icon {
@@ -145,7 +161,7 @@ body {
 
 #game-search {
     width: 100%;
-    padding: 12px 14px 12px 40px;
+    padding: 12px 14px 12px 40px; /* Más acolchado para un acabado prémium */
     background: #1c1c1e;
     border: 1px solid #2d2d30;
     border-radius: 6px;
@@ -157,17 +173,17 @@ body {
 }
 
 #game-search:focus {
-    border-color: var(--neon-green);
+    border-color: var(--neon-green); /* Destaca dinámicamente al escribir */
 }
 
 /* =========================================================================
-   4. PANEL DE ESTADÍSTICAS PREMIUM
+   4. PANEL DE ESTADÍSTICAS
    ========================================================================= */
 .stats-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 16px;
+    gap: 16px; /* Más separación entre bloques */
     margin-top: 20px;
     margin-bottom: 40px;
     flex-wrap: wrap;
@@ -175,6 +191,7 @@ body {
     box-sizing: border-box;
 }
 
+/* Tarjetas con efecto cristal translúcido (Glassmorphism) */
 .stat-box {
     flex: 1;
     min-width: 140px;
@@ -182,28 +199,53 @@ body {
     background: linear-gradient(145deg, #18181b, #111113);
     border: 1px solid rgba(255, 255, 255, 0.04);
     padding: 18px 12px;
-    border-radius: 12px;
+    border-radius: 12px; /* Bordes más suaves y redondeados */
     text-align: center;
     box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.stat-box:hover { transform: translateY(-3px); }
-.stat-box.todos:hover { border-color: rgba(255, 255, 255, 0.2); }
-.stat-box.pendiente:hover { border-color: #f39c12; }
-.stat-box.jugando:hover { border-color: #3498db; }
-.stat-box.completado:hover { border-color: #2ecc71; }
-.stat-box.progreso:hover { border-color: var(--neon-green); }
+/* Iluminación LED dinámica e individual al pasar el cursor */
+.stat-box:hover {
+    transform: translateY(-3px);
+}
 
-.stat-number { font-size: 32px; font-weight: 800; display: block; }
-.stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #66666a; margin-top: 6px; display: block; font-weight: 600; }
+.stat-box.todos:hover { border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 6px 20px rgba(255, 255, 255, 0.05); }
+.stat-box.pendiente:hover { border-color: #f39c12; box-shadow: 0 6px 20px rgba(243, 156, 18, 0.15); }
+.stat-box.jugando:hover { border-color: #3498db; box-shadow: 0 6px 20px rgba(52, 152, 219, 0.15); }
+.stat-box.completado:hover { border-color: #2ecc71; box-shadow: 0 6px 20px rgba(46, 204, 113, 0.15); }
+.stat-box.progreso:hover { border-color: var(--neon-green); box-shadow: 0 6px 20px rgba(0, 255, 153, 0.15); }
 
-.stat-box.todos .stat-number { color: #ffffff; }
-.stat-box.pendiente .stat-number { color: #f39c12; }
-.stat-box.jugando .stat-number { color: #3498db; }
-.stat-box.completado .stat-number { color: #2ecc71; }
+/* Números grandes con tipografía estilizada */
+.stat-number {
+    font-size: 32px; /* Números más impactantes */
+    font-weight: 800;
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: -0.5px;
+}
 
+/* Etiquetas inferiores limpias y elegantes */
+.stat-label {
+    font-size: 11px;
+    text-transform: uppercase; /* Texto formalizado en mayúsculas pequeñas */
+    letter-spacing: 1px;
+    color: #66666a;
+    margin-top: 6px;
+    display: block;
+    font-weight: 600;
+}
+
+/* Colores de los contadores basados en tu paleta actual */
+.stat-box.todos .stat-number { color: #ffffff; text-shadow: 0 0 10px rgba(255,255,255,0.1); }
+.stat-box.pendiente .stat-number { color: #f39c12; text-shadow: 0 0 15px rgba(243, 156, 18, 0.2); }
+.stat-box.jugando .stat-number { color: #3498db; text-shadow: 0 0 15px rgba(52, 152, 219, 0.2); }
+.stat-box.completado .stat-number { color: #2ecc71; text-shadow: 0 0 15px rgba(46, 204, 113, 0.2); }
+
+/* Bloque especial de progreso */
 .stat-box.progreso {
     min-width: 240px;
     max-width: 280px;
@@ -211,16 +253,41 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: linear-gradient(145deg, #1a1a1d, #121215);
 }
 
-.stat-box.progreso .stat-number { font-size: 24px; color: var(--neon-green); }
+.stat-box.progreso .stat-number {
+    font-size: 24px;
+    color: var(--neon-green);
+    text-shadow: 0 0 15px rgba(0, 255, 153, 0.3);
+}
 
-.progress-bar-bg { width: 100%; height: 8px; background: #09090a; border-radius: 4px; margin-top: 12px; overflow: hidden; }
-.progress-bar-fill { height: 100%; background: linear-gradient(90deg, #00ff99, #00ffcc); width: 0%; box-shadow: 0 0 12px rgba(0, 255, 153, 0.8); }
+/* Barra de carga de nivel estilizada con relieve */
+.progress-bar-bg {
+    width: 100%;
+    height: 8px; /* Un poco más gruesa */
+    background: #09090a;
+    border-radius: 4px;
+    margin-top: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.02);
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff99, #00ffcc); /* Degradado cian-verde */
+    width: 0%;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 12px rgba(0, 255, 153, 0.8), 0 0 4px rgba(0, 255, 204, 0.4);
+}
 
 /* =========================================================================
-   5. REJILLAS Y TARJETAS INTEGRADAS
+   5. REJILLAS Y TARJETAS INTEGRADAS (SIN VOLTEO TRIDIMENSIONAL)
    ========================================================================= */
+.app-main-content {
+    width: 100%;
+}
+
 .games-grid {
     width: 100%;
     display: grid;
@@ -240,9 +307,21 @@ body {
     transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-.game-card:hover { transform: translateY(-4px); border-color: #38383c; }
-.card-front { width: 100%; height: 280px; position: relative; }
-.card-banner { width: 100%; height: 100%; object-fit: cover; }
+.game-card:hover {
+    transform: translateY(-4px);
+    border-color: #38383c;
+}
+
+.card-front {
+    width: 100%;
+    height: 280px;
+}
+
+.card-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
 .card-back {
     padding: 15px;
@@ -255,12 +334,49 @@ body {
     box-sizing: border-box;
 }
 
-.card-title { font-size: 15px; margin: 0; font-weight: 600; text-align: center; }
-.stars-rating { text-align: center; color: #ffcc00; font-size: 16px; }
+.card-title {
+    font-size: 15px;
+    margin: 0;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.platform-container {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.platform-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.stars-rating {
+    text-align: center;
+    color: #ffcc00;
+    font-size: 16px;
+}
+
 .star { cursor: pointer; color: #444; }
 .star.active { color: #ffcc00; }
 
-.card-select { width: 100%; padding: 8px; border: none; border-radius: 4px; font-size: 13px; font-weight: bold; color: #fff; cursor: pointer; background: #2b2b2e; }
+.card-select {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    background: #2b2b2e;
+}
+
 .card-select.status-pendiente { background: #f39c12; color: #000; }
 .card-select.status-jugando { background: #3498db; }
 .card-select.status-completado { background: #2ecc71; color: #000; }
@@ -277,24 +393,305 @@ body {
     transition: color 0.2s ease;
     text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
-.fav-btn.active { color: #ff3366; }
 
-/* =========================================================================
-   6. CALENDARIO COMPLETO Y CONTENEDORES AUXILIARES
-   ========================================================================= */
-#calendar-container, #setup-container, #mapas-container { width: 100%; }
-#setup-grid, #mapas-grid { width: 100% !important; display: grid !important; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important; gap: 20px; box-sizing: border-box; }
-#calendar-month-title { text-align: center; margin-bottom: 25px; font-size: 24px; }
-.calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-bottom: 15px; color: #888; font-weight: bold; }
-.calendar-days-grid { display: grid !important; grid-template-columns: repeat(7, 1fr) !important; gap: 12px; }
-
-.calendar-day { background: #131315; border: 1px solid #232326; min-height: 140px; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; }
-.calendar-day.free-to-play { border-color: var(--neon-green); background: rgba(0, 255, 153, 0.03); }
-.calendar-day.empty-day { visibility: hidden; pointer-events: none; }
-.calendar-day span { display: block !important; white-space: normal !important; word-break: break-word !important; line-height: 1.3 !important; font-size: 12px !important; }
-
-.calendar-select-game {
-    width: 100% !important; background-color: #1a1a1c !important; color: #ffffff !important; border: 1px solid #2d2d30 !important; font-size: 12px !important; padding: 6px 24px 6px 10px !important; border-radius: 6px !important; margin-top: 8px !important; outline: none !important; cursor: pointer !important; box-sizing: border-box !important; appearance: none !important; -webkit-appearance: none !important;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='10' height='6' viewBox='0 0 10 6'><path fill='%2300ff99' d='M0 0l5 5 5-5z'/></svg>") !important; background-repeat: no-repeat !important; background-position: right 10px center !important; background-size: 10px 6px !important; height: auto !important;
+.fav-btn.active {
+    color: #ff3366;
 }
 
+/* =========================================================================
+   6. CONTENEDOR DE CALENDARIO / AGENDA (DISEÑO MÁS GRANDE Y ESPACIOSO)
+   ========================================================================= */
+#calendar-container { 
+    width: 100%;
+    max-width: 1400px; /* 🟢 Más ancho máximo para aprovechar pantallas grandes */
+    margin: 0 auto;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+#calendar-month-title { 
+    text-align: center; 
+    color: var(--neon-green); 
+    margin-bottom: 25px; 
+    font-size: 24px;
+}
+
+.calendar-weekdays { 
+    display: grid; 
+    grid-template-columns: repeat(7, 1fr); 
+    text-align: center; 
+    margin-bottom: 15px; 
+    color: #888; 
+    font-weight: bold; 
+    font-size: 16px; /* Letras de los días un poco más grandes */
+    width: 100%;
+}
+
+/* Rejilla estricta de 7 columnas */
+.calendar-days-grid { 
+    display: grid !important; 
+    grid-template-columns: repeat(7, 1fr) !important; 
+    gap: 12px; /* Un poco más de separación entre celdas */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 🟢 CELDAS MÁS GRANDES Y AMPLIAS */
+.calendar-day { 
+    background: #131315; 
+    border: 1px solid #232326; 
+    min-height: 140px; /* 👈 Aumentado de 90px/100px a 140px para dar mucho más espacio */
+    border-radius: 8px; 
+    padding: 12px; /* Más espacio interno */
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    box-sizing: border-box; 
+    overflow: hidden;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.calendar-day:hover {
+    background: #18181b; /* Efecto sutil al pasar el ratón */
+}
+
+/* Celda con juego asignado */
+.calendar-day.free-to-play { 
+    border-color: var(--neon-green); 
+    background: rgba(0, 255, 153, 0.03); 
+    box-shadow: inset 0 0 15px rgba(0, 255, 153, 0.05);
+}
+
+.calendar-day.empty-day { 
+    visibility: hidden; 
+    pointer-events: none;
+}
+
+/* 🟢 PERMITIR SALTOS DE LÍNEA EN EL TEXTO DEL JUEGO SELECCIONADO */
+.calendar-day span {
+    display: block !important;
+    white-space: normal !important;      /* Cambiado de nowrap a normal para permitir saltos */
+    word-break: break-word !important;   /* Rompe los títulos largos si es necesario */
+    line-height: 1.3 !important;         /* Espaciado de línea cómodo */
+    margin: 6px 0 !important;
+    font-size: 12px !important;          /* Tamaño ideal para celdas grandes */
+}
+
+/* =========================================================================
+   ESTILIZADO PREMIUM PARA LOS SELECTORES DEL CALENDARIO
+   ========================================================================= */
+.calendar-select-game { 
+    width: 100% !important; 
+    background-color: #1a1a1c !important; /* Fondo oscuro a juego con las tarjetas */
+    color: #ffffff !important;            /* Texto blanco brillante */
+    border: 1px solid #2d2d30 !important; /* Borde sutil por defecto */
+    font-size: 12px !important; 
+    padding: 6px 24px 6px 10px !important; /* Espacio para que el texto respire */
+    border-radius: 6px !important;        /* Esquinas redondeadas y suaves */
+    margin-top: 8px !important;
+    outline: none !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+    
+    /* Personalización de la flecha del selector */
+    appearance: none !important;          /* Quita la flecha gris fea nativa de Windows */
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='10' height='6' viewBox='0 0 10 6'><path fill='%2300ff99' d='M0 0l5 5 5-5z'/></svg>") !important; /* Flecha verde neón */
+    background-repeat: no-repeat !important;
+    background-position: right 10px center !important;
+    background-size: 10px 6px !important;
+    
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+/* Efecto al pasar el ratón por encima del selector */
+.calendar-select-game:hover {
+    border-color: #444448 !important;
+    background-color: #222224 !important;
+}
+
+/* Efecto de enfoque cuando haces clic para abrir el menú */
+.calendar-select-game:focus {
+    border-color: var(--neon-green) !important; /* Borde verde neón iluminado */
+    box-shadow: 0 0 8px rgba(0, 255, 153, 0.2) !important;
+}
+
+/* Estilo para las opciones de la lista desplegable interna */
+.calendar-select-game option {
+    background-color: #161618 !important; /* Mantiene las opciones con fondo oscuro */
+    color: #ffffff !important;
+    padding: 8px !important;
+}
+
+/* =========================================================================
+   FORZAR DISEÑO EN REJILLA PARA MAPAS Y SETUP (SOLUCIÓN PC)
+   ========================================================================= */
+#setup-container, 
+#mapas-container {
+    width: 100%;
+    display: none; /* Se controla el encendido/apagado desde JS con block o flex */
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Forzar que las sub-rejillas internas de mapas y setup se expandan en horizontal */
+#setup-grid, 
+#mapas-grid {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+    gap: 20px;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+/* Evitar que las imágenes de los mapas se estiren verticalmente de forma desproporcionada */
+#mapas-grid .card-front {
+    width: 100%;
+    height: 240px; /* Altura ideal de tarjeta para que encajen los mapas en PC */
+}
+
+#mapas-grid .card-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =========================================================================
+   FILTROS Y BUSCADOR (DISEÑO ADAPTATIVO MÓVIL/PC)
+   ========================================================================= */
+.search-filter-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+}
+
+/* Contenedor de botones en PC (Fila horizontal de estados) */
+.pc-status-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Buscador por defecto */
+.search-container {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+}
+
+#game-search {
+    width: 100%;
+    padding: 11px 12px 11px 38px;
+    background: #1c1c1e;
+    border: 1px solid #2d2d30;
+    border-radius: 8px;
+    color: #fff;
+    outline: none;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* =========================================================================
+   7. ADAPTACIÓN EXCLUSIVA PARA DISPOSITIVOS MÓVILES
+   ========================================================================= */
+@media (max-width: 768px) {
+    .web-container {
+        padding: 10px 10px 85px 10px;
+        align-items: stretch;
+    }
+    
+    .app-header h1 { font-size: 22px; margin: 10px 0 15px 0; }
+
+    .search-filter-row {
+        flex-direction: column !important;
+        gap: 16px !important;
+        padding: 0 5px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .search-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        order: 1;
+    }
+
+    .pc-status-filters {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+        width: 100% !important;
+        order: 2;
+    }
+
+    .filter-btn {
+        width: 100% !important;
+        box-sizing: border-box;
+        padding: 10px 5px !important;
+        font-size: 13px !important;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .stats-container { flex-wrap: wrap; gap: 8px; }
+    .stat-box { min-width: 47%; max-width: 50%; padding: 10px; }
+    .stat-box.progreso { min-width: 100%; max-width: 100%; flex-direction: row; justify-content: space-between; padding: 10px 15px; }
+    .progress-bar-bg { width: 50%; margin-top: 0; }
+
+    .games-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .card-front { height: 200px; }
+
+    /* 🟢 CORRECCIÓN: FUERZA LA BARRA DE NAVEGACIÓN FIJA ABAJO EN TU SMARTPHONE */
+    .main-navigation {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 65px !important;
+        background: #121214 !important;
+        border-top: 1px solid #232325 !important;
+        flex-direction: row !important; /* Asegura distribución horizontal */
+        justify-content: space-around !important;
+        margin-bottom: 0 !important;
+        z-index: 9999 !important;
+        box-shadow: 0 -4px 15px rgba(0,0,0,0.5) !important;
+    }
+
+    .nav-item {
+        background: none !important;
+        border: none !important;
+        color: #777 !important;
+        flex-direction: column !important;
+        padding: 0 !important;
+        font-size: 11px !important;
+        gap: 4px !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: auto !important;
+        flex-grow: 1 !important;
+    }
+
+    .nav-item.active {
+        background: none !important;
+        color: var(--neon-green) !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .nav-icon { font-size: 20px !important; display: block !important; }
+    .nav-text { display: block !important; }
+    
+    .calendar-days-grid { gap: 4px; }
+    .calendar-day { min-height: 65px; font-size: 11px; }
+}

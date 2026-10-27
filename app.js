@@ -179,134 +179,97 @@ const misMapas = [
 // =========================================================================
 // 2. CONFIGURACIÓN DEL SISTEMA
 // =========================================================================
-// =========================================================================
-// 1. ESTADO GLOBAL Y PERSISTENCIA DE DATOS (CORREGIDO DE RAÍZ)
-// =========================================================================
-// 🟢 CORRECCIÓN CRÍTICA: Cambiado de setItem a getItem para recuperar los datos sin romper la app
-let juegosPrincipal = JSON.parse(localStorage.getItem('mi_coleccion')) || JUEGOS_INICIALES_PRINCIPAL;
-let juegosOtros = JSON.parse(localStorage.getItem('mi_coleccion_otros')) || JUEGOS_INICIALES_OTROS;
+let coleccionActiva = 'principal';
+let currentFilter = 'todos';
+let searchText = '';
+let currentPlatform = 'todas';
 let favoritosPrincipal = JSON.parse(localStorage.getItem('mis_favoritos_principal')) || [];
+let juegosPrincipal = JSON.parse(localStorage.getItem('mi_coleccion')) || catalogoInicial;
+let juegosOtros = JSON.parse(localStorage.getItem('mis_otros_juegos')) || catalogoOtros;
 let diasPlanificados = JSON.parse(localStorage.getItem('mis_dias_libres_juegos')) || {};
-let misDispositivos = JSON.parse(localStorage.getItem('mis_dispositivos_setup')) || DISPOSITIVOS_INICIALES;
-let misMapas = JSON.parse(localStorage.getItem('mis_mapas_juegos')) || MAPAS_INICIALES;
-
-// Variables de Control de Interfaz
-let coleccionActiva = 'principal'; 
-let currentFilter = 'todos';       
-let searchText = '';               
-let games = juegosPrincipal;       
-let fechaCalendarioActual = new Date(); 
-let intervaloProgreso = null;      
-
-// Guardado preventivo inicial correcto
-localStorage.setItem('mi_coleccion', JSON.stringify(juegosPrincipal));
-localStorage.setItem('mi_coleccion_otros', JSON.stringify(juegosOtros));
+let fechaCalendarioActual = new Date(); // Guarda el mes y año seleccionado en la agenda
+let games = juegosPrincipal;
+const gamesGrid = document.getElementById('games-grid');
+const IMAGEN_POR_DEFECTO = "defecto.jpg";
 
 // =========================================================================
-// 3. MOTOR DE FILTRADO, BUSCADOR Y RENDERIZADO DE TARJETAS (CORREGIDO)
+// 3. RENDERIZADO FLUIDO (SIN VOLTEO 3D INCÓMODO EN MÓVIL)
 // =========================================================================
 function renderCards() {
-    const grid = document.getElementById('games-grid');
-    if (!grid) return;
-    grid.innerHTML = '';
+    if (!gamesGrid) return;
+    gamesGrid.innerHTML = '';
 
-    // 🟢 CORRECCIÓN: Selecciona la lista correcta según la pestaña guardada en el menú
-    let juegosActuales = coleccionActiva === 'principal' ? juegosPrincipal : juegosOtros;
-
-    // Filtros combinados en tiempo real (Buscador + Estado)
-    let juegosFiltrados = juegosActuales.filter(g => {
-        // Filtro 1: Buscador de texto
-        const coincideBuscador = g.title.toLowerCase().includes(searchText.toLowerCase());
-        
-        // Filtro 2: Botón de estado (solo aplica a la colección principal)
-        let coincideEstado = true;
-        if (coleccionActiva === 'principal') {
-            if (currentFilter === 'favoritos') {
-                coincideEstado = favoritosPrincipal.includes(g.id);
-            } else if (currentFilter !== 'todos') {
-                coincideEstado = g.status === currentFilter;
-            }
-        }
-        return coincideBuscador && coincideEstado;
+    const filteredGames = games.filter(game => {
+        let coincideFiltro = currentFilter === 'todos' ? true : (currentFilter === 'favoritos' ? favoritosPrincipal.includes(game.id) : game.status === currentFilter);
+        const coincideBusqueda = game.title.toLowerCase().includes(searchText.toLowerCase());
+        let coincidePlataforma = currentPlatform === 'todas' || (game.plataforma && game.plataforma.some(p => p === currentPlatform || (currentPlatform === "PlayStation 5" && p === "PS5")));
+        return coincideFiltro && coincideBusqueda && coincidePlataforma;
     });
 
-    // Si no hay resultados, muestra un mensaje limpio centrado
-    if (juegosFiltrados.length === 0) {
-        grid.innerHTML = `<p style="color: #555; text-align: center; width: 100%; grid-column: 1/-1; margin: 40px 0; font-weight: 500;">No se encontraron videojuegos en esta sección.</p>`;
-        return;
-    }
-
-    // Dibujar las tarjetas filtradas en la rejilla
-    juegosFiltrados.forEach(g => {
+    filteredGames.forEach(game => {
         const card = document.createElement('div');
         card.className = 'game-card';
-        card.onclick = () => card.classList.toggle('flipped');
-
-        const esFav = favoritosPrincipal.includes(g.id) ? 'active' : '';
         
-        if (coleccionActiva === 'principal') {
-            let estrellasHTML = '';
-            if (g.status === 'completado') {
-                let starsCount = g.stars || 0;
-                estrellasHTML = `<div class="stars-rating">`;
-                for (let i = 1; i <= 5; i++) {
-                    estrellasHTML += `<span class="star ${i <= starsCount ? 'active' : ''}" onclick="event.stopPropagation(); rateGame('${g.id}', ${i})">★</span>`;
-                }
-                estrellasHTML += `</div>`;
-            }
-
-            card.innerHTML = `
-                <div class="card-front">
-                    <img src="${g.image}" class="card-banner">
-                    <span class="fav-btn ${esFav}" onclick="toggleFavorite(event, '${g.id}')">❤</span>
-                </div>
-                <div class="card-back">
-                    <h3 class="card-title">${g.title}</h3>
-                    ${estrellasHTML}
-                    <select class="card-select status-${g.status || 'pendiente'}" onclick="event.stopPropagation();" onchange="changeStatus('${g.id}', this.value)">
-                        <option value="pendiente" ${g.status === 'pendiente' ? 'selected' : ''}>Por jugar ⏳</option>
-                        <option value="jugando" ${g.status === 'jugando' ? 'selected' : ''}>Jugando 🕹️</option>
-                        <option value="completado" ${g.status === 'completado' ? 'selected' : ''}>Completado 🏆</option>
-                        <option value="noadquirido" ${g.status === 'noadquirido' ? 'selected' : ''}>No Adquirido 🔴</option>
-                    </select>
-                </div>
-            `;
-        } else {
-            // Estructura limpia para la sección de Otros Juegos
-            card.innerHTML = `
-                <div class="card-front">
-                    <img src="${g.image}" class="card-banner">
-                    <div style="padding: 12px; text-align: center;">
-                        <h3 class="card-title">${g.title}</h3>
-                    </div>
-                </div>
-            `;
+        let htmlLogos = '';
+        if (game.plataforma) {
+            game.plataforma.forEach(plat => {
+                // 🟢 RESTAURADO: Comillas de plantilla aplicadas a las imágenes de los logos
+                if (plat === "Steam") htmlLogos += `<img src="Logos/steam_logo.png" class="platform-icon" title="Steam">`;
+                else if (plat === "PlayStation 5" || plat === "PS5") htmlLogos += `<img src="Logos/ps5_logo.png" class="platform-icon" title="PS5">`;
+                else if (plat === "Nintendo Switch 2") htmlLogos += `<img src="Logos/switch_logo.png" class="platform-icon" title="Switch 2">`;
+                else if (plat === "Epic Games") htmlLogos += `<img src="Logos/epic_logo.png" class="platform-icon" title="Epic">`;
+                else if (plat === "PC") htmlLogos += `<img src="Logos/pc_logo.png" class="platform-icon" title="PC">`;
+                else if (plat === "PlayStation 2") htmlLogos += `<img src="Logos/ps2_logo.png" class="platform-icon" title="PS2">`;
+                else if (plat === "PlayStation 3") htmlLogos += `<img src="Logos/ps3_logo.png" class="platform-icon" title="PS3">`;
+            });
         }
-        grid.appendChild(card);
-    });
-}
 
+        let htmlEstrellas = '';
+        if (coleccionActiva === 'principal' && game.status === 'completado') {
+            const score = game.stars || 0;
+            // 🟢 RESTAURADO: Comillas de plantilla en el bloque de estrellas
+            htmlEstrellas = `<div class="stars-rating">`;
+            for (let i = 1; i <= 5; i++) {
+                htmlEstrellas += `<span class="star ${i <= score ? 'active' : ''}" onclick="rateGame(${game.id}, ${i})">★</span>`;
+            }
+            htmlEstrellas += `</div>`;
+        }
+
+        // 🟢 RESTAURADO: Comillas de plantilla en botones secundarios y menús dinámicos
+        let htmlFavorito = coleccionActiva === 'principal' ? `<span class="fav-btn ${favoritosPrincipal.includes(game.id) ? 'active' : ''}" onclick="toggleFavorite(event, ${game.id})">♥</span>` : '';
+        let htmlMenu = coleccionActiva === 'principal' ? `<select class="card-select status-${game.status}" onchange="changeStatus(${game.id}, this.value)"><option value="pendiente" ${game.status === 'pendiente' ? 'selected' : ''}>⏳ Por jugar</option><option value="jugando" ${game.status === 'jugando' ? 'selected' : ''}>🕹️ Jugando</option><option value="completado" ${game.status === 'completado' ? 'selected' : ''}>🏆 Completado</option><option value="noadquirido" ${game.status === 'noadquirido' ? 'selected' : ''}>🛑 No Adquirido</option></select>` : '';
+        
+        // 🟢 RESTAURADO: Comillas de plantilla para inyectar la estructura interna de la tarjeta de juego
+        card.innerHTML = `${htmlFavorito}<div class="card-front"><img src="${game.image}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'"></div><div class="card-back"><h3 class="card-title">${game.title}</h3><div class="platform-container">${htmlLogos}</div>${htmlEstrellas}${htmlMenu}</div>`;
+        gamesGrid.appendChild(card);
+    });
+
+    actualizarEstadisticas();
+}
 // =========================================================================
-// 2. NAVEGACIÓN Y MENÚS PRINCIPALES (CORRECCIÓN RADICAL OCULTAR BOTONES)
+// 1. CONTROLADORES DE FILTROS Y ESTADOS UNIFICADOS
 // =========================================================================
 window.changeCollection = function(tipo, elemento) {
     coleccionActiva = tipo;
-    currentFilter = 'todos'; // Resetear filtros para evitar conflictos
+    currentFilter = 'todos';
     
-    // Sincronizar botones visuales de filtros de estados de PC/Móvil
+    // Sincronizar botones de filtro de PC
     const pcButtons = document.getElementById('sub-filters');
     if (pcButtons) {
         pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        const todosBtn = pcButtons.querySelector('.filter-btn[onclick*="todos"]');
+        const todosBtn = Array.from(pcButtons.querySelectorAll('.filter-btn')).find(btn => btn.textContent.includes('Todos'));
         if (todosBtn) todosBtn.classList.add('active');
     }
     
-    // Sincronizar clases activas en los botones de navegación principales (Móvil/PC)
+    const mobileSub = document.getElementById('mobile-sub-filters');
+    if (mobileSub) mobileSub.value = 'todos';
+
+    // Sincronizar clases activas en botones de navegación principales
     document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
     if (elemento) {
         elemento.classList.add('active');
     } else {
-        const targetBtn = document.querySelector(`.nav-item[onclick*="${tipo}"]`);
+        const targetBtn = Array.from(document.querySelectorAll('.nav-item')).find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tipo));
         if (targetBtn) targetBtn.classList.add('active');
     }
 
@@ -317,12 +280,12 @@ window.changeCollection = function(tipo, elemento) {
     const setupContainer = document.getElementById('setup-container');
     const mapasContainer = document.getElementById('mapas-container');
     
-    // Vaciar el texto del cuadro de búsqueda al saltar entre pestañas
+    // Reiniciar buscador
     const searchInput = document.getElementById('game-search');
     if (searchInput) searchInput.value = '';
     searchText = '';
 
-    // Esconder todas las rejillas principales antes de activar la elegida
+    // Esconder secciones
     [gamesGridObj, calendarContainer, setupContainer, mapasContainer].forEach(el => { if(el) el.style.display = 'none'; });
     
     if (tipo === 'principal' || tipo === 'otros') {
@@ -330,16 +293,14 @@ window.changeCollection = function(tipo, elemento) {
         if(gamesGridObj) gamesGridObj.style.display = 'grid';
         
         if (tipo === 'principal') {
-            if(topFilters) {
-                topFilters.style.display = 'block';
-                topFilters.classList.remove('modo-otros'); // 🟢 Quita la marca en Mi Colección
-            }
+            if(topFilters) topFilters.style.display = 'block';
+            if(pcButtons) pcButtons.style.display = 'flex';
+            if(mobileSub) mobileSub.style.display = 'block';
             if(statsPanel) statsPanel.style.display = 'flex';
         } else {
-            if(topFilters) {
-                topFilters.style.display = 'block';
-                topFilters.classList.add('modo-otros');    // 🟢 Añade la marca en Otros Juegos
-            }
+            if(topFilters) topFilters.style.display = 'block';
+            if(pcButtons) pcButtons.style.display = 'none';
+            if(mobileSub) mobileSub.style.display = 'none';
             if(statsPanel) statsPanel.style.display = 'none';
         }
         
