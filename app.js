@@ -249,6 +249,9 @@ function renderCards() {
 // =========================================================================
 // 1. CONTROLADORES DE FILTROS Y ESTADOS UNIFICADOS
 // =========================================================================
+// =========================================================================
+// 2. NAVEGACIÓN Y MENÚS PRINCIPALES (CORRECCIÓN RADICAL OCULTAR BOTONES)
+// =========================================================================
 window.changeCollection = function(tipo, elemento) {
     coleccionActiva = tipo;
     currentFilter = 'todos'; // Resetear filtros para evitar conflictos
@@ -290,26 +293,22 @@ window.changeCollection = function(tipo, elemento) {
         if(gamesGridObj) gamesGridObj.style.display = 'grid';
         
         if (tipo === 'principal') {
-            if(topFilters) {
-                topFilters.style.display = 'block';
-                topFilters.classList.remove('hide-status-filters'); // Muestra todo en Principal
-            }
-            if(pcButtons) pcButtons.style.display = 'grid'; 
+            if(topFilters) topFilters.style.display = 'block';
             if(statsPanel) statsPanel.style.display = 'flex';
+            // 🟢 FUERZA VISIBLE LA FILA DE BOTONES EN LA COLECCIÓN PRINCIPAL
+            if(pcButtons) pcButtons.style.setProperty('display', 'grid', 'important'); 
         } else {
-            // 🟢 OTROS JUEGOS: Mantiene el buscador pero oculta por completo los botones de estado
-            if(topFilters) {
-                topFilters.style.display = 'block';
-                topFilters.classList.add('hide-status-filters'); // Oculta botones
-            }
-            if(pcButtons) pcButtons.style.display = 'none';
+            // 🟢 OTROS JUEGOS: Mantiene el buscador pero OCULTA DE RAÍZ LA FILA DE BOTONES
+            if(topFilters) topFilters.style.display = 'block';
             if(statsPanel) statsPanel.style.display = 'none';
+            if(pcButtons) pcButtons.style.setProperty('display', 'none', 'important'); 
         }
         
         renderCards();
     } else {
         if(topFilters) topFilters.style.display = 'none';
         if(statsPanel) statsPanel.style.display = 'none';
+        if(pcButtons) pcButtons.style.setProperty('display', 'none', 'important');
         if(tipo === 'calendario') { if(calendarContainer) calendarContainer.style.display = 'block'; renderCalendar(); }
         if(tipo === 'setup') { if(setupContainer) setupContainer.style.display = 'block'; renderSetup(); }
         if(tipo === 'mapas') { if(mapasContainer) mapasContainer.style.display = 'block'; renderMapas(); }
