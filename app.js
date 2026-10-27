@@ -193,62 +193,89 @@ const gamesGrid = document.getElementById('games-grid');
 const IMAGEN_POR_DEFECTO = "defecto.jpg";
 
 // =========================================================================
-// 3. RENDERIZADO FLUIDO (SIN VOLTEO 3D INCÓMODO EN MÓVIL)
+// 3. MOTOR DE FILTRADO, BUSCADOR Y RENDERIZADO DE TARJETAS (CORREGIDO)
 // =========================================================================
 function renderCards() {
-    if (!gamesGrid) return;
-    gamesGrid.innerHTML = '';
+    const grid = document.getElementById('games-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
 
-    const filteredGames = games.filter(game => {
-        let coincideFiltro = currentFilter === 'todos' ? true : (currentFilter === 'favoritos' ? favoritosPrincipal.includes(game.id) : game.status === currentFilter);
-        const coincideBusqueda = game.title.toLowerCase().includes(searchText.toLowerCase());
-        let coincidePlataforma = currentPlatform === 'todas' || (game.plataforma && game.plataforma.some(p => p === currentPlatform || (currentPlatform === "PlayStation 5" && p === "PS5")));
-        return coincideFiltro && coincideBusqueda && coincidePlataforma;
+    // 🟢 CORRECCIÓN: Selecciona la lista correcta según la pestaña guardada en el menú
+    let juegosActuales = coleccionActiva === 'principal' ? juegosPrincipal : juegosOtros;
+
+    // Filtros combinados en tiempo real (Buscador + Estado)
+    let juegosFiltrados = juegosActuales.filter(g => {
+        // Filtro 1: Buscador de texto
+        const coincideBuscador = g.title.toLowerCase().includes(searchText.toLowerCase());
+        
+        // Filtro 2: Botón de estado (solo aplica a la colección principal)
+        let coincideEstado = true;
+        if (coleccionActiva === 'principal') {
+            if (currentFilter === 'favoritos') {
+                coincideEstado = favoritosPrincipal.includes(g.id);
+            } else if (currentFilter !== 'todos') {
+                coincideEstado = g.status === currentFilter;
+            }
+        }
+        return coincideBuscador && coincideEstado;
     });
 
-    filteredGames.forEach(game => {
+    // Si no hay resultados, muestra un mensaje limpio centrado
+    if (juegosFiltrados.length === 0) {
+        grid.innerHTML = `<p style="color: #555; text-align: center; width: 100%; grid-column: 1/-1; margin: 40px 0; font-weight: 500;">No se encontraron videojuegos en esta sección.</p>`;
+        return;
+    }
+
+    // Dibujar las tarjetas filtradas en la rejilla
+    juegosFiltrados.forEach(g => {
         const card = document.createElement('div');
         card.className = 'game-card';
-        
-        let htmlLogos = '';
-        if (game.plataforma) {
-            game.plataforma.forEach(plat => {
-                // 🟢 RESTAURADO: Comillas de plantilla aplicadas a las imágenes de los logos
-                if (plat === "Steam") htmlLogos += `<img src="Logos/steam_logo.png" class="platform-icon" title="Steam">`;
-                else if (plat === "PlayStation 5" || plat === "PS5") htmlLogos += `<img src="Logos/ps5_logo.png" class="platform-icon" title="PS5">`;
-                else if (plat === "Nintendo Switch 2") htmlLogos += `<img src="Logos/switch_logo.png" class="platform-icon" title="Switch 2">`;
-                else if (plat === "Epic Games") htmlLogos += `<img src="Logos/epic_logo.png" class="platform-icon" title="Epic">`;
-                else if (plat === "PC") htmlLogos += `<img src="Logos/pc_logo.png" class="platform-icon" title="PC">`;
-                else if (plat === "PlayStation 2") htmlLogos += `<img src="Logos/ps2_logo.png" class="platform-icon" title="PS2">`;
-                else if (plat === "PlayStation 3") htmlLogos += `<img src="Logos/ps3_logo.png" class="platform-icon" title="PS3">`;
-            });
-        }
+        card.onclick = () => card.classList.toggle('flipped');
 
-        let htmlEstrellas = '';
-        if (coleccionActiva === 'principal' && game.status === 'completado') {
-            const score = game.stars || 0;
-            // 🟢 RESTAURADO: Comillas de plantilla en el bloque de estrellas
-            htmlEstrellas = `<div class="stars-rating">`;
-            for (let i = 1; i <= 5; i++) {
-                htmlEstrellas += `<span class="star ${i <= score ? 'active' : ''}" onclick="rateGame(${game.id}, ${i})">★</span>`;
+        const esFav = favoritosPrincipal.includes(g.id) ? 'active' : '';
+        
+        if (coleccionActiva === 'principal') {
+            let estrellasHTML = '';
+            if (g.status === 'completado') {
+                let starsCount = g.stars || 0;
+                estrellasHTML = `<div class="stars-rating">`;
+                for (let i = 1; i <= 5; i++) {
+                    estrellasHTML += `<span class="star ${i <= starsCount ? 'active' : ''}" onclick="event.stopPropagation(); rateGame('${g.id}', ${i})">★</span>`;
+                }
+                estrellasHTML += `</div>`;
             }
-            htmlEstrellas += `</div>`;
+
+            card.innerHTML = `
+                <div class="card-front">
+                    <img src="${g.image}" class="card-banner">
+                    <span class="fav-btn ${esFav}" onclick="toggleFavorite(event, '${g.id}')">❤</span>
+                </div>
+                <div class="card-back">
+                    <h3 class="card-title">${g.title}</h3>
+                    ${estrellasHTML}
+                    <select class="card-select status-${g.status || 'pendiente'}" onclick="event.stopPropagation();" onchange="changeStatus('${g.id}', this.value)">
+                        <option value="pendiente" ${g.status === 'pendiente' ? 'selected' : ''}>Por jugar ⏳</option>
+                        <option value="jugando" ${g.status === 'jugando' ? 'selected' : ''}>Jugando 🕹️</option>
+                        <option value="completado" ${g.status === 'completado' ? 'selected' : ''}>Completado 🏆</option>
+                        <option value="noadquirido" ${g.status === 'noadquirido' ? 'selected' : ''}>No Adquirido 🔴</option>
+                    </select>
+                </div>
+            `;
+        } else {
+            // Estructura limpia para la sección de Otros Juegos
+            card.innerHTML = `
+                <div class="card-front">
+                    <img src="${g.image}" class="card-banner">
+                    <div style="padding: 12px; text-align: center;">
+                        <h3 class="card-title">${g.title}</h3>
+                    </div>
+                </div>
+            `;
         }
-
-        // 🟢 RESTAURADO: Comillas de plantilla en botones secundarios y menús dinámicos
-        let htmlFavorito = coleccionActiva === 'principal' ? `<span class="fav-btn ${favoritosPrincipal.includes(game.id) ? 'active' : ''}" onclick="toggleFavorite(event, ${game.id})">♥</span>` : '';
-        let htmlMenu = coleccionActiva === 'principal' ? `<select class="card-select status-${game.status}" onchange="changeStatus(${game.id}, this.value)"><option value="pendiente" ${game.status === 'pendiente' ? 'selected' : ''}>⏳ Por jugar</option><option value="jugando" ${game.status === 'jugando' ? 'selected' : ''}>🕹️ Jugando</option><option value="completado" ${game.status === 'completado' ? 'selected' : ''}>🏆 Completado</option><option value="noadquirido" ${game.status === 'noadquirido' ? 'selected' : ''}>🛑 No Adquirido</option></select>` : '';
-        
-        // 🟢 RESTAURADO: Comillas de plantilla para inyectar la estructura interna de la tarjeta de juego
-        card.innerHTML = `${htmlFavorito}<div class="card-front"><img src="${game.image}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'"></div><div class="card-back"><h3 class="card-title">${game.title}</h3><div class="platform-container">${htmlLogos}</div>${htmlEstrellas}${htmlMenu}</div>`;
-        gamesGrid.appendChild(card);
+        grid.appendChild(card);
     });
-
-    actualizarEstadisticas();
 }
-// =========================================================================
-// 1. CONTROLADORES DE FILTROS Y ESTADOS UNIFICADOS
-// =========================================================================
+
 // =========================================================================
 // 2. NAVEGACIÓN Y MENÚS PRINCIPALES (CORRECCIÓN RADICAL OCULTAR BOTONES)
 // =========================================================================
