@@ -4,47 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Colección de Videojuegos</title>
-    
-    <!-- Meta tags para evitar el bloqueo de caché agresivo de los navegadores -->
-    <meta http-equiv="Expires" content="0">
-    <meta http-equiv="Last-Modified" content="0">
-    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    
-    <!-- Enlace al manifiesto de instalación y estilos con versión dinámica -->
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css?v=2.0">
+    <!-- Tu archivo CSS externo -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <div class="web-container">
         
-        <!-- CABECERA PRINCIPAL Y CENTRADA -->
+        <!-- CABECERA -->
         <header class="app-header">
             <h1>🎮 Mi Colección de Videojuegos</h1>
         </header>
 
-        <!-- NAVEGACIÓN PRINCIPAL (Barra inferior nativa en móvil / Menú superior en PC) -->
-        <nav class="main-navigation">
-            <button class="nav-item active" onclick="changeCollection('principal', this)">
-                <span class="nav-icon">🎮</span><span class="nav-text">Mi Colección</span>
-            </button>
-            <button class="nav-item" onclick="changeCollection('otros', this)">
-                <span class="nav-icon">📁</span><span class="nav-text">Otros Juegos</span>
-            </button>
-            <button class="nav-item" onclick="changeCollection('mapas', this)">
-                <span class="nav-icon">🗺️</span><span class="nav-text">Mapas</span>
-            </button>
-            <button class="nav-item" onclick="changeCollection('calendario', this)">
-                <span class="nav-icon">📅</span><span class="nav-text">Mi Calendario</span>
-            </button>
-            <button class="nav-item" onclick="changeCollection('setup', this)">
-                <span class="nav-icon">🖥️</span><span class="nav-text">Mi Setup</span>
-            </button>
-        </nav>
-
-        <!-- PANEL DE ESTADÍSTICAS PREMIUM -->
-        <div class="stats-container" id="stats-panel">
+        <!-- PANEL DE ESTADÍSTICAS -->
+        <section class="stats-container" id="stats-panel">
             <div class="stat-box todos">
                 <span class="stat-number" id="count-todos">0</span>
                 <span class="stat-label">Total Juegos</span>
@@ -68,19 +41,19 @@
                     <div class="progress-bar-fill" id="progress-bar-fill"></div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- CONTENEDOR DE FILTROS SUPERIORES Y BUSCADOR (CORREGIDO Y OPTIMIZADO) -->
-        <div class="top-filters-container">
+        <!-- FILTROS SUPERIORES Y BUSCADOR -->
+        <section class="top-filters-container">
             <div class="search-filter-row">
                 
-                <!-- 🔍 EL BUSCADOR (Sube arriba ocupando toda la línea en móviles) -->
+                <!-- Buscador en tiempo real -->
                 <div class="search-container">
                     <span class="search-icon">🔍</span>
-                    <input type="text" id="game-search" placeholder="Buscar un juego..." oninput="handleSearch(this.value)">
+                    <input type="text" id="game-search" placeholder="Buscar un juego..." oninput="searchGames()">
                 </div>
 
-                <!-- 🎛️ BOTONES DE ESTADO (Se ordenan simétricamente en 2 columnas en móvil) -->
+                <!-- Botones de Estado (Se adaptan a PC y Móvil en cuadrícula) -->
                 <div class="pc-status-filters" id="sub-filters">
                     <button class="filter-btn active" onclick="filterGames('todos', this)">Todos</button>
                     <button class="filter-btn" onclick="filterGames('pendiente', this)">Por jugar ⏳</button>
@@ -90,41 +63,63 @@
                     <button class="filter-btn" onclick="filterGames('noadquirido', this)">No Adquirido 🔴</button>
                 </div>
 
-            </div>
-        </div>
+                <!-- Selector desplegable fallback para móviles antiguos -->
+                <select id="mobile-sub-filters" class="mobile-status-dropdown" onchange="filterGamesFromSelect(this.value)">
+                    <option value="todos">Todos</option>
+                    <option value="pendiente">Por jugar ⏳</option>
+                    <option value="jugando">Jugando 🕹️</option>
+                    <option value="completado">Completados 🏆</option>
+                    <option value="favoritos">Favoritos ❤️</option>
+                    <option value="noadquirido">No Adquirido 🔴</option>
+                </select>
 
-        <!-- CONTENEDOR DE CONTENIDOS PRINCIPALES -->
+            </div>
+        </section>
+
+        <!-- CONTENIDO PRINCIPAL DE LAS PESTAÑAS -->
         <main class="app-main-content">
             
-            <!-- REJILLA PRINCIPAL DE TARJETA DE JUEGOS (Mi Colección / Otros Juegos) -->
-            <div class="games-grid" id="games-grid"></div>
+            <!-- Rejilla de Juegos (Colección Principal y Otros Juegos) -->
+            <div id="games-grid" class="games-grid"></div>
 
-            <!-- APARTADO MI CALENDARIO (REDISEÑO MULTIMES AMPLIO) -->
+            <!-- Contenedor del Calendario / Agenda -->
             <div id="calendar-container" style="display: none;">
-                <!-- Título dinámico que inyecta las flechas ◀ y ▶ desde JS -->
-                <div id="calendar-month-title"></div> 
-                
+                <div id="calendar-month-title"></div>
                 <div class="calendar-weekdays">
                     <div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div>
                 </div>
-                <div class="calendar-days-grid" id="calendar-days-grid"></div>
+                <div id="calendar-days-grid" class="calendar-days-grid"></div>
             </div>
 
-            <!-- APARTADO MI SETUP (REJILLA ADAPTATIVA EN COLUMNAS HORIZONTALES) -->
+            <!-- Contenedor de Mi Setup -->
             <div id="setup-container" style="display: none;">
-                <div class="games-grid" id="setup-grid"></div>
+                <div id="setup-grid" class="games-grid"></div>
             </div>
 
-            <!-- APARTADO MAPAS (REJILLA ADAPTATIVA EN COLUMNAS HORIZONTALES) -->
+            <!-- Contenedor de Mapas -->
             <div id="mapas-container" style="display: none;">
-                <div class="games-grid" id="mapas-grid"></div>
+                <div id="mapas-grid" class="games-grid"></div>
             </div>
 
         </main>
 
+        <!-- MODAL PARA AMPLIAR LOS MAPAS -->
+        <div id="mapa-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;" onclick="cerrarMapa()">
+            <img id="mapa-gigante" src="" alt="Mapa ampliado" style="max-width: 90%; max-height: 90%; object-fit: contain; border: 2px solid #00ff99; border-radius: 8px;">
+        </div>
+
+        <!-- MENÚ DE NAVEGACIÓN INFERIOR (MÓVIL / FIJO) -->
+        <nav class="main-navigation">
+            <button class="nav-item active" onclick="changeCollection('principal', this)">Mi Colección</button>
+            <button class="nav-item" onclick="changeCollection('otros', this)">Otros Juegos</button>
+            <button class="nav-item" onclick="changeCollection('mapas', this)">Mapas</button>
+            <button class="nav-item" onclick="changeCollection('calendario', this)">Mi Calendario</button>
+            <button class="nav-item" onclick="changeCollection('setup', this)">Mi Setup</button>
+        </nav>
+
     </div>
 
-    <!-- Enlace al motor lógico JavaScript con versión dinámica -->
-    <script src="app.js?v=2.0"></script>
+    <!-- Tu archivo Script externo de JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
