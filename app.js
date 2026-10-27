@@ -295,20 +295,22 @@ window.changeCollection = function(tipo, elemento) {
     if (tipo === 'principal' || tipo === 'otros') {
         if(gamesGridObj) gamesGridObj.style.display = 'grid';
         
+        // El contenedor del buscador principal siempre debe estar visible en PC/Móvil para ambas pestañas
+        if(topFilters) topFilters.style.display = 'block'; 
+        
         if (tipo === 'principal') {
-            if(topFilters) topFilters.style.display = 'block'; // Muestra buscador y filtros
-            if(pcButtons) pcButtons.style.display = 'flex';
-            if(mobileSub) mobileSub.style.display = 'block';
-            if(statsPanel) statsPanel.style.display = 'flex';
+            if(pcButtons) pcButtons.style.display = 'flex';       // Muestra botones (Todos, Jugando...)
+            if(mobileSub) mobileSub.style.display = 'block';     // Muestra selector móvil
+            if(statsPanel) statsPanel.style.display = 'flex';     // Muestra el panel de estadísticas superior
         } else {
-            // 🟢 CORRECCIÓN: Ocultamos el contenedor de filtros superiores en 'Otros Juegos'
-            if(topFilters) topFilters.style.display = 'none'; 
+            // 🟢 CORRECCIÓN: Ocultamos exclusivamente los filtros de estado y estadísticas, manteniendo el buscador
             if(pcButtons) pcButtons.style.display = 'none';
             if(mobileSub) mobileSub.style.display = 'none';
             if(statsPanel) statsPanel.style.display = 'none';
         }
         renderCards();
     }
+};
 
 // 🟢 FUNCIÓN CONECTADA AL ONINPUT DEL HTML: Ejecuta la búsqueda instantánea por palabras
 window.handleSearch = function(text) {
