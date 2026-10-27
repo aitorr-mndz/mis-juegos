@@ -129,8 +129,7 @@ const misDispositivos = [
         title: "Mi PC Gamer",
         categoria: "PC Master Race",
         image: "ImgSetup/pc_gaming.jpg",
-        // 🟢 CORRECCIÓN: Comillas dobles corregidas en los monitores (27\" y 27\") para que no rompan el script
-        componentes: ["⚡ Gráfica: NVIDIA RTX 3060 12GB", "⚙️ Procesador: AMD Ryzen 5 3600", "⚙️ Placa Base: Gigabyte B550 AORUS", "💾 RAM: Corsair DDR4 16GB", "🚀 Almacenamiento: SSD NVMe 2TB", "🖥️ Monitor: MSI G2722\" 144Hz", "🖥️ Monitor 2: ACER VG270\" 60Hz"]
+        componentes: ["⚡ Gráfica: NVIDIA RTX 3060 12GB", "⚙️ Procesador: AMD Ryzen 5 3600", "⚙️ Placa Base: Gigabyte B550 AORUS", "💾 RAM: Corsair DDR4 16GB", "🚀 Almacenamiento: SSD NVMe 2TB", '🖥️ Monitor: MSI G2722" 144Hz', '🖥️ Monitor 2: ACER VG270" 60Hz']
     },
     {
         id: 202,
@@ -175,29 +174,31 @@ const misMapas = [
     { id: 310, title: "Manhattan - Spider-Man 1 & MM", image: "ImgMaps/spiderman_map.jpg", juego: "Spider-Man Remastered" },
     { id: 311, title: "Islas Palápagos - Palworld", image: "ImgMaps/palworld_map.jpg", juego: "Palworld" }
 ];
+
 // =========================================================================
-// 2. CONFIGURACIÓN DEL SISTEMA
+// 2. CONFIGURACIÓN DEL SISTEMA Y LOCALSTORAGE
 // =========================================================================
 let coleccionActiva = 'principal';
 let currentFilter = 'todos';
 let searchText = '';
 let currentPlatform = 'todas';
+
 let favoritosPrincipal = JSON.parse(localStorage.getItem('mis_favoritos_principal')) || [];
-let juegosPrincipal = JSON.parse(localStorage.getItem('mi_coleccion')) || catalogoInicial;
+let juegosPrincipal = JSON.parse(localStorage.getItem('mi_coleccion')) || (typeof catalogoInicial !== 'undefined' ? catalogoInicial : []);
 let juegosOtros = JSON.parse(localStorage.getItem('mis_otros_juegos')) || catalogoOtros;
 let diasPlanificados = JSON.parse(localStorage.getItem('mis_dias_libres_juegos')) || {};
 let fechaCalendarioActual = new Date();
+
 const gamesGrid = document.getElementById('games-grid');
 const IMAGEN_POR_DEFECTO = "defecto.jpg";
 
 // =========================================================================
-// 3. RENDERIZADO FLUIDO
+// 3. RENDERIZADO FLUIDO DE TARJETAS
 // =========================================================================
 function renderCards() {
     if (!gamesGrid) return;
     gamesGrid.innerHTML = '';
 
-    // El buscador ahora lee dinámicamente de juegosPrincipal o juegosOtros dependiendo de la pestaña activa
     let listaActual = coleccionActiva === 'principal' ? juegosPrincipal : juegosOtros;
 
     const filteredGames = listaActual.filter(game => {
@@ -208,19 +209,17 @@ function renderCards() {
     });
 
     if (filteredGames.length === 0) {
-        // 🟢 RESTAURADO: Comillas invertidas para el mensaje de alerta
         gamesGrid.innerHTML = `<p style="color: #666; text-align: center; width: 100%; grid-column: 1/-1; margin: 40px 0;">No se encontraron videojuegos.</p>`;
         return;
     }
 
     filteredGames.forEach(game => {
-        const card = document.createElement('div');
+                const card = document.createElement('div');
         card.className = 'game-card';
         
         let htmlLogos = '';
         if (game.plataforma) {
             game.plataforma.forEach(plat => {
-                // 🟢 RESTAURADO: Comillas invertidas aplicadas a las imágenes de los logos de las plataformas
                 if (plat === "Steam") htmlLogos += `<img src="Logos/steam_logo.png" class="platform-icon" title="Steam">`;
                 else if (plat === "PlayStation 5" || plat === "PS5") htmlLogos += `<img src="Logos/ps5_logo.png" class="platform-icon" title="PS5">`;
                 else if (plat === "Nintendo Switch 2") htmlLogos += `<img src="Logos/switch_logo.png" class="platform-icon" title="Switch 2">`;
@@ -234,7 +233,6 @@ function renderCards() {
         let htmlEstrellas = '';
         if (coleccionActiva === 'principal' && game.status === 'completado') {
             const score = game.stars || 0;
-            // 🟢 RESTAURADO: Comillas invertidas en el contenedor de estrellas y sus elementos dinámicos
             htmlEstrellas = `<div class="stars-rating">`;
             for (let i = 1; i <= 5; i++) {
                 htmlEstrellas += `<span class="star ${i <= score ? 'active' : ''}" onclick="rateGame(${game.id}, ${i})">★</span>`;
@@ -242,30 +240,29 @@ function renderCards() {
             htmlEstrellas += `</div>`;
         }
 
-                // Volvemos a generar el select con normalidad para que no se pierdan tus banners estilizados
         let htmlFavorito = coleccionActiva === 'principal' ? `<span class="fav-btn ${favoritosPrincipal.includes(game.id) ? 'active' : ''}" onclick="toggleFavorite(event, ${game.id})">♥</span>` : '';
-        let htmlMenu = `<select class="card-select status-${game.status}" onchange="changeStatus(${game.id}, this.value)"><option value="pendiente" ${game.status === 'pendiente' ? 'selected' : ''}>⏳ Por jugar</option><option value="jugando" ${game.status === 'jugando' ? 'selected' : ''}>🕹️ Jugando</option><option value="completado" ${game.status === 'completado' ? 'selected' : ''}>🏆 Completado</option><option value="noadquirido" ${game.status === 'noadquirido' ? 'selected' : ''}>🛑 No Adquirido</option></select>`;
         
-        card.innerHTML = `${htmlFavorito}<div class="card-front"><img src="${game.image}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'"></div><div class="card-back"><h3 class="card-title">${game.title}</h3><div class="platform-container">${htmlLogos}</div>${htmlEstrellas}${htmlMenu}</div>`;
-        gamesGrid.appendChild(card);
-
+        // 🟢 MENÚ DE ESTADOS CAMUFLADO Y SUTIL (Exclusivo de la colección principal)
+        let htmlMenu = '';
+        if (coleccionActiva === 'principal') {
+            htmlMenu = `<select class="card-select status-${game.status}" onchange="changeStatus(${game.id}, this.value)"><option value="pendiente" ${game.status === 'pendiente' ? 'selected' : ''}>⏳ Por jugar</option><option value="jugando" ${game.status === 'jugando' ? 'selected' : ''}>🕹️ Jugando</option><option value="completado" ${game.status === 'completado' ? 'selected' : ''}>🏆 Completado</option><option value="noadquirido" ${game.status === 'noadquirido' ? 'selected' : ''}>🛑 No Adquirido</option></select>`;
+        }
         
-        // El HTML final ahora respetará la variable vacía y no pintará el selector en el móvil dentro de 'Otros Juegos'
         card.innerHTML = `${htmlFavorito}<div class="card-front"><img src="${game.image}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'"></div><div class="card-back"><h3 class="card-title">${game.title}</h3><div class="platform-container">${htmlLogos}</div>${htmlEstrellas}${htmlMenu}</div>`;
         gamesGrid.appendChild(card);
     });
 
     actualizarEstadisticas();
 }
+
 // =========================================================================
-// 4. CONTROLADORES DE FILTROS Y ESTADOS UNIFICADOS
+// 4. CONTROLADORES DE FILTROS Y NAVEGACIÓN ENTRE SECCIONES
 // =========================================================================
 window.changeCollection = function(tipo, elemento) {
     coleccionActiva = tipo;
     currentFilter = 'todos';
     currentPlatform = 'todas';
     
-    // 1. Resetear estados visuales de los subfiltros
     const pcButtons = document.getElementById('sub-filters');
     if (pcButtons) {
         pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
@@ -276,7 +273,6 @@ window.changeCollection = function(tipo, elemento) {
     const mobileSub = document.getElementById('mobile-sub-filters');
     if (mobileSub) mobileSub.value = 'todos';
     
-    // 2. Gestionar la clase activa en el menú de navegación superior
     document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
     if (elemento) {
         elemento.classList.add('active');
@@ -285,7 +281,6 @@ window.changeCollection = function(tipo, elemento) {
         if (targetBtn) targetBtn.classList.add('active');
     }
     
-    // 3. Capturar todos los elementos estructurales de la interfaz
     const topFilters = document.querySelector('.top-filters-container');
     const statsPanel = document.getElementById('stats-panel');
     const calendarContainer = document.getElementById('calendar-container');
@@ -297,66 +292,56 @@ window.changeCollection = function(tipo, elemento) {
     if (searchInput) searchInput.value = '';
     searchText = '';
     
-    // 4. 🟢 LIMPIEZA ABSOLUTA: Ocultamos por defecto absolutamente todas las secciones antes de activar la elegida
-    [gamesGridObj, calendarContainer, setupContainer, mapasContainer].forEach(el => { 
-        if(el) el.style.display = 'none'; 
+    [gamesGridObj, calendarContainer, setupContainer, mapasContainer].forEach(el => {
+        if(el) el.style.display = 'none';
     });
     
-    // 5. Mostrar y renderizar la sección correspondiente
     if (tipo === 'principal' || tipo === 'otros') {
-        if(gamesGridObj) gamesGridObj.style.display = 'grid';
-        if(topFilters) topFilters.style.display = 'block'; // Muestra el contenedor del buscador
+        if(gamesGridObj) {
+            gamesGridObj.style.display = 'grid';
+            if (tipo === 'principal') {
+                gamesGridObj.classList.add('coleccion-principal');
+            } else {
+                gamesGridObj.classList.remove('coleccion-principal');
+            }
+        }
+        if(topFilters) topFilters.style.display = 'block';
         
         if (tipo === 'principal') {
             if(pcButtons) pcButtons.style.display = 'flex';
             if(mobileSub) mobileSub.style.display = 'block';
-            if(statsPanel) statsPanel.style.display = 'flex'; // Muestra estadísticas sólo en principal
+            if(statsPanel) statsPanel.style.display = 'flex';
         } else {
+            // 🟢 OCULTACIÓN RADICAL EN OTROS JUEGOS (Móvil y PC libres de selectores/filtros innecesarios)
             if(pcButtons) pcButtons.style.display = 'none';
             if(mobileSub) mobileSub.style.display = 'none';
-            if(statsPanel) statsPanel.style.display = 'none'; // Oculta estadísticas en otros
+            if(statsPanel) statsPanel.style.display = 'none';
         }
         renderCards();
     } else {
-        // 🟢 CORRECCIÓN PARA VISTAS EXTRA: Si entramos a Calendario, Setup o Mapas, limpiamos por completo la parte superior
         if(topFilters) topFilters.style.display = 'none';
         if(statsPanel) statsPanel.style.display = 'none';
-        
-        if(tipo === 'calendario') { 
-            if(calendarContainer) calendarContainer.style.display = 'block'; 
-            renderCalendar(); 
-        }
-        if(tipo === 'setup') { 
-            if(setupContainer) setupContainer.style.display = 'block'; 
-            renderSetup(); 
-        }
-        if(tipo === 'mapas') { 
-            if(mapasContainer) mapasContainer.style.display = 'block'; 
-            renderMapas(); 
-        }
+        if(tipo === 'calendario') { if(calendarContainer) calendarContainer.style.display = 'block'; renderCalendar(); }
+        if(tipo === 'setup') { if(setupContainer) setupContainer.style.display = 'block'; renderSetup(); }
+        if(tipo === 'mapas') { if(mapasContainer) mapasContainer.style.display = 'block'; renderMapas(); }
     }
 };
 
-// 🟢 FUNCIÓN CONECTADA AL ONINPUT DEL HTML: Ejecuta la búsqueda instantánea por palabras
 window.handleSearch = function(text) {
     searchText = text;
     renderCards();
 };
 
-// Enlaza los botones de PC y selectores al mismo filtrado de estados
 window.filterStatus = function(status, btnElement) {
     currentFilter = status;
     const container = document.getElementById('sub-filters');
     if (container) {
         container.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
     }
-    if (btnElement) {
-        btnElement.classList.add('active');
-    }
+    if (btnElement) btnElement.classList.add('active');
     renderCards();
 };
 
-// Mantener compatibilidad hacia atrás con el nombre viejo de la función si hiciera falta
 window.filterGames = window.filterStatus;
 
 window.filterGamesFromSelect = function(filterType) {
@@ -369,7 +354,6 @@ window.filterGamesFromSelect = function(filterType) {
     }
     renderCards();
 };
-
 window.filterByPlatform = function(plataforma, elemento) {
     currentPlatform = plataforma;
     document.querySelectorAll('.sidebar-plat-btn').forEach(btn => btn.classList.remove('active'));
@@ -378,41 +362,30 @@ window.filterByPlatform = function(plataforma, elemento) {
 };
 
 window.changeStatus = function(id, newStatus) {
-    // 1. Actualiza el estado del juego en la lista en memoria
     juegosPrincipal = juegosPrincipal.map(game => game.id === id ? { ...game, status: newStatus } : game);
-    
-    // 2. Guarda el cambio de forma permanente en el almacenamiento local
     localStorage.setItem('mi_coleccion', JSON.stringify(juegosPrincipal));
     
-    // 3. 🟢 SOLUCIÓN: Cambia el filtro activo a 'todos' para que el juego no desaparezca de la pantalla al mutar su estado
+    // Mantiene la vista en 'todos' tras mutar el estado para no provocar desapariciones bruscas
     currentFilter = 'todos';
-    
-    // 4. Sincroniza visualmente los botones de filtrado de la interfaz de PC
     const pcButtons = document.getElementById('sub-filters');
     if (pcButtons) {
         pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
         const todosBtn = Array.from(pcButtons.querySelectorAll('.filter-btn')).find(btn => btn.textContent.includes('Todos'));
         if (todosBtn) todosBtn.classList.add('active');
     }
-    
-    // 5. Sincroniza el selector desplegable de la interfaz móvil
     const mobileSub = document.getElementById('mobile-sub-filters');
     if (mobileSub) mobileSub.value = 'todos';
-    
-    // 6. Vuelve a pintar la rejilla con los datos actualizados
     renderCards();
 };
 
-// =========================================================================
-// 5. SISTEMA DE CALIFICACIÓN POR ESTRELLAS
-// =========================================================================
 window.rateGame = function(id, stars) {
     juegosPrincipal = juegosPrincipal.map(g => g.id === id ? { ...g, stars: Math.trunc(stars) } : g);
     localStorage.setItem('mi_coleccion', JSON.stringify(juegosPrincipal));
     renderCards();
 };
+
 // =========================================================================
-// 6. SISTEMA DE FAVORITOS
+// 5. SISTEMA DE FAVORITOS Y ESTADÍSTICAS
 // =========================================================================
 window.toggleFavorite = function(event, id) {
     event.stopPropagation();
@@ -463,7 +436,7 @@ function actualizarEstadisticas() {
 }
 
 // =========================================================================
-// 7. GESTIÓN DEL CALENDARIO
+// 6. GESTIÓN DE LA VISTA DEL CALENDARIO
 // =========================================================================
 function renderCalendar() {
     const grid = document.getElementById('calendar-days-grid');
@@ -471,14 +444,12 @@ function renderCalendar() {
     if (!grid || !title) return;
     grid.innerHTML = '';
     
-    if (!window.fechaCalendarioActual) {
-        window.fechaCalendarioActual = new Date();
-    }
+    if (!window.fechaCalendarioActual) window.fechaCalendarioActual = new Date();
     const y = window.fechaCalendarioActual.getFullYear();
     const m = window.fechaCalendarioActual.getMonth();
     const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
     
-    // 🟢 RESTAURADO: Comillas invertidas para el HTML del mes del calendario
+    // 🟢 RESTAURADO: Comillas invertidas para maquetar el mes del calendario
     title.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 20px 0; width: 100%;"> <button onclick="cambiarMesCalendario(-1)" style="background: #1c1c1e; border: 1px solid #2d2d30; color: #00ff99; font-size: 18px; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold;">◀</button> <span style="font-weight: bold; font-size: 22px; min-width: 220px; display: inline-block; text-align: center; color: #fff;">📅 ${months[m]} ${y}</span> <button onclick="cambiarMesCalendario(1)" style="background: #1c1c1e; border: 1px solid #2d2d30; color: #00ff99; font-size: 18px; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold;">▶</button> </div>`;
     
     let startDay = new Date(y, m, 1).getDay();
@@ -490,7 +461,7 @@ function renderCalendar() {
     }
     
     const days = new Date(y, m + 1, 0).getDate();
-    // 🟢 RESTAURADO: Comillas invertidas para la opción por defecto en el menú desplegable del calendario
+    // 🟢 RESTAURADO: Comillas invertidas en la opción vacía
     let opts = `<option value="">Ocupado 🛑</option>`;
     [...juegosPrincipal].sort((a,b)=>a.title.localeCompare(b.title)).forEach(g => {
         opts += `<option value="${g.title}">${g.title}</option>`;
@@ -502,7 +473,7 @@ function renderCalendar() {
         const gameSet = diasPlanificados[key] || "";
         cell.className = gameSet !== "" ? 'calendar-day free-to-play' : 'calendar-day';
         
-        // 🟢 RESTAURADO: Estructura interna de los días del calendario con condicionales para inyectar iconos
+        // 🟢 RESTAURADO: Comillas invertidas para inyectar cada día y su menú desplegable
         cell.innerHTML = `<span>${d}</span> ${gameSet !== "" ? `🕹️ ${gameSet}` : ''} <select class="calendar-select-game" onchange="planificarJuego('${key}', this.value)"> ${opts.replace(`value="${gameSet}"`, `value="${gameSet}" selected`)} </select>`;
         grid.appendChild(cell);
     }
@@ -519,9 +490,8 @@ window.planificarJuego = function(key, val) {
     localStorage.setItem('mis_dias_libres_juegos', JSON.stringify(diasPlanificados));
     renderCalendar();
 };
-
 // =========================================================================
-// 8. RENDERS ADAPTATIVOS PARA MI SETUP Y MAPAS
+// 7. VISTAS ADAPTATIVAS PARA SETUP Y GALERÍA DE MAPAS AMPLIFICADOS
 // =========================================================================
 function renderSetup() {
     const grid = document.getElementById('setup-grid');
@@ -531,7 +501,7 @@ function renderSetup() {
     misDispositivos.forEach(d => {
         const card = document.createElement('div');
         card.className = 'game-card';
-        // 🟢 RESTAURADO: Comillas invertidas en el mapeo de la lista de componentes del Setup
+        // 🟢 RESTAURADO: Comillas invertidas para el mapeo de la lista de componentes del Setup
         let comps = d.componentes.map(c => `<li style="font-size:11px;color:#ccc;text-align:left;">${c}</li>`).join('');
         card.innerHTML = `<div class="card-front"><img src="${d.image}" class="card-banner"></div><div class="card-back"><h3 class="card-title">${d.title}</h3><ul style="padding-left:15px;margin:5px 0;">${comps}</ul></div>`;
         grid.appendChild(card);
@@ -547,23 +517,28 @@ function renderMapas() {
         const card = document.createElement('div');
         card.className = 'game-card';
         card.style.cursor = 'pointer';
+        // 🟢 CORRECCIÓN DE AMPLIACIÓN: Asigna el evento click nativo para abrir el modal gigante
         card.onclick = () => abrirMapa(m.image);
-        // 🟢 RESTAURADO: Estructura interna para renderizar las tarjetas correspondientes a la galería de mapas
-        card.innerHTML = `<div class="card-front"><img src="${m.image}" class="card-banner"></div><div class="card-back"><h3 class="card-title">${m.title}</h3><span style="font-size:10px;color:#666;text-align:center;margin-top:5px;display:block;">🔍 Ampliar</span></div>`;
+        // 🟢 RESTAURADO: Comillas invertidas para renderizar las tarjetas correspondientes a la galería de mapas
+        card.innerHTML = `<div class="card-front"><img src="${m.image}" class="card-banner"></div><div class="card-back"><h3 class="card-title">${m.title}</h3><span style="font-size:10px;color:#00ff99;text-align:center;margin-top:5px;display:block;font-weight:bold;">🔍 Click para Ampliar</span></div>`;
         grid.appendChild(card);
     });
 }
 
-function abrirMapa(img) {
-    const m = document.getElementById('mapa-modal');
-    const i = document.getElementById('mapa-gigante');
-    if(m && i){ i.src = img; m.style.display = 'flex'; }
-}
-
-window.cerrarMapa = function() {
-    const m = document.getElementById('mapa-modal');
-    if(m) m.style.display = 'none';
+// 🟢 SISTEMA DE MODAL CORREGIDO Y BLINDADO PARA INTERFAZ MULTIPLATAFORMA
+window.abrirMapa = function(imgSrc) {
+    const modal = document.getElementById('mapa-modal');
+    const imagenGigante = document.getElementById('mapa-gigante');
+    if (modal && imagenGigante) {
+        imagenGigante.src = imgSrc;
+        modal.style.display = 'flex';
+    }
 };
 
-// Inicialización automática
+window.cerrarMapa = function() {
+    const modal = document.getElementById('mapa-modal');
+    if (modal) modal.style.display = 'none';
+};
+
+// Inicialización de la carga inicial
 renderCards();
