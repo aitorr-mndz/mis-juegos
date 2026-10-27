@@ -251,26 +251,25 @@ function renderCards() {
 // =========================================================================
 window.changeCollection = function(tipo, elemento) {
     coleccionActiva = tipo;
-    
-    // 🟢 CORRECCIÓN: Resetear el filtro global de estados para que "Otros Juegos" muestre todo por defecto
     currentFilter = 'todos';
     
-    // Sincronizar botones de filtro por si acaso
+    // Sincronizar botones de filtro de PC
     const pcButtons = document.getElementById('sub-filters');
     if (pcButtons) {
         pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        const todosBtn = pcButtons.querySelector('.filter-btn[onclick*="todos"]');
+        const todosBtn = Array.from(pcButtons.querySelectorAll('.filter-btn')).find(btn => btn.textContent.includes('Todos'));
         if (todosBtn) todosBtn.classList.add('active');
     }
+    
     const mobileSub = document.getElementById('mobile-sub-filters');
     if (mobileSub) mobileSub.value = 'todos';
 
-    // Sincronizar clases activas en botones de navegación
+    // Sincronizar clases activas en botones de navegación principales
     document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
     if (elemento) {
         elemento.classList.add('active');
     } else {
-        const targetBtn = document.querySelector(`.nav-item[onclick*="${tipo}"]`);
+        const targetBtn = Array.from(document.querySelectorAll('.nav-item')).find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tipo));
         if (targetBtn) targetBtn.classList.add('active');
     }
 
@@ -281,30 +280,28 @@ window.changeCollection = function(tipo, elemento) {
     const setupContainer = document.getElementById('setup-container');
     const mapasContainer = document.getElementById('mapas-container');
     
-    // Reiniciar texto escrito en el buscador al cambiar de pestaña
+    // Reiniciar buscador
     const searchInput = document.getElementById('game-search');
     if (searchInput) searchInput.value = '';
     searchText = '';
 
-    // Esconder todas las secciones de contenido
+    // Esconder secciones
     [gamesGridObj, calendarContainer, setupContainer, mapasContainer].forEach(el => { if(el) el.style.display = 'none'; });
     
     if (tipo === 'principal' || tipo === 'otros') {
         games = tipo === 'principal' ? juegosPrincipal : juegosOtros;
         if(gamesGridObj) gamesGridObj.style.display = 'grid';
         
-        // 🟢 CORRECCIÓN: El contenedor del buscador se queda visible en ambos apartados, 
-        // pero encendemos o apagamos selectivamente los sub-botones de estado y las estadísticas.
         if (tipo === 'principal') {
             if(topFilters) topFilters.style.display = 'block';
-            if(pcButtons) pcButtons.style.display = 'flex'; // Muestra botones en Principal
+            if(pcButtons) pcButtons.style.display = 'flex';
             if(mobileSub) mobileSub.style.display = 'block';
             if(statsPanel) statsPanel.style.display = 'flex';
         } else {
-            if(topFilters) topFilters.style.display = 'block'; // 👈 Mantiene el buscador visible en Otros Juegos
-            if(pcButtons) pcButtons.style.display = 'none';    // 🛑 Oculta los botones de estado (Todos, Por jugar...)
-            if(mobileSub) mobileSub.style.display = 'none';   // 🛑 Oculta el selector móvil
-            if(statsPanel) statsPanel.style.display = 'none';   // 🛑 Oculta las estadísticas
+            if(topFilters) topFilters.style.display = 'block';
+            if(pcButtons) pcButtons.style.display = 'none';
+            if(mobileSub) mobileSub.style.display = 'none';
+            if(statsPanel) statsPanel.style.display = 'none';
         }
         
         renderCards();
@@ -314,6 +311,41 @@ window.changeCollection = function(tipo, elemento) {
         if(tipo === 'calendario') { if(calendarContainer) calendarContainer.style.display = 'block'; renderCalendar(); }
         if(tipo === 'setup') { if(setupContainer) setupContainer.style.display = 'block'; renderSetup(); }
         if(tipo === 'mapas') { if(mapasContainer) mapasContainer.style.display = 'block'; renderMapas(); }
+    }
+};
+
+// Función unificada que corrige el click tanto en PC como en móviles
+window.filterGames = function(filterType, buttonElement) {
+    currentFilter = filterType;
+    
+    const pcButtons = document.getElementById('sub-filters');
+    if (pcButtons) {
+        pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    }
+    
+    if (buttonElement) {
+        buttonElement.classList.add('active');
+    } else if (pcButtons) {
+        const botonEquivalente = Array.from(pcButtons.querySelectorAll('.filter-btn'))
+            .find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(filterType));
+        if (botonEquivalente) botonEquivalente.classList.add('active');
+    }
+
+    const mobileSub = document.getElementById('mobile-sub-filters');
+    if (mobileSub) mobileSub.value = filterType;
+    
+    renderCards();
+};
+
+window.filterGamesFromSelect = function(filterType) {
+    window.filterGames(filterType, null);
+};
+
+window.searchGames = function() {
+    const searchInput = document.getElementById('game-search');
+    if (searchInput) { 
+        searchText = searchInput.value; 
+        renderCards(); 
     }
 };
 
