@@ -177,66 +177,105 @@ body {
    4. PANEL DE ESTADÍSTICAS
    ========================================================================= */
 .stats-container {
+    display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 12px;
-    margin-bottom: 30px;
+    gap: 16px; /* Más separación entre bloques */
+    margin-top: 20px;
+    margin-bottom: 40px;
     flex-wrap: wrap;
-}
-
-.stat-box {
-    flex: 1;
-    min-width: 120px;
-    max-width: 200px;
-    background: var(--card-bg);
-    border: 1px solid #252527;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
+    width: 100%;
     box-sizing: border-box;
 }
 
+/* Tarjetas con efecto cristal translúcido (Glassmorphism) */
+.stat-box {
+    flex: 1;
+    min-width: 140px;
+    max-width: 220px;
+    background: linear-gradient(145deg, #18181b, #111113);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 18px 12px;
+    border-radius: 12px; /* Bordes más suaves y redondeados */
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Iluminación LED dinámica e individual al pasar el cursor */
+.stat-box:hover {
+    transform: translateY(-3px);
+}
+
+.stat-box.todos:hover { border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 6px 20px rgba(255, 255, 255, 0.05); }
+.stat-box.pendiente:hover { border-color: #f39c12; box-shadow: 0 6px 20px rgba(243, 156, 18, 0.15); }
+.stat-box.jugando:hover { border-color: #3498db; box-shadow: 0 6px 20px rgba(52, 152, 219, 0.15); }
+.stat-box.completado:hover { border-color: #2ecc71; box-shadow: 0 6px 20px rgba(46, 204, 113, 0.15); }
+.stat-box.progreso:hover { border-color: var(--neon-green); box-shadow: 0 6px 20px rgba(0, 255, 153, 0.15); }
+
+/* Números grandes con tipografía estilizada */
 .stat-number {
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 32px; /* Números más impactantes */
+    font-weight: 800;
     display: block;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: -0.5px;
 }
 
+/* Etiquetas inferiores limpias y elegantes */
 .stat-label {
-    font-size: 12px;
-    color: #777;
-    margin-top: 4px;
+    font-size: 11px;
+    text-transform: uppercase; /* Texto formalizado en mayúsculas pequeñas */
+    letter-spacing: 1px;
+    color: #66666a;
+    margin-top: 6px;
     display: block;
+    font-weight: 600;
 }
 
-.stat-box.pendiente .stat-number { color: #f39c12; }
-.stat-box.jugando .stat-number { color: #3498db; }
-.stat-box.completado .stat-number { color: #2ecc71; }
+/* Colores de los contadores basados en tu paleta actual */
+.stat-box.todos .stat-number { color: #ffffff; text-shadow: 0 0 10px rgba(255,255,255,0.1); }
+.stat-box.pendiente .stat-number { color: #f39c12; text-shadow: 0 0 15px rgba(243, 156, 18, 0.2); }
+.stat-box.jugando .stat-number { color: #3498db; text-shadow: 0 0 15px rgba(52, 152, 219, 0.2); }
+.stat-box.completado .stat-number { color: #2ecc71; text-shadow: 0 0 15px rgba(46, 204, 113, 0.2); }
 
+/* Bloque especial de progreso */
 .stat-box.progreso {
-    min-width: 200px;
+    min-width: 240px;
+    max-width: 280px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: linear-gradient(145deg, #1a1a1d, #121215);
 }
 
+.stat-box.progreso .stat-number {
+    font-size: 24px;
+    color: var(--neon-green);
+    text-shadow: 0 0 15px rgba(0, 255, 153, 0.3);
+}
+
+/* Barra de carga de nivel estilizada con relieve */
 .progress-bar-bg {
     width: 100%;
-    height: 6px;
-    background: #000;
-    border-radius: 3px;
-    margin-top: 8px;
+    height: 8px; /* Un poco más gruesa */
+    background: #09090a;
+    border-radius: 4px;
+    margin-top: 12px;
     overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.02);
 }
 
 .progress-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, #00ff99, #00ffcc); 
-    width: 0%; 
-    /* 🟢 Transición linear rápida adaptada al contador dinámico */
-    transition: width 0.1s linear; 
-    box-shadow: 0 0 10px rgba(0, 255, 153, 0.6);
+    background: linear-gradient(90deg, #00ff99, #00ffcc); /* Degradado cian-verde */
+    width: 0%;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 12px rgba(0, 255, 153, 0.8), 0 0 4px rgba(0, 255, 204, 0.4);
 }
 
 /* =========================================================================
