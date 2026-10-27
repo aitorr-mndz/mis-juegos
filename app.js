@@ -179,18 +179,28 @@ const misMapas = [
 // =========================================================================
 // 2. CONFIGURACIÓN DEL SISTEMA
 // =========================================================================
-let coleccionActiva = 'principal';
-let currentFilter = 'todos';
-let searchText = '';
-let currentPlatform = 'todas';
+// =========================================================================
+// 1. ESTADO GLOBAL Y PERSISTENCIA DE DATOS (CORREGIDO DE RAÍZ)
+// =========================================================================
+// 🟢 CORRECCIÓN CRÍTICA: Cambiado de setItem a getItem para recuperar los datos sin romper la app
+let juegosPrincipal = JSON.parse(localStorage.getItem('mi_coleccion')) || JUEGOS_INICIALES_PRINCIPAL;
+let juegosOtros = JSON.parse(localStorage.getItem('mi_coleccion_otros')) || JUEGOS_INICIALES_OTROS;
 let favoritosPrincipal = JSON.parse(localStorage.getItem('mis_favoritos_principal')) || [];
-let juegosPrincipal = JSON.parse(localStorage.getItem('mi_coleccion')) || catalogoInicial;
-let juegosOtros = JSON.parse(localStorage.getItem('mis_otros_juegos')) || catalogoOtros;
 let diasPlanificados = JSON.parse(localStorage.getItem('mis_dias_libres_juegos')) || {};
-let fechaCalendarioActual = new Date(); // Guarda el mes y año seleccionado en la agenda
-let games = juegosPrincipal;
-const gamesGrid = document.getElementById('games-grid');
-const IMAGEN_POR_DEFECTO = "defecto.jpg";
+let misDispositivos = JSON.parse(localStorage.getItem('mis_dispositivos_setup')) || DISPOSITIVOS_INICIALES;
+let misMapas = JSON.parse(localStorage.getItem('mis_mapas_juegos')) || MAPAS_INICIALES;
+
+// Variables de Control de Interfaz
+let coleccionActiva = 'principal'; 
+let currentFilter = 'todos';       
+let searchText = '';               
+let games = juegosPrincipal;       
+let fechaCalendarioActual = new Date(); 
+let intervaloProgreso = null;      
+
+// Guardado preventivo inicial correcto
+localStorage.setItem('mi_coleccion', JSON.stringify(juegosPrincipal));
+localStorage.setItem('mi_coleccion_otros', JSON.stringify(juegosOtros));
 
 // =========================================================================
 // 3. MOTOR DE FILTRADO, BUSCADOR Y RENDERIZADO DE TARJETAS (CORREGIDO)
