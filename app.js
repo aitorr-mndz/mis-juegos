@@ -261,6 +261,7 @@ window.changeCollection = function(tipo, elemento) {
     currentFilter = 'todos';
     currentPlatform = 'todas';
     
+    // 1. Resetear estados visuales de los subfiltros
     const pcButtons = document.getElementById('sub-filters');
     if (pcButtons) {
         pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
@@ -271,6 +272,7 @@ window.changeCollection = function(tipo, elemento) {
     const mobileSub = document.getElementById('mobile-sub-filters');
     if (mobileSub) mobileSub.value = 'todos';
     
+    // 2. Gestionar la clase activa en el menú de navegación superior
     document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
     if (elemento) {
         elemento.classList.add('active');
@@ -279,6 +281,7 @@ window.changeCollection = function(tipo, elemento) {
         if (targetBtn) targetBtn.classList.add('active');
     }
     
+    // 3. Capturar todos los elementos estructurales de la interfaz
     const topFilters = document.querySelector('.top-filters-container');
     const statsPanel = document.getElementById('stats-panel');
     const calendarContainer = document.getElementById('calendar-container');
@@ -290,25 +293,43 @@ window.changeCollection = function(tipo, elemento) {
     if (searchInput) searchInput.value = '';
     searchText = '';
     
-    [gamesGridObj, calendarContainer, setupContainer, mapasContainer].forEach(el => { if(el) el.style.display = 'none'; });
+    // 4. 🟢 LIMPIEZA ABSOLUTA: Ocultamos por defecto absolutamente todas las secciones antes de activar la elegida
+    [gamesGridObj, calendarContainer, setupContainer, mapasContainer].forEach(el => { 
+        if(el) el.style.display = 'none'; 
+    });
     
+    // 5. Mostrar y renderizar la sección correspondiente
     if (tipo === 'principal' || tipo === 'otros') {
         if(gamesGridObj) gamesGridObj.style.display = 'grid';
-        
-        // El contenedor del buscador principal siempre debe estar visible en PC/Móvil para ambas pestañas
-        if(topFilters) topFilters.style.display = 'block'; 
+        if(topFilters) topFilters.style.display = 'block'; // Muestra el contenedor del buscador
         
         if (tipo === 'principal') {
-            if(pcButtons) pcButtons.style.display = 'flex';       // Muestra botones (Todos, Jugando...)
-            if(mobileSub) mobileSub.style.display = 'block';     // Muestra selector móvil
-            if(statsPanel) statsPanel.style.display = 'flex';     // Muestra el panel de estadísticas superior
+            if(pcButtons) pcButtons.style.display = 'flex';
+            if(mobileSub) mobileSub.style.display = 'block';
+            if(statsPanel) statsPanel.style.display = 'flex'; // Muestra estadísticas sólo en principal
         } else {
-            // 🟢 CORRECCIÓN: Ocultamos exclusivamente los filtros de estado y estadísticas, manteniendo el buscador
             if(pcButtons) pcButtons.style.display = 'none';
             if(mobileSub) mobileSub.style.display = 'none';
-            if(statsPanel) statsPanel.style.display = 'none';
+            if(statsPanel) statsPanel.style.display = 'none'; // Oculta estadísticas en otros
         }
         renderCards();
+    } else {
+        // 🟢 CORRECCIÓN PARA VISTAS EXTRA: Si entramos a Calendario, Setup o Mapas, limpiamos por completo la parte superior
+        if(topFilters) topFilters.style.display = 'none';
+        if(statsPanel) statsPanel.style.display = 'none';
+        
+        if(tipo === 'calendario') { 
+            if(calendarContainer) calendarContainer.style.display = 'block'; 
+            renderCalendar(); 
+        }
+        if(tipo === 'setup') { 
+            if(setupContainer) setupContainer.style.display = 'block'; 
+            renderSetup(); 
+        }
+        if(tipo === 'mapas') { 
+            if(mapasContainer) mapasContainer.style.display = 'block'; 
+            renderMapas(); 
+        }
     }
 };
 
