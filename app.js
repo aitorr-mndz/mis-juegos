@@ -356,8 +356,28 @@ window.filterByPlatform = function(plataforma, elemento) {
 };
 
 window.changeStatus = function(id, newStatus) {
+    // 1. Actualiza el estado del juego en la lista en memoria
     juegosPrincipal = juegosPrincipal.map(game => game.id === id ? { ...game, status: newStatus } : game);
+    
+    // 2. Guarda el cambio de forma permanente en el almacenamiento local
     localStorage.setItem('mi_coleccion', JSON.stringify(juegosPrincipal));
+    
+    // 3. 🟢 SOLUCIÓN: Cambia el filtro activo a 'todos' para que el juego no desaparezca de la pantalla al mutar su estado
+    currentFilter = 'todos';
+    
+    // 4. Sincroniza visualmente los botones de filtrado de la interfaz de PC
+    const pcButtons = document.getElementById('sub-filters');
+    if (pcButtons) {
+        pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        const todosBtn = Array.from(pcButtons.querySelectorAll('.filter-btn')).find(btn => btn.textContent.includes('Todos'));
+        if (todosBtn) todosBtn.classList.add('active');
+    }
+    
+    // 5. Sincroniza el selector desplegable de la interfaz móvil
+    const mobileSub = document.getElementById('mobile-sub-filters');
+    if (mobileSub) mobileSub.value = 'todos';
+    
+    // 6. Vuelve a pintar la rejilla con los datos actualizados
     renderCards();
 };
 
