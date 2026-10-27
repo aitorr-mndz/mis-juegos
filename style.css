@@ -559,6 +559,12 @@ body {
     object-fit: cover;
 }
 
+/* 🟢 Oculta el menú desplegable de estados en la pestaña de otros juegos */
+#setup-container ~ #games-grid .game-card select, 
+.tab-otros-activa .card-select {
+    display: none !important;
+}
+
 /* =========================================================================
    FILTROS Y BUSCADOR (DISEÑO ADAPTATIVO MÓVIL/PC)
    ========================================================================= */
