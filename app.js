@@ -253,7 +253,7 @@ window.changeCollection = function(tipo, elemento) {
     coleccionActiva = tipo;
     currentFilter = 'todos';
     
-    // Sincronizar botones de filtro de PC (si existen en el DOM)
+    // Sincronizar botones de filtro de PC
     const pcButtons = document.getElementById('sub-filters');
     if (pcButtons) {
         pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
@@ -264,16 +264,12 @@ window.changeCollection = function(tipo, elemento) {
     const mobileSub = document.getElementById('mobile-sub-filters');
     if (mobileSub) mobileSub.value = 'todos';
 
-    // Sincronizar la barra de navegación inferior (Activar el icono correcto en el móvil)
+    // Sincronizar clases activas en botones de navegación principales
     document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
     if (elemento) {
         elemento.classList.add('active');
     } else {
-        // Busca el botón inferior por su atributo onclick dinámicamente
-        const targetBtn = Array.from(document.querySelectorAll('.nav-item, .nav-link, [onclick*="changeCollection"]')).find(btn => {
-            const attr = btn.getAttribute('onclick');
-            return attr && attr.includes(`'${tipo}'`) || attr && attr.includes(`"${tipo}"`);
-        });
+        const targetBtn = Array.from(document.querySelectorAll('.nav-item')).find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tipo));
         if (targetBtn) targetBtn.classList.add('active');
     }
 
@@ -284,59 +280,37 @@ window.changeCollection = function(tipo, elemento) {
     const setupContainer = document.getElementById('setup-container');
     const mapasContainer = document.getElementById('mapas-container');
     
-    // Reiniciar y limpiar el cuadro de búsqueda
+    // Reiniciar buscador
     const searchInput = document.getElementById('game-search');
     if (searchInput) searchInput.value = '';
     searchText = '';
 
-    // Ocultar de forma segura todas las pantallas del sistema
-    [gamesGridObj, calendarContainer, setupContainer, mapasContainer].forEach(el => { 
-        if (el) el.style.setProperty('display', 'none', 'important'); 
-    });
+    // Esconder secciones
+    [gamesGridObj, calendarContainer, setupContainer, mapasContainer].forEach(el => { if(el) el.style.display = 'none'; });
     
-    // Controlar el encendido y apagado de componentes según la pestaña activa
     if (tipo === 'principal' || tipo === 'otros') {
         games = tipo === 'principal' ? juegosPrincipal : juegosOtros;
-        if (gamesGridObj) gamesGridObj.style.setProperty('display', 'grid', 'important');
+        if(gamesGridObj) gamesGridObj.style.display = 'grid';
         
         if (tipo === 'principal') {
-            if (topFilters) topFilters.style.display = 'block';
-            if (pcButtons) pcButtons.style.display = 'grid'; // Se adapta a la cuadrícula móvil
-            if (mobileSub) mobileSub.style.display = 'block';
-            if (statsPanel) statsPanel.style.display = 'flex';
+            if(topFilters) topFilters.style.display = 'block';
+            if(pcButtons) pcButtons.style.display = 'flex';
+            if(mobileSub) mobileSub.style.display = 'block';
+            if(statsPanel) statsPanel.style.display = 'flex';
         } else {
-            // Pestaña "Otros Juegos": Muestra buscador, oculta contadores y filtros de estado
-            if (topFilters) topFilters.style.display = 'block';
-            if (pcButtons) pcButtons.style.display = 'none';
-            if (mobileSub) mobileSub.style.display = 'none';
-            if (statsPanel) statsPanel.style.display = 'none';
+            if(topFilters) topFilters.style.display = 'block';
+            if(pcButtons) pcButtons.style.display = 'none';
+            if(mobileSub) mobileSub.style.display = 'none';
+            if(statsPanel) statsPanel.style.display = 'none';
         }
         
         renderCards();
     } else {
-        // Pestañas que no son catálogos de juegos: Ocultar bloques superiores de filtros y estadísticas
-        if (topFilters) topFilters.style.display = 'none';
-        if (statsPanel) statsPanel.style.display = 'none';
-        
-        // Renderizar y mostrar usando estructuras Flexbox compatibles con tu CSS móvil
-        if (tipo === 'calendario') { 
-            if (calendarContainer) {
-                calendarContainer.style.setProperty('display', 'block', 'important'); 
-                renderCalendar(); 
-            }
-        }
-        if (tipo === 'setup') { 
-            if (setupContainer) {
-                setupContainer.style.setProperty('display', 'flex', 'important'); 
-                renderSetup(); 
-            }
-        }
-        if (tipo === 'mapas') { 
-            if (mapasContainer) {
-                mapasContainer.style.setProperty('display', 'flex', 'important'); 
-                renderMapas(); 
-            }
-        }
+        if(topFilters) topFilters.style.display = 'none';
+        if(statsPanel) statsPanel.style.display = 'none';
+        if(tipo === 'calendario') { if(calendarContainer) calendarContainer.style.display = 'block'; renderCalendar(); }
+        if(tipo === 'setup') { if(setupContainer) setupContainer.style.display = 'block'; renderSetup(); }
+        if(tipo === 'mapas') { if(mapasContainer) mapasContainer.style.display = 'block'; renderMapas(); }
     }
 };
 
