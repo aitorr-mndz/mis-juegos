@@ -11,9 +11,8 @@
     <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     
-    <!-- Enlace al manifiesto de instalación y estilos con versión dinámica -->
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css?v=2.0">
+    <link rel="stylesheet" href="style.css?v=3.0">
 </head>
 <body>
 
@@ -24,7 +23,7 @@
             <h1>🎮 Mi Colección de Videojuegos</h1>
         </header>
 
-        <!-- NAVEGACIÓN PRINCIPAL (Barra inferior nativa en móvil / Menú superior en PC) -->
+        <!-- NAVEGACIÓN PRINCIPAL -->
         <nav class="main-navigation">
             <button class="nav-item active" onclick="changeCollection('principal', this)">
                 <span class="nav-icon">🎮</span><span class="nav-text">Mi Colección</span>
@@ -70,24 +69,24 @@
             </div>
         </div>
 
-        <!-- CONTENEDOR DE FILTROS SUPERIORES Y BUSCADOR (CORREGIDO Y OPTIMIZADO) -->
+        <!-- CONTENEDOR DE FILTROS SUPERIORES Y BUSCADOR -->
         <div class="top-filters-container">
             <div class="search-filter-row">
                 
-                <!-- 🔍 EL BUSCADOR (Sube arriba ocupando toda la línea en móviles) -->
+                <!-- 🔍 EL BUSCADOR -->
                 <div class="search-container">
                     <span class="search-icon">🔍</span>
                     <input type="text" id="game-search" placeholder="Buscar un juego..." oninput="handleSearch(this.value)">
                 </div>
 
-                <!-- 🎛️ BOTONES DE ESTADO (Se ordenan simétricamente en 2 columnas en móvil) -->
+                <!-- 🎛️ BOTONES DE ESTADO -->
                 <div class="pc-status-filters" id="sub-filters">
-                    <button class="filter-btn active" onclick="filterGames('todos', this)">Todos</button>
-                    <button class="filter-btn" onclick="filterGames('pendiente', this)">Por jugar ⏳</button>
-                    <button class="filter-btn" onclick="filterGames('jugando', this)">Jugando 🕹️</button>
-                    <button class="filter-btn" onclick="filterGames('completado', this)">Completados 🏆</button>
-                    <button class="filter-btn" onclick="filterGames('favoritos', this)">Favoritos ❤️</button>
-                    <button class="filter-btn" onclick="filterGames('noadquirido', this)">No Adquirido 🔴</button>
+                    <button class="filter-btn active" onclick="filterStatus('todos', this)">Todos</button>
+                    <button class="filter-btn" onclick="filterStatus('pendiente', this)">Por jugar ⏳</button>
+                    <button class="filter-btn" onclick="filterStatus('jugando', this)">Jugando 🕹️</button>
+                    <button class="filter-btn" onclick="filterStatus('completado', this)">Completados 🏆</button>
+                    <button class="filter-btn" onclick="filterStatus('favoritos', this)">Favoritos ❤️</button>
+                    <button class="filter-btn" onclick="filterStatus('noadquirido', this)">No Adquirido 🔴</button>
                 </div>
 
             </div>
@@ -96,26 +95,24 @@
         <!-- CONTENEDOR DE CONTENIDOS PRINCIPALES -->
         <main class="app-main-content">
             
-            <!-- REJILLA PRINCIPAL DE TARJETA DE JUEGOS (Mi Colección / Otros Juegos) -->
+            <!-- REJILLA PRINCIPAL DE TARJETAS -->
             <div class="games-grid" id="games-grid"></div>
 
-            <!-- APARTADO MI CALENDARIO (REDISEÑO MULTIMES AMPLIO) -->
+            <!-- APARTADO MI CALENDARIO -->
             <div id="calendar-container" style="display: none;">
-                <!-- Título dinámico que inyecta las flechas ◀ y ▶ desde JS -->
                 <div id="calendar-month-title"></div> 
-                
                 <div class="calendar-weekdays">
                     <div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div>
                 </div>
                 <div class="calendar-days-grid" id="calendar-days-grid"></div>
             </div>
 
-            <!-- APARTADO MI SETUP (REJILLA ADAPTATIVA EN COLUMNAS HORIZONTALES) -->
+            <!-- APARTADO MI SETUP -->
             <div id="setup-container" style="display: none;">
                 <div class="games-grid" id="setup-grid"></div>
             </div>
 
-            <!-- APARTADO MAPAS (REJILLA ADAPTATIVA EN COLUMNAS HORIZONTALES) -->
+            <!-- APARTADO MAPAS -->
             <div id="mapas-container" style="display: none;">
                 <div class="games-grid" id="mapas-grid"></div>
             </div>
@@ -124,7 +121,6 @@
 
     </div>
 
-    <!-- Enlace al motor lógico JavaScript con versión dinámica -->
-    <script src="app.js?v=2.0"></script>
+    <script src="app.js?v=3.0"></script>
 </body>
 </html>
