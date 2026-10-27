@@ -46,7 +46,7 @@ const catalogoInicial = [
     { id: 42, title: "Life is Strange True Colors", image: "ImgGames/life_is_strange_true_colors.jpg", status: "pendiente", plataforma: ["Nintendo Switch 2"] },
     { id: 43, title: "South Park Retaguardia en Peligro", image: "ImgGames/south_park_retaguardia_en_peligro.jpg", status: "completado", plataforma: ["Nintendo Switch 2"] },
     { id: 44, title: "South Park La Vara de la Verdad", image: "ImgGames/south_park_la_vara_de_la_verdad.jpg", status: "pendiente", plataforma: ["Nintendo Switch 2"] },
-    { id: 45, title: "Grand Theft Auto VI", image: "ImgGames/grand_theft_auto_vi.jpg", status: "noadquirido", plataforma: ["PlayStation 5"] },
+    { id: 45, title: "Grand Theft Auto VI", image: "ImgGames/grand_theft_auto_vi.jpg", status: "pendiente", plataforma: ["PlayStation 5"] },
     { id: 46, title: "Wolverine", image: "ImgGames/wolverine.jpg", status: "noadquirido", plataforma: ["PlayStation 5"] },
     { id: 47, title: "Until Dawn", image: "ImgGames/until_dawn.jpg", status: "noadquirido", plataforma: ["PlayStation 5"] },
     { id: 48, title: "LEGO Batman: El Legado del Caballero Oscuro", image: "ImgGames/lego_batman_el_legado_del_caballero_oscuro.jpg", status: "noadquirido", plataforma: ["PlayStation 5"] },
