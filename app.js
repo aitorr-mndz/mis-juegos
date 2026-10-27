@@ -242,11 +242,11 @@ function renderCards() {
             htmlEstrellas += `</div>`;
         }
 
-        // 🟢 RESTAURADO: Comillas invertidas para el botón de favoritos y el selector de estados
+        // 🟢 CORRECCIÓN: Nos aseguramos de que el menú desplegable de estados (htmlMenu) sea una cadena vacía en la pestaña 'otros'
         let htmlFavorito = coleccionActiva === 'principal' ? `<span class="fav-btn ${favoritosPrincipal.includes(game.id) ? 'active' : ''}" onclick="toggleFavorite(event, ${game.id})">♥</span>` : '';
         let htmlMenu = coleccionActiva === 'principal' ? `<select class="card-select status-${game.status}" onchange="changeStatus(${game.id}, this.value)"><option value="pendiente" ${game.status === 'pendiente' ? 'selected' : ''}>⏳ Por jugar</option><option value="jugando" ${game.status === 'jugando' ? 'selected' : ''}>🕹️ Jugando</option><option value="completado" ${game.status === 'completado' ? 'selected' : ''}>🏆 Completado</option><option value="noadquirido" ${game.status === 'noadquirido' ? 'selected' : ''}>🛑 No Adquirido</option></select>` : '';
         
-        // 🟢 RESTAURADO: Comillas invertidas para inyectar la estructura interna de la tarjeta de juego
+        // El HTML final ahora respetará la variable vacía y no pintará el selector en el móvil dentro de 'Otros Juegos'
         card.innerHTML = `${htmlFavorito}<div class="card-front"><img src="${game.image}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'"></div><div class="card-back"><h3 class="card-title">${game.title}</h3><div class="platform-container">${htmlLogos}</div>${htmlEstrellas}${htmlMenu}</div>`;
         gamesGrid.appendChild(card);
     });
