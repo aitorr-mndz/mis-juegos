@@ -242,9 +242,14 @@ function renderCards() {
             htmlEstrellas += `</div>`;
         }
 
-        // 🟢 CORRECCIÓN: Nos aseguramos de que el menú desplegable de estados (htmlMenu) sea una cadena vacía en la pestaña 'otros'
+        // 🟢 DOBLE CONTROL ANTIMENÚ: Forzamos a que si la pestaña NO es estrictamente 'principal', el menú sea una cadena vacía obligatoriamente
         let htmlFavorito = coleccionActiva === 'principal' ? `<span class="fav-btn ${favoritosPrincipal.includes(game.id) ? 'active' : ''}" onclick="toggleFavorite(event, ${game.id})">♥</span>` : '';
-        let htmlMenu = coleccionActiva === 'principal' ? `<select class="card-select status-${game.status}" onchange="changeStatus(${game.id}, this.value)"><option value="pendiente" ${game.status === 'pendiente' ? 'selected' : ''}>⏳ Por jugar</option><option value="jugando" ${game.status === 'jugando' ? 'selected' : ''}>🕹️ Jugando</option><option value="completado" ${game.status === 'completado' ? 'selected' : ''}>🏆 Completado</option><option value="noadquirido" ${game.status === 'noadquirido' ? 'selected' : ''}>🛑 No Adquirido</option></select>` : '';
+        
+        let htmlMenu = ''; // Por defecto no hay menú para nadie
+        if (coleccionActiva === 'principal') {
+            // Solo se genera el selector si estamos seguros al 100% de estar en la colección principal
+            htmlMenu = `<select class="card-select status-${game.status}" onchange="changeStatus(${game.id}, this.value)"><option value="pendiente" ${game.status === 'pendiente' ? 'selected' : ''}>⏳ Por jugar</option><option value="jugando" ${game.status === 'jugando' ? 'selected' : ''}>🕹️ Jugando</option><option value="completado" ${game.status === 'completado' ? 'selected' : ''}>🏆 Completado</option><option value="noadquirido" ${game.status === 'noadquirido' ? 'selected' : ''}>🛑 No Adquirido</option></select>`;
+        }
         
         // El HTML final ahora respetará la variable vacía y no pintará el selector en el móvil dentro de 'Otros Juegos'
         card.innerHTML = `${htmlFavorito}<div class="card-front"><img src="${game.image}" class="card-banner" onerror="this.src='${IMAGEN_POR_DEFECTO}'"></div><div class="card-back"><h3 class="card-title">${game.title}</h3><div class="platform-container">${htmlLogos}</div>${htmlEstrellas}${htmlMenu}</div>`;
