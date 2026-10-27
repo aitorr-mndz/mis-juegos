@@ -57,11 +57,14 @@ body {
    2. MENÚ DE NAVEGACIÓN PRINCIPAL (PC - CENTRADO)
    ========================================================================= */
 .main-navigation {
-    flex-direction: row;
+    display: flex !important;
+    flex-direction: row !important; /* Forzar fila horizontal por defecto */
     justify-content: center;
     gap: 12px;
     margin-bottom: 30px;
     flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .nav-item {
@@ -603,21 +606,27 @@ body {
    7. ADAPTACIÓN EXCLUSIVA PARA DISPOSITIVOS MÓVILES
    ========================================================================= */
 @media (max-width: 768px) {
-    /* Forzar que el buscador y los filtros se apilen en vertical de forma limpia */
+    .web-container {
+        padding: 10px 10px 85px 10px;
+        align-items: stretch;
+    }
+    
+    .app-header h1 { font-size: 22px; margin: 10px 0 15px 0; }
+
     .search-filter-row {
         flex-direction: column !important;
         gap: 16px !important;
         padding: 0 5px;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
-    /* 🟢 CORRECCIÓN: El buscador ocupa ahora el 100% del ancho disponible */
     .search-container {
         width: 100% !important;
         max-width: 100% !important;
-        order: 1; /* Coloca el buscador arriba para mayor comodidad táctil */
+        order: 1;
     }
 
-    /* 🟢 CORRECCIÓN: Los botones se muestran en cuadrícula perfecta de 2 en 2 */
     .pc-status-filters {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
@@ -626,7 +635,6 @@ body {
         order: 2;
     }
 
-    /* Forzar que los botones de estado ocupen todo su espacio en la cuadrícula */
     .filter-btn {
         width: 100% !important;
         box-sizing: border-box;
@@ -636,8 +644,54 @@ body {
         justify-content: center;
     }
 
-    /* Ocultar definitivamente el desplegable viejo si existía */
-    .mobile-status-dropdown {
-        display: none !important;
+    .stats-container { flex-wrap: wrap; gap: 8px; }
+    .stat-box { min-width: 47%; max-width: 50%; padding: 10px; }
+    .stat-box.progreso { min-width: 100%; max-width: 100%; flex-direction: row; justify-content: space-between; padding: 10px 15px; }
+    .progress-bar-bg { width: 50%; margin-top: 0; }
+
+    .games-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .card-front { height: 200px; }
+
+    /* 🟢 CORRECCIÓN: FUERZA LA BARRA DE NAVEGACIÓN FIJA ABAJO EN TU SMARTPHONE */
+    .main-navigation {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 65px !important;
+        background: #121214 !important;
+        border-top: 1px solid #232325 !important;
+        flex-direction: row !important; /* Asegura distribución horizontal */
+        justify-content: space-around !important;
+        margin-bottom: 0 !important;
+        z-index: 9999 !important;
+        box-shadow: 0 -4px 15px rgba(0,0,0,0.5) !important;
     }
+
+    .nav-item {
+        background: none !important;
+        border: none !important;
+        color: #777 !important;
+        flex-direction: column !important;
+        padding: 0 !important;
+        font-size: 11px !important;
+        gap: 4px !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: auto !important;
+        flex-grow: 1 !important;
+    }
+
+    .nav-item.active {
+        background: none !important;
+        color: var(--neon-green) !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .nav-icon { font-size: 20px !important; display: block !important; }
+    .nav-text { display: block !important; }
+    
+    .calendar-days-grid { gap: 4px; }
+    .calendar-day { min-height: 65px; font-size: 11px; }
 }
