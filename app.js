@@ -293,22 +293,23 @@ window.changeCollection = function(tipo, elemento) {
         if(gamesGridObj) gamesGridObj.style.display = 'grid';
         
         if (tipo === 'principal') {
-            if(topFilters) topFilters.style.display = 'block';
+            if(topFilters) {
+                topFilters.style.display = 'block';
+                topFilters.classList.remove('modo-otros'); // 🟢 Quita la marca en Mi Colección
+            }
             if(statsPanel) statsPanel.style.display = 'flex';
-            // 🟢 FUERZA VISIBLE LA FILA DE BOTONES EN LA COLECCIÓN PRINCIPAL
-            if(pcButtons) pcButtons.style.setProperty('display', 'grid', 'important'); 
         } else {
-            // 🟢 OTROS JUEGOS: Mantiene el buscador pero OCULTA DE RAÍZ LA FILA DE BOTONES
-            if(topFilters) topFilters.style.display = 'block';
+            if(topFilters) {
+                topFilters.style.display = 'block';
+                topFilters.classList.add('modo-otros');    // 🟢 Añade la marca en Otros Juegos
+            }
             if(statsPanel) statsPanel.style.display = 'none';
-            if(pcButtons) pcButtons.style.setProperty('display', 'none', 'important'); 
         }
         
         renderCards();
     } else {
         if(topFilters) topFilters.style.display = 'none';
         if(statsPanel) statsPanel.style.display = 'none';
-        if(pcButtons) pcButtons.style.setProperty('display', 'none', 'important');
         if(tipo === 'calendario') { if(calendarContainer) calendarContainer.style.display = 'block'; renderCalendar(); }
         if(tipo === 'setup') { if(setupContainer) setupContainer.style.display = 'block'; renderSetup(); }
         if(tipo === 'mapas') { if(mapasContainer) mapasContainer.style.display = 'block'; renderMapas(); }
