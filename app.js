@@ -294,26 +294,21 @@ window.changeCollection = function(tipo, elemento) {
     
     if (tipo === 'principal' || tipo === 'otros') {
         if(gamesGridObj) gamesGridObj.style.display = 'grid';
+        
         if (tipo === 'principal') {
-            if(topFilters) topFilters.style.display = 'block';
+            if(topFilters) topFilters.style.display = 'block'; // Muestra buscador y filtros
             if(pcButtons) pcButtons.style.display = 'flex';
             if(mobileSub) mobileSub.style.display = 'block';
             if(statsPanel) statsPanel.style.display = 'flex';
         } else {
-            if(topFilters) topFilters.style.display = 'block';
+            // 🟢 CORRECCIÓN: Ocultamos el contenedor de filtros superiores en 'Otros Juegos'
+            if(topFilters) topFilters.style.display = 'none'; 
             if(pcButtons) pcButtons.style.display = 'none';
             if(mobileSub) mobileSub.style.display = 'none';
             if(statsPanel) statsPanel.style.display = 'none';
         }
         renderCards();
-    } else {
-        if(topFilters) topFilters.style.display = 'none';
-        if(statsPanel) statsPanel.style.display = 'none';
-        if(tipo === 'calendario') { if(calendarContainer) calendarContainer.style.display = 'block'; renderCalendar(); }
-        if(tipo === 'setup') { if(setupContainer) setupContainer.style.display = 'block'; renderSetup(); }
-        if(tipo === 'mapas') { if(mapasContainer) mapasContainer.style.display = 'block'; renderMapas(); }
     }
-};
 
 // 🟢 FUNCIÓN CONECTADA AL ONINPUT DEL HTML: Ejecuta la búsqueda instantánea por palabras
 window.handleSearch = function(text) {
