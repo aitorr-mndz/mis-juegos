@@ -301,12 +301,12 @@ window.changeCollection = function(tipo, elemento) {
         
         if (tipo === 'principal') {
             if(topFilters) topFilters.style.display = 'block';
-            if(pcButtons) pcButtons.style.display = 'grid'; 
+            if(pcButtons) pcButtons.style.setProperty('display', 'grid', 'important'); // 🟢 Forzar visibilidad en Mi Colección
             if(statsPanel) statsPanel.style.display = 'flex';
         } else {
-            // 🟢 CORRECCIÓN: Oculta por completo el bloque entero de filtros y buscador en Otros Juegos
-            if(topFilters) topFilters.style.display = 'none';
-            if(pcButtons) pcButtons.style.display = 'none';
+            // 🟢 CORRECCIÓN: El buscador se queda visible (topFilters) pero el menú de botones se oculta de raíz anulando el CSS
+            if(topFilters) topFilters.style.display = 'block';
+            if(pcButtons) pcButtons.style.setProperty('display', 'none', 'important'); // 🟢 Forzar ocultado total en Otros Juegos
             if(statsPanel) statsPanel.style.display = 'none';
         }
         
