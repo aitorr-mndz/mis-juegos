@@ -300,13 +300,16 @@ window.changeCollection = function(tipo, elemento) {
         if(gamesGridObj) gamesGridObj.style.display = 'grid';
         
         if (tipo === 'principal') {
-            if(topFilters) topFilters.style.display = 'block';
-            if(pcButtons) pcButtons.style.setProperty('display', 'grid', 'important'); // 🟢 Forzar visibilidad en Mi Colección
+            if(topFilters) {
+                topFilters.style.display = 'block';
+                topFilters.classList.remove('ocultar-filtros'); // 🟢 Muestra el menú limpio en Mi Colección
+            }
             if(statsPanel) statsPanel.style.display = 'flex';
         } else {
-            // 🟢 CORRECCIÓN: El buscador se queda visible (topFilters) pero el menú de botones se oculta de raíz anulando el CSS
-            if(topFilters) topFilters.style.display = 'block';
-            if(pcButtons) pcButtons.style.setProperty('display', 'none', 'important'); // 🟢 Forzar ocultado total en Otros Juegos
+            if(topFilters) {
+                topFilters.style.display = 'block';
+                topFilters.classList.add('ocultar-filtros');    // 🟢 Oculta los botones en Otros Juegos
+            }
             if(statsPanel) statsPanel.style.display = 'none';
         }
         
