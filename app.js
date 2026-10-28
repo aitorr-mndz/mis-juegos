@@ -256,29 +256,30 @@ function renderCards() {
 // =========================================================================
 // 4. CONTROLADORES DE FILTROS Y ESTADOS UNIFICADOS
 // =========================================================================
+// =========================================================================
+// 2. NAVEGACIÓN Y MENÚS PRINCIPALES (CORREGIDO PARA OCULTAR FILTROS)
+// =========================================================================
 window.changeCollection = function(tipo, elemento) {
     coleccionActiva = tipo;
-    currentFilter = 'todos';
-    currentPlatform = 'todas';
+    currentFilter = 'todos'; // Resetear filtros para evitar conflictos en "Otros Juegos"
     
+    // Sincronizar botones visuales de filtros de estados de PC/Móvil
     const pcButtons = document.getElementById('sub-filters');
     if (pcButtons) {
         pcButtons.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        const todosBtn = Array.from(pcButtons.querySelectorAll('.filter-btn')).find(btn => btn.textContent.includes('Todos'));
+        const todosBtn = pcButtons.querySelector('.filter-btn[onclick*="todos"]');
         if (todosBtn) todosBtn.classList.add('active');
     }
     
-    const mobileSub = document.getElementById('mobile-sub-filters');
-    if (mobileSub) mobileSub.value = 'todos';
-    
+    // Sincronizar clases activas en los botones de navegación principales (Móvil/PC)
     document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
     if (elemento) {
         elemento.classList.add('active');
     } else {
-        const targetBtn = Array.from(document.querySelectorAll('.nav-item')).find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tipo));
+        const targetBtn = document.querySelector(`.nav-item[onclick*="${tipo}"]`);
         if (targetBtn) targetBtn.classList.add('active');
     }
-    
+
     const topFilters = document.querySelector('.top-filters-container');
     const statsPanel = document.getElementById('stats-panel');
     const calendarContainer = document.getElementById('calendar-container');
@@ -286,25 +287,29 @@ window.changeCollection = function(tipo, elemento) {
     const setupContainer = document.getElementById('setup-container');
     const mapasContainer = document.getElementById('mapas-container');
     
+    // Vaciar el texto del cuadro de búsqueda al saltar entre pestañas
     const searchInput = document.getElementById('game-search');
     if (searchInput) searchInput.value = '';
     searchText = '';
-    
+
+    // Esconder todas las rejillas principales de la app antes de encender la seleccionada
     [gamesGridObj, calendarContainer, setupContainer, mapasContainer].forEach(el => { if(el) el.style.display = 'none'; });
     
     if (tipo === 'principal' || tipo === 'otros') {
+        games = tipo === 'principal' ? juegosPrincipal : juegosOtros;
         if(gamesGridObj) gamesGridObj.style.display = 'grid';
+        
         if (tipo === 'principal') {
             if(topFilters) topFilters.style.display = 'block';
-            if(pcButtons) pcButtons.style.display = 'flex';
-            if(mobileSub) mobileSub.style.display = 'block';
+            if(pcButtons) pcButtons.style.display = 'grid'; 
             if(statsPanel) statsPanel.style.display = 'flex';
         } else {
-            if(topFilters) topFilters.style.display = 'block';
+            // 🟢 CORRECCIÓN: Oculta por completo el bloque entero de filtros y buscador en Otros Juegos
+            if(topFilters) topFilters.style.display = 'none';
             if(pcButtons) pcButtons.style.display = 'none';
-            if(mobileSub) mobileSub.style.display = 'none';
             if(statsPanel) statsPanel.style.display = 'none';
         }
+        
         renderCards();
     } else {
         if(topFilters) topFilters.style.display = 'none';
