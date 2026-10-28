@@ -517,17 +517,43 @@ function renderSetup() {
 }
 
 function renderMapas() {
-    const grid = document.getElementById('mapas-grid');
-    if (!grid) return;
+    const grid = document.getElementById('mapas-grid'); 
+    if (!grid) return; 
     grid.innerHTML = '';
-    grid.className = 'games-grid';
+    grid.className = 'games-grid'; // Asegura la alineación por columnas
+    
     misMapas.forEach(m => {
-        const card = document.createElement('div');
-        card.className = 'game-card';
-        card.style.cursor = 'pointer';
-        card.onclick = () => abrirMapa(m.image);
-        // 🟢 RESTAURADO: Estructura interna para renderizar las tarjetas correspondientes a la galería de mapas
-        card.innerHTML = `<div class="card-front"><img src="${m.image}" class="card-banner"></div><div class="card-back"><h3 class="card-title">${m.title}</h3><span style="font-size:10px;color:#666;text-align:center;margin-top:5px;display:block;">🔍 Ampliar</span></div>`;
+        const card = document.createElement('div'); 
+        card.className = 'game-card'; 
+        card.style.cursor = 'pointer'; 
+        
+        card.innerHTML = `
+            <div class="card-front">
+                <img src="${m.image}" class="card-banner">
+            </div>
+            <div class="card-back">
+                <h3 class="card-title">${m.title}</h3>
+                <span style="font-size:10px;color:#666;text-align:center;margin-top:5px;display:block;">🗺️ Ver mapa en grande</span>
+            </div>
+        `;
+        
+        // 🟢 NUEVO COMPORTAMIENTO: Crear el Modal a pantalla completa al hacer clic
+        card.onclick = () => {
+            const modal = document.createElement('div');
+            modal.className = 'map-modal';
+            modal.innerHTML = `<img src="${m.image}" alt="${m.title}">`;
+            
+            // Añadir al cuerpo de la web e iniciar animación
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('active'), 10);
+            
+            // Eliminar el modal por completo al hacer clic para cerrar
+            modal.onclick = () => {
+                modal.classList.remove('active');
+                setTimeout(() => modal.remove(), 300);
+            };
+        };
+
         grid.appendChild(card);
     });
 }
