@@ -365,22 +365,71 @@ body {
 .star { cursor: pointer; color: #444; }
 .star.active { color: #ffcc00; }
 
+/* =========================================================================
+   DISEÑO PREMIUM PARA LOS SELECTORES DE ESTADO EN LAS TARJETAS
+   ========================================================================= */
 .card-select {
-    width: 100%;
-    padding: 8px;
-    border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: bold;
-    color: #fff;
-    cursor: pointer;
-    background: #2b2b2e;
+    width: 100% !important;
+    padding: 10px 28px 10px 12px !important; /* Espacio cómodo para respirar */
+    border-radius: 8px !important;           /* Esquinas más redondeadas y suaves */
+    font-size: 13px !important;
+    font-weight: 700 !important;             /* Texto más marcado y legible */
+    color: #ffffff !important;               /* Texto siempre blanco brillante */
+    cursor: pointer !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    
+    /* Quitar flecha nativa fea del navegador */
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    
+    /* Flecha estilizada blanca de perfil bajo */
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    background-size: 10px 6px !important;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='10' height='6' viewBox='0 0 10 6'><path fill='%23ffffff' d='M0 0l5 5 5-5z'/></svg>") !important;
+    
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease !important;
 }
 
-.card-select.status-pendiente { background: #f39c12; color: #000; }
-.card-select.status-jugando { background: #3498db; }
-.card-select.status-completado { background: #2ecc71; color: #000; }
-.card-select.status-noadquirido { background: #e74c3c; }
+/* Efecto sutil al pasar el cursor por encima */
+.card-select:hover {
+    transform: translateY(-1px);
+}
+
+/* Colores de fondo Gamer Glow basados en el estado seleccionado */
+.card-select.status-pendiente { 
+    background-color: #f39c12 !important; 
+    color: #000000 !important; /* Texto oscuro en fondo naranja para alto contraste */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='10' height='6' viewBox='0 0 10 6'><path fill='%23000000' d='M0 0l5 5 5-5z'/></svg>") !important;
+    box-shadow: 0 4px 12px rgba(243, 156, 18, 0.2) !important;
+}
+
+.card-select.status-jugando { 
+    background-color: #2980b9 !important; 
+    box-shadow: 0 4px 12px rgba(41, 128, 185, 0.2) !important;
+}
+
+.card-select.status-completado { 
+    background-color: #27ae60 !important; 
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.2) !important;
+}
+
+.card-select.status-noadquirido { 
+    background-color: #c0392b !important; 
+    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.2) !important;
+}
+
+/* Desplegable interno de opciones (Mantenerlo oscuro y limpio) */
+.card-select option {
+    background-color: #161618 !important;
+    color: #ffffff !important;
+    padding: 10px !important;
+    font-weight: normal !important;
+}
 
 .fav-btn {
     position: absolute;
