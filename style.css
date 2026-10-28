@@ -731,3 +731,10 @@ body {
 .map-modal.active img {
     transform: scale(1);
 }
+
+/* =========================================================================
+   OCULTADO DINÁMICO DE BOTONES DE FILTRO EN OTROS JUEGOS
+   ========================================================================= */
+.top-filters-container.ocultar-filtros #sub-filters {
+    display: none !important;
+}
