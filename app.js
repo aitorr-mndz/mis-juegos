@@ -4,7 +4,7 @@
 const catalogoInicial = [
     { id: 1, title: "Red Dead Redemption", image: "ImgGames/red_dead_redemption.jpg", status: "completado", plataforma: ["PC"] },
     { id: 2, title: "Alone In The Dark", image: "ImgGames/alone_in_the_dark.jpg", status: "pendiente", plataforma: ["PC"] },
-    { id: 3, title: "Luto", image: "ImgGames/luto.jpg", status: "pendiente", plataforma: ["PC"] },
+    { id: 3, title: "Luto", image: "ImgGames/luto.jpg", status: "completado", plataforma: ["PC"] },
     { id: 4, title: "The Lego Ninjago Movie Video game", image: "ImgGames/the_lego_ninjago_movie_video_game.jpg", status: "completado", plataforma: ["Steam"] },
     { id: 5, title: "Spider-Man 2", image: "ImgGames/spider_man_2.jpg", status: "completado", plataforma: ["Steam"] },
     { id: 6, title: "Detroit: Become Human", image: "ImgGames/detroit_become_human.jpg", status: "completado", plataforma: ["Steam"] },
