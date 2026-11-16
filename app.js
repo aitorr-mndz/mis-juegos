@@ -32,7 +32,7 @@ const catalogoInicial = [
     { id: 28, title: "Stray", image: "ImgGames/stray.jpg", status: "completado", plataforma: ["Steam"] },
     { id: 29, title: "Dispatch", image: "ImgGames/dispatch.jpg", status: "completado", plataforma: ["Steam"] },
     { id: 30, title: "Beyond: two Souls", image: "ImgGames/beyond_two_souls.jpg", status: "pendiente", plataforma: ["Steam"] },
-    { id: 31, title: "Grand Theft Auto V", image: "ImgGames/grand_theft_auto_v.jpg", status: "jugando", plataforma: ["Epic Games"] },
+    { id: 31, title: "Grand Theft Auto V", image: "ImgGames/grand_theft_auto_v.jpg", status: "completado", plataforma: ["Epic Games"] },
     { id: 32, title: "Dead Island 2", image: "ImgGames/dead_island_2.jpg", status: "pendiente", plataforma: ["Epic Games"] },
     { id: 33, title: "LEGO Star Wars: The Skywalker Saga", image: "ImgGames/lego_star_wars_the_skywalker_saga.jpg", status: "pendiente", plataforma: ["Epic Games"] },
     { id: 34, title: "The Evil Within", image: "ImgGames/the_evil_within.jpg", status: "pendiente", plataforma: ["Epic Games"] },
